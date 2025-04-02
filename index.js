@@ -546,34 +546,31 @@ async function unhideAllMessages() { // 改为 async
 function setupEventListeners() {
     // 设置弹出对话框按钮事件
     $('#hide-helper-wand-button').on('click', function() {
-        // 只有在插件启用状态下才显示弹出框
-        if (extension_settings[extensionName].enabled) {
-            const popup = $('#hide-helper-popup');
-            popup.css({ // 先设置基本样式，位置稍后计算
-                'display': 'block',
-                'visibility': 'hidden',
-                'position': 'fixed',
-                'left': '50%',
-                'transform': 'translateX(-50%)'
-            });
-
-            // 更新当前设置显示和输入框的值
-            updateCurrentHideSettingsDisplay();
-
-            // 确保弹出框内容渲染完成再计算位置
-            setTimeout(() => {
-                const popupHeight = popup.outerHeight();
-                const windowHeight = $(window).height();
-                const topPosition = Math.max(10, Math.min((windowHeight - popupHeight) / 2, windowHeight - popupHeight - 50)); // 距底部至少50px
-                popup.css({
-                    'top': topPosition + 'px',
-                    'visibility': 'visible'
-                });
-            }, 0); // 使用 setTimeout 0 延迟执行
-
-        } else {
+        if (!extension_settings[extensionName].enabled) {
             toastr.warning('隐藏助手当前已禁用，请在扩展设置中启用。');
+            return;
         }
+        updateCurrentHideSettingsDisplay(); // Update display values before showing
+
+        const $popup = $('#hide-helper-popup');
+        $popup.css({ // 先设置基本样式，位置稍后计算
+            'display': 'block',
+            'visibility': 'hidden',
+            'position': 'fixed',
+            'left': '50%',
+            'transform': 'translateX(-50%)'
+        });
+
+        // 确保弹出框内容渲染完成再计算位置
+        setTimeout(() => {
+            const popupHeight = $popup.outerHeight();
+            const windowHeight = $(window).height();
+            const topPosition = Math.max(10, Math.min((windowHeight - popupHeight) / 2, windowHeight - popupHeight - 50)); // 距底部至少50px
+            $popup.css({
+                'top': topPosition + 'px',
+                'visibility': 'visible'
+            });
+        }, 0); // 使用 setTimeout 0 延迟执行
     });
 
     // 弹出框关闭按钮事件
