@@ -429,8 +429,11 @@ async function runFullHideCheck() { // 改为 async 以便调用 saveCurrentHide
     const { hideLastN } = settings; // 解构 hideLastN
 
     // 1. 计算可见边界
-    const visibleStart = hideLastN <= 0 ? currentChatLength : 
-                         (hideLastN >= currentChatLength ? 0 : currentChatLength - hideLastN);
+    const visibleStart = hideLastN <= 0 
+    ? 0                                      // hideLastN为0时，从0开始都可见（不隐藏任何消息）
+    : (hideLastN >= currentChatLength 
+        ? 0                                  // hideLastN大于等于聊天长度时，从0开始都可见
+        : currentChatLength - hideLastN); 
 
     // 2. 差异计算和数据更新阶段
     const toHide = [];
