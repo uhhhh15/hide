@@ -360,8 +360,8 @@ async function runIncrementalHideCheck() { // 改为 async 以便调用 saveCurr
 
         // --- 收集需要隐藏的消息 ---
         for (let i = startIndex; i < endIndex; i++) {
-            // 允许隐藏用户消息，只检查 is_system === false
-            if (chat[i] && is_system === false) {
+            // 允许隐藏用户消息，只检查 is_system !== true
+            if (chat[i] && is_system !== true) {
                 toHideIncrementally.push(i);
             }
         }
