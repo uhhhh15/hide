@@ -1,721 +1,443 @@
-import { extension_settings, loadExtensionSettings, getContext } from "../../../extensions.js";
-import { saveSettingsDebounced, eventSource, event_types, getRequestHeaders } from "../../../../script.js"; // <-- Added getRequestHeaders
+import { extension_settings, getContext } from "../../../extensions.js";
+import { saveSettingsDebounced, eventSource, event_types, characters, this_chid } from "../../../../script.js";
+import { Popup, POPUP_TYPE } from '../../../popup.js';
+import { loadWorldInfo, saveWorldInfo, world_info, world_names, displayWorldEntries, createWorldInfoEntry, getFreeWorldEntryUid, newWorldInfoEntryTemplate, deleteWorldInfoEntry, getWorldEntry, setWIOriginalDataValue, deleteWIOriginalDataValue, originalWIDataKeyMap, sortWorldInfoEntries, worldInfoFilter } from "../../../world-info.js"; // 导入大量 WI 函数
+import { parseJsonFile, download, getSanitizedFilename, debounce, showLoader, hideLoader } from "../../../utils.js";
+import { t } from "../../../i18n.js"; // 导入翻译函数
 
-const extensionName = "hide-helper";
-const defaultSettings = {
-    // 保留全局默认设置用于向后兼容
-    // 注意：hideLastN 和 lastAppliedSettings 现在将存储在角色/群组数据中，而不是这里
-    enabled: true
-};
+const extensionName = "wi-entry-importer-exporter"; // 插件文件夹名称
+const extensionFolderPath = `scripts/extensions/third-party/${extensionName}`;
+const extensionSettings = extension_settings[extensionName];
+const defaultSettings = {}; // 可以添加设置，例如默认导出文件名格式等
 
-// 缓存上下文
-let cachedContext = null;
+// 用于存储当前书籍选中的 UID
+const selectedEntryUIDs = new Set();
+let currentBookName = null; // 当前编辑器加载的书籍名称
 
-// DOM元素缓存
-const domCache = {
-    hideLastNInput: null,
-    saveBtn: null,
-    currentValueDisplay: null,
-    // 初始化缓存
-    init() {
-        this.hideLastNInput = document.getElementById('hide-last-n');
-        this.saveBtn = document.getElementById('hide-save-settings-btn');
-        this.currentValueDisplay = document.getElementById('hide-current-value');
-    }
-};
-
-// 获取优化的上下文
-function getContextOptimized() {
-    if (!cachedContext) {
-        cachedContext = getContext();
-    }
-    return cachedContext;
-}
-
-// 初始化扩展设置 (仅包含全局启用状态)
-function loadSettings() {
+async function loadSettings() {
     extension_settings[extensionName] = extension_settings[extensionName] || {};
-    if (Object.keys(extension_settings[extensionName]).length === 0 || typeof extension_settings[extensionName].enabled === 'undefined') {
-        extension_settings[extensionName].enabled = defaultSettings.enabled;
-    }
+    Object.assign(extension_settings[extensionName], { ...defaultSettings, ...extension_settings[extensionName] });
+    // console.log(`${extensionName} settings loaded:`, extensionSettings);
 }
 
-// 创建UI面板 - 修改为简化版本，只有开启/关闭选项
-function createUI() {
-    const settingsHtml = `
-    <div id="hide-helper-settings" class="hide-helper-container">
-        <div class="inline-drawer">
-            <div class="inline-drawer-toggle inline-drawer-header">
-                <b>隐藏助手</b>
-                <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
-            </div>
-            <div class="inline-drawer-content">
-                <div class="hide-helper-section">
-                    <!-- 开启/关闭选项 -->
-                    <div class="hide-helper-toggle-row">
-                        <span class="hide-helper-label">插件状态:</span>
-                        <select id="hide-helper-toggle">
-                            <option value="enabled">开启</option>
-                            <option value="disabled">关闭</option>
-                        </select>
-                    </div>
-                </div>
-                <hr class="sysHR">
-            </div>
-        </div>
-    </div>`;
-
-    // 将UI添加到SillyTavern扩展设置区域
-    $("#extensions_settings").append(settingsHtml);
-
-    // 创建聊天输入区旁边的按钮
-    createInputWandButton();
-
-    // 创建弹出对话框
-    createPopup();
-
-    // 设置事件监听器
-    setupEventListeners();
-    
-    // 初始化DOM缓存
-    setTimeout(() => domCache.init(), 100);
-}
-
-// 新增：创建输入区旁的按钮
-function createInputWandButton() {
-    const buttonHtml = `
-    <div id="hide-helper-wand-button" class="list-group-item flex-container flexGap5" title="隐藏助手">
-        <span style="padding-top: 2px;">
-            <i class="fa-solid fa-ghost"></i>
-        </span>
-        <span>隐藏助手</span>
-    </div>`;
-
-    $('#data_bank_wand_container').append(buttonHtml);
-}
-
-// 新增：创建弹出对话框
-function createPopup() {
-    const popupHtml = `
-    <div id="hide-helper-popup" class="hide-helper-popup">
-        <div class="hide-helper-popup-title">隐藏助手设置</div>
-
-        <!-- 输入行 - 保存设置按钮 + 输入框 + 取消隐藏按钮 -->
-        <div class="hide-helper-input-row">
-            <button id="hide-save-settings-btn" class="hide-helper-btn">保存设置</button>
-            <input type="number" id="hide-last-n" min="0" placeholder="隐藏最近N楼之前的消息">
-            <button id="hide-unhide-all-btn" class="hide-helper-btn">取消隐藏</button>
-        </div>
-
-        <!-- 当前隐藏设置 -->
-        <div class="hide-helper-current">
-            <strong>当前隐藏设置:</strong> <span id="hide-current-value">无</span>
-        </div>
-
-        <!-- 底部关闭按钮 -->
-        <div class="hide-helper-popup-footer">
-            <button id="hide-helper-popup-close" class="hide-helper-close-btn">关闭</button>
-        </div>
-    </div>`;
-
-    $('body').append(popupHtml);
-}
-
-// 获取当前角色/群组的隐藏设置 (从角色/群组数据读取)
-function getCurrentHideSettings() {
-    const context = getContextOptimized();
-    if (!context) return null; // 添加 context 检查
-
-    const isGroup = !!context.groupId;
-    let target = null;
-
-    if (isGroup) {
-        // 确保 groups 数组存在
-        target = context.groups?.find(x => x.id == context.groupId);
-        // 从 group.data 读取
-        return target?.data?.hideHelperSettings || null;
-    } else {
-        // 确保 characters 数组和 characterId 存在且有效
-        if (context.characters && context.characterId !== undefined && context.characterId < context.characters.length) {
-           target = context.characters[context.characterId];
-           // 从 character.data.extensions 读取 (遵循 V2 卡片规范)
-           return target?.data?.extensions?.hideHelperSettings || null;
-        }
-    }
-
-    return null; // 如果找不到目标或数据，返回 null
-}
-
-
-// 保存当前角色/群组的隐藏设置 (通过API持久化)
-async function saveCurrentHideSettings(hideLastN) {
-    const context = getContextOptimized();
-    if (!context) {
-        console.error(`[${extensionName}] Cannot save settings: Context not available.`);
-        return false;
-    }
-    const isGroup = !!context.groupId;
-    const chatLength = context.chat?.length || 0; // 在获取目标前计算，避免目标不存在时出错
-
-    const settingsToSave = {
-        hideLastN: hideLastN >= 0 ? hideLastN : 0, // 确保非负
-        lastProcessedLength: chatLength,
-        userConfigured: true
-    };
-
-    if (isGroup) {
-        const groupId = context.groupId;
-        // 确保 groups 数组存在
-        const group = context.groups?.find(x => x.id == groupId);
-        if (!group) {
-             console.error(`[${extensionName}] Cannot save settings: Group ${groupId} not found in context.`);
-             return false;
-        }
-
-        // 1. (可选) 修改内存对象 (用于即时反馈, 但API保存才是关键)
-        group.data = group.data || {};
-        group.data.hideHelperSettings = settingsToSave;
-
-        // 2. 持久化 (发送API请求)
-        try {
-             // 构造发送给 /api/groups/edit 的完整群组对象
-             const payload = {
-                 ...group, // 包含ID和其他所有现有字段
-                 data: { // 合并或覆盖 data 字段
-                     ...(group.data || {}), // 保留 data 中其他可能存在的字段
-                     hideHelperSettings: settingsToSave // 添加或更新我们的设置
-                 }
-             };
-
-            console.log(`[${extensionName}] Saving group settings for ${groupId}:`, payload); // 调试日志
-            const response = await fetch('/api/groups/edit', {
-                method: 'POST',
-                headers: getRequestHeaders(), // 使用 SillyTavern 的辅助函数获取请求头
-                body: JSON.stringify(payload) // 发送整个更新后的群组对象
-            });
-
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error(`[${extensionName}] Failed to save group settings for ${groupId}: ${response.status} ${errorText}`);
-                // 可选：显示错误给用户
-                toastr.error(`保存群组设置失败: ${errorText}`);
-                return false;
-            }
-            console.log(`[${extensionName}] Group settings saved successfully for ${groupId}`);
-            return true;
-        } catch (error) {
-            console.error(`[${extensionName}] Error during fetch to save group settings for ${groupId}:`, error);
-            toastr.error(`保存群组设置时发生网络错误: ${error.message}`);
-            return false;
-        }
-
-    } else { // 是角色
-        // 确保 characters 数组和 characterId 存在且有效
-        if (!context.characters || context.characterId === undefined || context.characterId >= context.characters.length) {
-             console.error(`[${extensionName}] Cannot save settings: Character context is invalid.`);
-             return false;
-        }
-        const characterId = context.characterId; // 这是索引
-        const character = context.characters[characterId];
-        if (!character || !character.avatar) {
-            console.error(`[${extensionName}] Cannot save settings: Character or character avatar not found at index ${characterId}.`);
-            return false;
-        }
-        const avatarFileName = character.avatar; // 获取头像文件名作为唯一标识
-
-        // 1. (可选) 修改内存对象
-        character.data = character.data || {};
-        character.data.extensions = character.data.extensions || {}; // 确保 extensions 对象存在
-        character.data.extensions.hideHelperSettings = settingsToSave;
-
-        // 2. 持久化 (调用 /api/characters/merge-attributes)
-        try {
-            // 构造发送给 /api/characters/merge-attributes 的部分数据
-            const payload = {
-                avatar: avatarFileName, // API 需要知道是哪个角色
-                data: { // 只发送需要更新/合并的部分
-                    extensions: {
-                        hideHelperSettings: settingsToSave
-                    }
-                }
-                // 注意：merge-attributes 会深层合并，所以这样只会更新 hideHelperSettings
-            };
-
-            console.log(`[${extensionName}] Saving character settings for ${avatarFileName}:`, payload); // 调试日志
-            const response = await fetch('/api/characters/merge-attributes', {
-                method: 'POST',
-                headers: getRequestHeaders(),
-                body: JSON.stringify(payload)
-            });
-
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error(`[${extensionName}] Failed to save character settings for ${avatarFileName}: ${response.status} ${errorText}`);
-                toastr.error(`保存角色设置失败: ${errorText}`);
-                return false;
-            }
-            console.log(`[${extensionName}] Character settings saved successfully for ${avatarFileName}`);
-            return true;
-        } catch (error) {
-            console.error(`[${extensionName}] Error during fetch to save character settings for ${avatarFileName}:`, error);
-            toastr.error(`保存角色设置时发生网络错误: ${error.message}`);
-            return false;
-        }
-    }
-}
-
-// 更新当前设置显示 - 优化使用DOM缓存
-function updateCurrentHideSettingsDisplay() {
-    const currentSettings = getCurrentHideSettings();
-    
-    if (!domCache.currentValueDisplay) {
-        domCache.init();
-        if (!domCache.currentValueDisplay) return;
-    }
-    
-    if (currentSettings && currentSettings.hideLastN > 0) {
-        domCache.currentValueDisplay.textContent = currentSettings.hideLastN;
-    } else {
-        domCache.currentValueDisplay.textContent = '无';
-    }
-    
-    if (domCache.hideLastNInput) {
-        domCache.hideLastNInput.value = currentSettings?.hideLastN > 0 ? currentSettings.hideLastN : '';
-    }
-}
-
-// 防抖函数
-function debounce(fn, delay) {
-    let timer;
-    return function(...args) {
-        clearTimeout(timer);
-        timer = setTimeout(() => fn.apply(this, args), delay);
-    };
-}
-
-// 防抖版本的全量检查
-const runFullHideCheckDebounced = debounce(runFullHideCheck, 200);
+// -- 核心功能 --
 
 /**
- * 检查是否应该执行隐藏/取消隐藏操作
- * 只有当用户明确设置过隐藏规则并且插件启用时才返回true
+ * 处理导入按钮点击
  */
-function shouldProcessHiding() {
-    // 检查插件是否启用
-    if (!extension_settings[extensionName].enabled) {
-        // console.log(`[${extensionName}] Skipping hide processing: Plugin disabled.`); // 减少控制台噪音
-        return false;
+function handleImportClick() {
+    if (!currentBookName) {
+        toastr.warning(t("请先在编辑器中加载一个 World Info 文件。"));
+        return;
     }
-
-    const settings = getCurrentHideSettings();
-    // 如果没有设置，或者用户没有明确配置过，则不处理
-    if (!settings || settings.userConfigured !== true) {
-        // console.log(`[${extensionName}] Skipping hide processing: No user-configured settings found.`); // 减少控制台噪音
-        return false;
-    }
-    return true;
+    // 触发隐藏的文件输入
+    $('#wi_import_file_input').trigger('click');
 }
 
 /**
- * 增量隐藏检查 (用于新消息到达)
- * 仅处理从上次处理长度到现在新增的、需要隐藏的消息
+ * 处理文件选择和导入逻辑
+ * @param {Event} event
  */
-async function runIncrementalHideCheck() { // 改为 async 以便调用 saveCurrentHideSettings
-    // 首先检查是否应该执行隐藏操作
-    if (!shouldProcessHiding()) return;
+async function handleFileSelected(event) {
+    const file = event.target.files[0];
+    if (!file) {
+        return;
+    }
+    // 清空文件输入，以便可以再次选择同一个文件
+    event.target.value = '';
 
-    const startTime = performance.now();
-    const context = getContextOptimized();
-    if (!context || !context.chat) return; // 添加检查
-
-    const chat = context.chat;
-    const currentChatLength = chat.length; // 无需 ?.length，因为上面检查了 context.chat
-    const settings = getCurrentHideSettings() || { hideLastN: 0, lastProcessedLength: 0, userConfigured: false }; // 提供默认值
-    const { hideLastN, lastProcessedLength = 0 } = settings; // 从 settings 解构
-
-    // --- 前置条件检查 ---
-    if (currentChatLength === 0 || hideLastN <= 0) {
-        if (currentChatLength > lastProcessedLength && settings.userConfigured) { // 只有当用户配置过且长度增加时才更新长度
-            await saveCurrentHideSettings(hideLastN); // 使用 await 调用异步函数
-        }
-        // console.log(`[${extensionName}] Incremental check skipped: No chat or hideLastN<=0.`);
+    if (!currentBookName) {
+        toastr.error(t("无法确定要导入到的 World Info 文件。"));
         return;
     }
 
-    if (currentChatLength <= lastProcessedLength) {
-        // 长度未增加或减少，说明可能发生删除或其他异常，应由 Full Check 处理
-        // console.log(`[${extensionName}] Incremental check skipped: Chat length did not increase (${lastProcessedLength} -> ${currentChatLength}). Might be a delete.`);
-        return;
-    }
+    showLoader(t("正在导入条目..."));
 
-    // --- 计算范围 ---
-    const targetVisibleStart = currentChatLength - hideLastN;
-    const previousVisibleStart = lastProcessedLength > 0 ? Math.max(0, lastProcessedLength - hideLastN) : 0; // 处理首次的情况并确保非负
+    try {
+        const importedEntries = await parseJsonFile(file);
 
-    // 必须目标 > 先前才有新增隐藏
-    if (targetVisibleStart > previousVisibleStart) {
-        const toHideIncrementally = [];
-        const startIndex = previousVisibleStart; // 直接使用计算好的 previousVisibleStart
-        const endIndex = Math.min(currentChatLength, targetVisibleStart); // 确保不超过当前长度
-
-        // --- 收集需要隐藏的消息 ---
-        for (let i = startIndex; i < endIndex; i++) {
-            // 允许隐藏用户消息，只检查 is_system === false
-            if (chat[i] && chat[i].is_system !== true) {
-                toHideIncrementally.push(i);
-            }
+        if (!Array.isArray(importedEntries)) {
+            throw new Error(t("文件格式无效，需要包含一个 JSON 数组。"));
         }
-
-        // --- 执行批量更新 ---
-        if (toHideIncrementally.length > 0) {
-            console.log(`[${extensionName}] Incrementally hiding messages: ${toHideIncrementally.join(', ')}`);
-
-            // 1. 批量更新数据 (chat 数组)
-            toHideIncrementally.forEach(idx => { if (chat[idx]) chat[idx].is_system = true; });
-
-            // 2. 批量更新 DOM
-            try {
-                // 使用属性选择器
-                const hideSelector = toHideIncrementally.map(id => `.mes[mesid="${id}"]`).join(','); // DOM 选择器需要 .mes
-                if (hideSelector) {
-                    $(hideSelector).attr('is_system', 'true');
-                }
-            } catch (error) {
-                console.error(`[${extensionName}] Error updating DOM incrementally:`, error);
-            }
-
-            // 3. 延迟保存 Chat (包含 is_system 的修改) - SillyTavern 通常有自己的保存机制，这里可能不需要
-            // setTimeout(() => context.saveChatDebounced?.(), 100); // 考虑移除或确认是否必要
-
-            // 4. 更新处理长度并保存设置（重要：现在需要 await）
-            await saveCurrentHideSettings(hideLastN); // 在这里保存更新后的 lastProcessedLength
-
-        } else {
-             // console.log(`[${extensionName}] Incremental check: No messages needed hiding in the new range [${startIndex}, ${endIndex}).`);
-             // 即使没有隐藏，如果长度变了，也需要更新设置中的 lastProcessedLength
-             if (settings.lastProcessedLength !== currentChatLength && settings.userConfigured) {
-                 await saveCurrentHideSettings(hideLastN);
-             }
-        }
-    } else {
-        // console.log(`[${extensionName}] Incremental check: Visible start did not advance or range invalid.`);
-        // 即使没有隐藏，如果长度变了，也需要更新设置中的 lastProcessedLength
-         if (settings.lastProcessedLength !== currentChatLength && settings.userConfigured) {
-             await saveCurrentHideSettings(hideLastN);
-         }
-    }
-
-    // console.log(`[${extensionName}] Incremental check completed in ${performance.now() - startTime}ms`);
-}
-
-/**
- * 全量隐藏检查 (优化的差异更新)
- * 用于加载、切换、删除、设置更改等情况
- */
-async function runFullHideCheck() { // 改为 async 以便调用 saveCurrentHideSettings
-    // 首先检查是否应该执行隐藏操作
-    if (!shouldProcessHiding()) return;
-
-    const startTime = performance.now();
-    const context = getContextOptimized();
-    if (!context || !context.chat) {
-        return;
-    }
-    const chat = context.chat;
-    const currentChatLength = chat.length;
-
-    // 加载当前角色的设置
-    const settings = getCurrentHideSettings() || { hideLastN: 0, lastProcessedLength: 0, userConfigured: false };
-    const { hideLastN } = settings; // 解构 hideLastN
-
-    // 1. 计算可见边界
-    const visibleStart = hideLastN <= 0 
-    ? 0                                      // hideLastN为0时，从0开始都可见（不隐藏任何消息）
-    : (hideLastN >= currentChatLength 
-        ? 0                                  // hideLastN大于等于聊天长度时，从0开始都可见
-        : currentChatLength - hideLastN); 
-
-    // 2. 差异计算和数据更新阶段
-    const toHide = [];
-    const toShow = [];
-    let changed = false;
-    
-    for (let i = 0; i < currentChatLength; i++) {
-        const msg = chat[i];
-        if (!msg) continue; // 跳过空消息槽
-
-        const isCurrentlyHidden = msg.is_system === true;
-        const shouldBeHidden = i < visibleStart; // 索引小于 visibleStart 的应该隐藏
-
-        if (shouldBeHidden && !isCurrentlyHidden) {
-            msg.is_system = true;
-            toHide.push(i);
-            changed = true;
-        } else if (!shouldBeHidden && isCurrentlyHidden) {
-            msg.is_system = false;
-            toShow.push(i);
-            changed = true;
-        }
-    }
-
-    // 3. 只有在有更改时才执行DOM更新
-    if (changed) {
-        try {
-            // 批量处理隐藏消息
-            if (toHide.length > 0) {
-                const hideSelector = toHide.map(id => `.mes[mesid="${id}"]`).join(',');
-                if (hideSelector) {
-                    $(hideSelector).attr('is_system', 'true');
-                }
-            }
-            
-            // 批量处理显示消息
-            if (toShow.length > 0) {
-                const showSelector = toShow.map(id => `.mes[mesid="${id}"]`).join(',');
-                if (showSelector) {
-                    $(showSelector).attr('is_system', 'false');
-                }
-            }
-            
-            console.log(`[${extensionName}] Full check: Hiding ${toHide.length}, Showing ${toShow.length}`);
-        } catch (error) {
-            console.error(`[${extensionName}] Error updating DOM in full check:`, error);
-        }
-    }
-
-    // 4. 更新处理长度并保存设置（如果长度变化且用户已配置）
-    if (settings.lastProcessedLength !== currentChatLength && settings.userConfigured) {
-        await saveCurrentHideSettings(hideLastN); // 使用 await
-    }
-}
-
-// 新增：全部取消隐藏功能
-async function unhideAllMessages() { // 改为 async
-    const startTime = performance.now();
-    console.log(`[${extensionName}] Unhiding all messages.`);
-    const context = getContextOptimized();
-    if (!context || !context.chat) {
-         console.warn(`[${extensionName}] Unhide all aborted: Chat data not available.`);
-         return;
-    }
-    const chat = context.chat;
-
-    if (chat.length === 0) {
-        // console.warn(`[${extensionName}] Unhide all aborted: Chat is empty.`); // 减少日志
-        // 即使聊天为空，也要确保设置被重置为 0
-         await saveCurrentHideSettings(0);
-         updateCurrentHideSettingsDisplay();
-        return;
-    }
-
-    // 找出所有当前隐藏的消息
-    const toShow = [];
-    for (let i = 0; i < chat.length; i++) {
-        if (chat[i] && chat[i].is_system === true) {
-            toShow.push(i);
-        }
-    }
-
-    // 批量更新数据和DOM
-    if (toShow.length > 0) {
-        // 更新数据
-        toShow.forEach(idx => { if (chat[idx]) chat[idx].is_system = false; });
-
-        // 更新DOM
-        try {
-            const showSelector = toShow.map(id => `.mes[mesid="${id}"]`).join(',');
-            if (showSelector) $(showSelector).attr('is_system', 'false');
-        } catch (error) {
-            console.error(`[${extensionName}] Error updating DOM when unhiding all:`, error);
-        }
-
-        // 保存聊天 - 确认是否必要
-        // setTimeout(() => context.saveChatDebounced?.(), 100);
-        console.log(`[${extensionName}] Unhide all: Showed ${toShow.length} messages`);
-    } else {
-        // console.log(`[${extensionName}] Unhide all: No hidden messages found.`); // 减少日志
-    }
-
-    // 重要修改：重置隐藏设置为0，并通过 API 保存
-    const success = await saveCurrentHideSettings(0);
-    if (success) {
-        updateCurrentHideSettingsDisplay(); // 只有保存成功才更新显示
-    } else {
-        toastr.error("无法重置隐藏设置。");
-    }
-}
-
-// 设置UI元素的事件监听器
-function setupEventListeners() {
-    // 设置弹出对话框按钮事件
-    $('#hide-helper-wand-button').on('click', function() {
-        if (!extension_settings[extensionName].enabled) {
-            toastr.warning('隐藏助手当前已禁用，请在扩展设置中启用。');
+        if (importedEntries.length === 0) {
+            toastr.info(t("导入的文件不包含任何条目。"));
+            hideLoader();
             return;
         }
-        updateCurrentHideSettingsDisplay(); // Update display values before showing
 
-        const $popup = $('#hide-helper-popup');
-        $popup.css({ // 先设置基本样式，位置稍后计算
-            'display': 'block',
-            'visibility': 'hidden',
-            'position': 'fixed',
-            'left': '50%',
-            'transform': 'translateX(-50%)'
-        });
+        console.log(`[${extensionName}] Importing ${importedEntries.length} entries into '${currentBookName}'`);
 
-        // 确保弹出框内容渲染完成再计算位置
-        setTimeout(() => {
-            const popupHeight = $popup.outerHeight();
-            const windowHeight = $(window).height();
-            const topPosition = Math.max(10, Math.min((windowHeight - popupHeight) / 2, windowHeight - popupHeight - 50)); // 距底部至少50px
-            $popup.css({
-                'top': topPosition + 'px',
-                'visibility': 'visible'
-            });
-        }, 0); // 使用 setTimeout 0 延迟执行
-    });
-
-    // 弹出框关闭按钮事件
-    $('#hide-helper-popup-close').on('click', function() {
-        $('#hide-helper-popup').hide();
-    });
-
-    // 设置选项更改事件 (全局启用/禁用)
-    $('#hide-helper-toggle').on('change', function() {
-        const isEnabled = $(this).val() === 'enabled';
-        extension_settings[extensionName].enabled = isEnabled;
-        saveSettingsDebounced(); // 保存全局设置
-
-        if (isEnabled) {
-            toastr.success('隐藏助手已启用');
-            // 启用时，执行一次全量检查来应用当前角色的隐藏状态
-            runFullHideCheckDebounced();
-        } else {
-            toastr.warning('隐藏助手已禁用');
-            // 禁用时，不自动取消隐藏，保留状态
+        // 加载目标 WI Book 数据
+        const targetBookData = await loadWorldInfo(currentBookName);
+        if (!targetBookData || !targetBookData.entries) {
+            throw new Error(t("无法加载目标 World Info 文件数据: ") + currentBookName);
         }
-    });
 
-    const hideLastNInput = document.getElementById('hide-last-n');
+        let importCount = 0;
+        for (const importedEntryData of importedEntries) {
+            if (typeof importedEntryData !== 'object' || importedEntryData === null) {
+                console.warn(`[${extensionName}] Skipping invalid entry data:`, importedEntryData);
+                continue;
+            }
 
-    if (hideLastNInput) {
-        // 监听输入变化，确保非负
-        hideLastNInput.addEventListener('input', (e) => {
-            const value = parseInt(e.target.value);
-            // 如果输入无效或小于0，则清空或设为0 (根据偏好选择，这里选择清空)
-            if (isNaN(value) || value < 0) {
-                 e.target.value = '';
+            // 1. 创建新条目 (获取新 UID)
+            const newEntry = createWorldInfoEntry(currentBookName, targetBookData);
+            if (!newEntry) {
+                console.error(`[${extensionName}] Failed to create new entry slot in '${currentBookName}'`);
+                continue; // 跳过这个条目
+            }
+
+            // 2. 复制数据 (排除 uid)
+            // 遍历 newWorldInfoEntryTemplate 中的所有键，以及 'extensions' (如果存在)
+            const keysToCopy = [...Object.keys(newWorldInfoEntryTemplate), 'extensions'];
+            for (const key of keysToCopy) {
+                if (key === 'uid') continue; // 绝不复制 UID
+
+                if (importedEntryData.hasOwnProperty(key)) {
+                    // 深拷贝复杂对象/数组，以防万一
+                    if (typeof importedEntryData[key] === 'object' && importedEntryData[key] !== null) {
+                        newEntry[key] = structuredClone(importedEntryData[key]);
+                    } else {
+                        newEntry[key] = importedEntryData[key];
+                    }
+                }
+                // else: 如果导入的数据中没有该字段，则保留新条目的默认值
+            }
+
+            // 特殊处理：确保导入条目的 displayIndex 不会过于离谱 (可选，但建议)
+            // 如果不设置，它会是新UID；如果设置了，可能需要重新计算或保持原样
+            // 这里我们选择保留导入的值（如果存在）
+            if (importedEntryData.hasOwnProperty('displayIndex')) {
+                 newEntry.displayIndex = importedEntryData.displayIndex;
             } else {
-                 e.target.value = value; // 保留有效的非负整数
+                 // 如果导入数据没有 displayIndex，可以考虑设置为新 UID 或其他默认值
+                 newEntry.displayIndex = newEntry.uid;
             }
-        });
+
+
+            // 3. 更新 originalData (如果存在)
+            // 这一步是为了 Character Book v2 导出兼容性，需要将新条目的数据写入
+            if (targetBookData.originalData && Array.isArray(targetBookData.originalData.entries)) {
+                 // 需要找到原始数据中对应的条目（刚创建时可能还没有），或者添加一个新的
+                 // 最简单的方法是：保存前重新生成 originalData？或者手动添加
+                 // 为了简化，我们假设 saveWorldInfo 会处理 originalData 的同步，
+                 // 或者，我们在这里手动设置每个字段的 originalData 值：
+                 for (const [templateKey, originalKey] of Object.entries(originalWIDataKeyMap)) {
+                     if (newEntry.hasOwnProperty(templateKey)) {
+                         setWIOriginalDataValue(targetBookData, newEntry.uid, originalKey, newEntry[templateKey]);
+                     }
+                 }
+                 // 注意：setWIOriginalDataValue 可能需要调整以处理新创建的条目
+                 // 一个更稳妥（但可能效率较低）的方法是在导入循环 *之后*，保存 *之前*，
+                 // 完全基于当前的 targetBookData.entries 重新构建 targetBookData.originalData
+            }
+
+
+            console.log(`[${extensionName}] Imported entry data into new entry UID: ${newEntry.uid}`);
+            importCount++;
+        }
+
+        // 4. 保存 World Info
+        await saveWorldInfo(currentBookName, targetBookData, true); // 立即保存
+
+        // 5. 刷新编辑器
+        // 获取 displayWorldEntries 内部的 updateEditor 函数引用来刷新
+        // (这是一个技巧，需要确保 displayWorldEntries 已经被调用过一次以设置 updateEditor)
+        // 更好的方法是直接再次调用 displayWorldEntries 加载数据
+        const updatedData = await loadWorldInfo(currentBookName); // 重新加载以获取最新状态
+        displayWorldEntries(currentBookName, updatedData, 'previous'); // 使用 'previous' 或 'none' 导航选项刷新
+
+        toastr.success(t("成功导入 {count} 个条目到 '{bookName}'。", { count: importCount, bookName: currentBookName }));
+
+    } catch (error) {
+        console.error(`[${extensionName}] Error importing entries:`, error);
+        toastr.error(t("导入条目时出错: ") + error.message);
+    } finally {
+        hideLoader();
     }
-
-    // 优化后的保存设置按钮处理
-    $('#hide-save-settings-btn').on('click', async function() {
-        const value = parseInt(hideLastNInput.value);
-        const valueToSave = isNaN(value) || value < 0 ? 0 : value;
-        
-        // 获取当前设置，避免不必要的更新
-        const currentSettings = getCurrentHideSettings();
-        const currentValue = currentSettings?.hideLastN || 0;
-        
-        // 只有当设置实际发生变化时才保存和更新
-        if (valueToSave !== currentValue) {
-            // 显示加载指示器
-            const $btn = $(this);
-            const originalText = $btn.text();
-            $btn.text('保存中...').prop('disabled', true);
-            
-            const success = await saveCurrentHideSettings(valueToSave);
-            
-            if (success) {
-                // 仅在成功保存后运行全量检查
-                runFullHideCheck();
-                updateCurrentHideSettingsDisplay();
-                toastr.success('隐藏设置已保存');
-            }
-            
-            // 恢复按钮状态
-            $btn.text(originalText).prop('disabled', false);
-        } else {
-            // 如果值未更改，只显示通知而不进行API调用
-            toastr.info('设置未更改');
-        }
-    });
-
-    // 全部取消隐藏按钮 (现在是 async)
-    $('#hide-unhide-all-btn').on('click', async function() { // 改为 async
-        await unhideAllMessages(); // 使用 await 调用
-        // 成功或失败的消息已在 unhideAllMessages 中处理
-    });
-
-    // 监听聊天切换事件
-    eventSource.on(event_types.CHAT_CHANGED, () => {
-        cachedContext = null; // 清除上下文缓存
-
-        // 更新全局启用/禁用状态显示
-        $('#hide-helper-toggle').val(extension_settings[extensionName].enabled ? 'enabled' : 'disabled');
-
-        // 更新当前角色的设置显示和输入框
-        updateCurrentHideSettingsDisplay();
-
-        // 聊天切换时执行全量检查 (如果插件启用)
-        if (extension_settings[extensionName].enabled) {
-            runFullHideCheckDebounced();
-        }
-    });
-
-    // 监听新消息事件 (发送和接收)
-    const handleNewMessage = () => {
-        if (extension_settings[extensionName].enabled) {
-            // 使用增量检查，稍作延迟以确保DOM更新
-            setTimeout(() => runIncrementalHideCheck(), 50); // 增加一点延迟
-        }
-    };
-    eventSource.on(event_types.MESSAGE_RECEIVED, handleNewMessage);
-    eventSource.on(event_types.MESSAGE_SENT, handleNewMessage);
-
-
-    // 监听消息删除事件
-    eventSource.on(event_types.MESSAGE_DELETED, () => {
-        // console.log(`[${extensionName}] Event ${event_types.MESSAGE_DELETED} received. Running full check.`); // 减少日志
-        if (extension_settings[extensionName].enabled) {
-            runFullHideCheckDebounced(); // 使用防抖全量检查
-        }
-    });
-
-    // 监听流式响应结束事件 (可能导致多条消息状态更新)
-    eventSource.on(event_types.STREAM_END, () => {
-         if (extension_settings[extensionName].enabled) {
-            // 流结束后，消息数量可能已稳定，执行一次增量检查可能不够，全量检查更保险
-            runFullHideCheckDebounced();
-        }
-    });
 }
 
-// 初始化扩展
-jQuery(async () => {
-    loadSettings(); // 加载全局启用状态
-    createUI(); // 创建界面元素
+/**
+ * 处理导出按钮点击
+ */
+async function handleExportClick() {
+    if (selectedEntryUIDs.size === 0) {
+        toastr.info(t("请先选择要导出的条目。"));
+        return;
+    }
+    if (!currentBookName) {
+        toastr.error(t("无法确定当前编辑的 World Info 文件。"));
+        return;
+    }
 
-    // 初始加载时更新显示并执行检查
-    // 延迟执行以确保 SillyTavern 的上下文已准备好
-    setTimeout(() => {
-        // 设置全局启用/禁用选择框的当前值
-        $('#hide-helper-toggle').val(extension_settings[extensionName].enabled ? 'enabled' : 'disabled');
+    showLoader(t("正在导出条目..."));
 
-        // 更新当前设置显示和输入框
-        updateCurrentHideSettingsDisplay();
+    try {
+        // 加载当前 WI Book 数据
+        const currentBookData = await loadWorldInfo(currentBookName);
+        if (!currentBookData || !currentBookData.entries) {
+            throw new Error(t("无法加载当前 World Info 文件数据: ") + currentBookName);
+        }
 
-        // 初始加载时执行全量检查 (如果插件启用且有用户配置)
-        if (extension_settings[extensionName].enabled) {
-             // 只有当 getCurrentHideSettings 返回非 null (表示已配置过) 时才执行初始检查
-             // 避免在用户从未设置过的情况下隐藏消息
-            if(getCurrentHideSettings()?.userConfigured === true) {
-                runFullHideCheck();
+        const entriesToExport = [];
+        for (const uid of selectedEntryUIDs) {
+            const entry = currentBookData.entries[uid];
+            if (entry) {
+                // 创建条目的深拷贝以供导出
+                const entryCopy = structuredClone(entry);
+                // 可以选择性地移除一些运行时可能不需要的内部字段（如果存在）
+                // delete entryCopy._someInternalField;
+                entriesToExport.push(entryCopy);
+            } else {
+                console.warn(`[${extensionName}] Selected entry UID ${uid} not found in current book data.`);
             }
         }
-    }, 1500); // 增加延迟时间
+
+        if (entriesToExport.length === 0) {
+            toastr.warning(t("没有找到选中的有效条目进行导出。"));
+            hideLoader();
+            return;
+        }
+
+        // 生成文件名
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+        const filename = `${getSanitizedFilename(currentBookName)}_entries_${timestamp}.json`;
+
+        // 创建 JSON 数据并下载
+        const jsonData = JSON.stringify(entriesToExport, null, 4); // pretty print JSON
+        download(jsonData, filename, 'application/json');
+
+        console.log(`[${extensionName}] Exported ${entriesToExport.length} entries to ${filename}`);
+        toastr.success(t("成功导出 {count} 个条目。", { count: entriesToExport.length }));
+
+    } catch (error) {
+        console.error(`[${extensionName}] Error exporting entries:`, error);
+        toastr.error(t("导出条目时出错: ") + error.message);
+    } finally {
+        hideLoader();
+    }
+}
+
+
+/**
+ * 处理单个复选框状态变化
+ * @param {Event} event
+ */
+function handleCheckboxChange(event) {
+    const checkbox = $(event.target);
+    const uid = parseInt(checkbox.data('uid'));
+    if (isNaN(uid)) return;
+
+    if (checkbox.prop('checked')) {
+        selectedEntryUIDs.add(uid);
+    } else {
+        selectedEntryUIDs.delete(uid);
+    }
+    // console.log('Selected UIDs:', Array.from(selectedEntryUIDs));
+    updateSelectAllCheckboxState(); // 更新全选复选框状态
+}
+
+/**
+ * 处理全选复选框状态变化
+ * @param {Event} event
+ */
+function handleSelectAllChange(event) {
+    const isChecked = $(event.target).prop('checked');
+    // 获取当前页面所有可见条目的复选框
+    $('#world_popup_entries_list .wi-entry-export-checkbox').each((index, element) => {
+        const checkbox = $(element);
+        const uid = parseInt(checkbox.data('uid'));
+        if (isNaN(uid)) return;
+
+        checkbox.prop('checked', isChecked); // 同步状态
+        if (isChecked) {
+            selectedEntryUIDs.add(uid);
+        } else {
+            selectedEntryUIDs.delete(uid);
+        }
+    });
+    // console.log('Selected UIDs after Select All:', Array.from(selectedEntryUIDs));
+}
+
+/**
+ * 更新全选复选框的状态（半选或全选）
+ */
+function updateSelectAllCheckboxState() {
+     const selectAllCheckbox = $('#wi_select_all_checkbox');
+     if (!selectAllCheckbox.length) return;
+
+     const visibleCheckboxes = $('#world_popup_entries_list .wi-entry-export-checkbox');
+     const totalVisible = visibleCheckboxes.length;
+     if (totalVisible === 0) {
+         selectAllCheckbox.prop('checked', false);
+         selectAllCheckbox.prop('indeterminate', false);
+         return;
+     }
+
+     let checkedCount = 0;
+     visibleCheckboxes.each((index, element) => {
+         if ($(element).prop('checked')) {
+             checkedCount++;
+         }
+     });
+
+     if (checkedCount === 0) {
+         selectAllCheckbox.prop('checked', false);
+         selectAllCheckbox.prop('indeterminate', false);
+     } else if (checkedCount === totalVisible) {
+         selectAllCheckbox.prop('checked', true);
+         selectAllCheckbox.prop('indeterminate', false);
+     } else {
+         selectAllCheckbox.prop('checked', false); // 或者 true，取决于你希望半选状态时主复选框的行为
+         selectAllCheckbox.prop('indeterminate', true);
+     }
+}
+
+
+// -- UI 修改与注入 --
+
+/**
+ * 向 World Info 编辑器添加批量操作控件
+ */
+function addControlsToEditor() {
+    // 防止重复添加
+    if ($('#wi_batch_controls').length > 0) {
+        return;
+    }
+
+    const controlsHtml = `
+        <div id="wi_batch_controls" class="wi-batch-controls">
+            <label class="select-all-label" title="${t('全选/取消全选当前页条目')}">
+                <input type="checkbox" id="wi_select_all_checkbox" />
+                <span>${t('全选')}</span>
+            </label>
+            <button id="wi_export_selected_button" class="menu_button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" title="${t('导出选中的条目')}">
+                <span class="ui-button-text">${t('导出选中')}</span>
+            </button>
+            <button id="wi_import_entries_button" class="menu_button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" title="${t('导入条目到当前书籍')}">
+                <span class="ui-button-text">${t('导入条目')}</span>
+            </button>
+            <input type="file" id="wi_import_file_input" accept=".json" />
+        </div>
+    `;
+
+    // 将控件添加到分页控件的下方
+    $(controlsHtml).insertAfter('#world_info_pagination');
+
+    // 绑定事件
+    $('#wi_export_selected_button').on('click', handleExportClick);
+    $('#wi_import_entries_button').on('click', handleImportClick);
+    $('#wi_import_file_input').on('change', handleFileSelected);
+    $('#wi_select_all_checkbox').on('change', handleSelectAllChange);
+}
+
+/**
+ * 向单个条目元素添加复选框
+ * @param {JQuery<HTMLElement>} entryElement - 条目的 JQuery 元素
+ * @param {object} entryData - 条目的数据
+ */
+function addCheckboxToEntry(entryElement, entryData) {
+    const uid = entryData.uid;
+    // 检查是否已存在复选框
+    if (entryElement.find(`.wi-entry-export-checkbox[data-uid="${uid}"]`).length > 0) {
+        return;
+    }
+
+    const isChecked = selectedEntryUIDs.has(uid);
+    const checkboxHtml = `<input type="checkbox" class="wi-entry-export-checkbox" data-uid="${uid}" ${isChecked ? 'checked' : ''} title="${t('选择此条目进行导出')}">`;
+
+    // 将复选框添加到条目标题行的最前面
+    entryElement.find('.world_entry_header > .flex-container').first().prepend(checkboxHtml);
+
+    // 绑定事件
+    entryElement.find(`.wi-entry-export-checkbox[data-uid="${uid}"]`).on('change', handleCheckboxChange);
+}
+
+// -- 监听与初始化 --
+
+// 使用 MutationObserver 监控条目列表的变化，以便在条目被添加/删除/重新排序时添加复选框
+// 或者，更简单的方式是：在 displayWorldEntries 的 callback 中处理
+let originalDisplayWorldEntriesCallback = null;
+
+function enhanceDisplayWorldEntries() {
+    // Monkey-patching displayWorldEntries 并不理想，因为它依赖内部实现。
+    // 更好的方法是利用 pagination 的回调函数。
+
+    // 监听分页控件的 afterPaging 事件，此时 DOM 已更新
+    $('#world_info_pagination').on('jqPagination.afterPaging', () => {
+        // console.log('Pagination afterPaging triggered');
+        $('#world_popup_entries_list .world_entry').each((index, element) => {
+            const entryElement = $(element);
+            const uid = entryElement.data('uid');
+            // 需要从当前加载的数据中找到对应的 entryData，这有点麻烦
+            // 或者，可以直接在添加元素时就加上复选框
+
+            // 我们尝试在 displayWorldEntries 的 callback 里做
+        });
+        updateSelectAllCheckboxState(); // 页面切换后更新全选状态
+    });
+
+
+    // 修改 pagination 的 callback 来注入复选框
+    const paginationInstance = $('#world_info_pagination').data('jqPagination');
+    if (paginationInstance && paginationInstance.settings && paginationInstance.settings.callback) {
+        originalDisplayWorldEntriesCallback = paginationInstance.settings.callback;
+
+        paginationInstance.settings.callback = async (pageData) => {
+            // 先调用原始的回调来渲染条目
+            if (typeof originalDisplayWorldEntriesCallback === 'function') {
+                await originalDisplayWorldEntriesCallback(pageData);
+            }
+
+            // 原始回调执行完后，条目 DOM 应该已经生成
+            // 此时为每个条目添加复选框
+            $('#world_popup_entries_list .world_entry').each((index, element) => {
+                const entryElement = $(element);
+                const uid = entryElement.data('uid');
+
+                // 找到对应的 entryData (pageData 是当前页的数据)
+                const entryData = pageData.find(entry => entry.uid === uid);
+                if (entryData) {
+                    addCheckboxToEntry(entryElement, entryData);
+                } else {
+                     console.warn(`Could not find entry data for UID ${uid} in paged data.`);
+                }
+            });
+             updateSelectAllCheckboxState(); // 渲染完后更新全选状态
+        };
+    } else {
+         console.warn(`[${extensionName}] Could not find pagination callback to enhance.`);
+         // 备用方案：使用 MutationObserver (更复杂)
+    }
+
+
+}
+
+
+jQuery(async () => {
+    await loadSettings();
+
+    // 监听编辑器选择变化，更新当前书名并清空选中状态
+    $('#world_editor_select').on('change', async () => {
+        const selectedIndex = String($('#world_editor_select').find(':selected').val());
+        selectedEntryUIDs.clear(); // 切换书籍时清空选择
+
+        if (selectedIndex !== '' && world_names[selectedIndex]) {
+            currentBookName = world_names[selectedIndex];
+            addControlsToEditor(); // 确保控件已添加
+            enhanceDisplayWorldEntries(); // 确保分页回调被增强
+            updateSelectAllCheckboxState(); // 更新（此时应为未选）
+        } else {
+            currentBookName = null;
+            $('#wi_batch_controls').remove(); // 如果没有书籍加载，移除控件
+        }
+        console.log(`[${extensionName}] Switched to book: ${currentBookName}`);
+    });
+
+    // 初始化时，如果已有书籍被选中，则触发一次 change 来设置状态
+    if ($('#world_editor_select').val() !== '') {
+        $('#world_editor_select').trigger('change');
+    }
+
+    console.log(`[${extensionName}] Extension loaded.`);
 });
