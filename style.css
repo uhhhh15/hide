@@ -46,9 +46,15 @@
     font-size: 13px;
 }
 
+/* 输入框容器 */
+.hide-helper-input-container {
+    flex: 1;
+    min-width: 50px;
+}
+
 /* 输入框样式 */
 #hide-last-n {
-    flex: 0 1 150px;
+    width: 100%;
     padding: 6px 12px;
     margin: 0;
     border-radius: 4px;
@@ -73,6 +79,9 @@
     transition: background-color 0.2s ease;
     height: 35px;
     box-sizing: border-box;
+    white-space: nowrap;
+    min-width: 80px;
+    flex-shrink: 0;
 }
 
 .hide-helper-btn:hover {
@@ -101,9 +110,174 @@
     font-size: 13px;
     height: 35px;
     box-sizing: border-box;
-    margin: 20px auto 0;
+    margin: 0;
+    white-space: nowrap;
+    min-width: 80px;
+    flex-shrink: 0;
 }
 
 .hide-helper-close-btn:hover {
     background-color: #666666;
+}
+
+/* 设置类型选择器容器 */
+.hide-helper-settings-type {
+    display: flex;
+    align-items: center;
+}
+
+/* 设置类型下拉选择框 - 保留供参考 */
+.hide-helper-select {
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #ffffff;
+    font-size: 13px;
+    height: 35px;
+    box-sizing: border-box;
+    min-width: 80px;
+}
+
+/* 输入行容器 */
+.hide-helper-input-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* 使用说明弹窗 */
+.hide-helper-instructions-popup {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 800px;
+    max-height: 80vh;
+    background-color: rgba(25, 25, 25, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    z-index: 1002;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+}
+
+.hide-helper-instructions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(40, 40, 40, 0.95);
+    border-radius: 8px 8px 0 0;
+    flex-shrink: 0; /* 防止标题区域被压缩 */
+}
+
+.hide-helper-instructions-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.hide-helper-instructions-close-btn {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.hide-helper-instructions-content {
+    padding: 20px;
+    overflow-y: auto; /* 确保内容可滚动 */
+    overflow-x: hidden;
+    line-height: 1.6;
+    flex: 1 1 auto; /* 允许内容区域灵活伸缩 */
+    height: calc(80vh - 60px); /* 减去标题区域高度 */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(150, 150, 150, 0.5) rgba(30, 30, 30, 0.5);
+}
+
+/* Webkit浏览器的滚动条样式 */
+.hide-helper-instructions-content::-webkit-scrollbar {
+    width: 10px;
+}
+
+.hide-helper-instructions-content::-webkit-scrollbar-track {
+    background: rgba(30, 30, 30, 0.5);
+    border-radius: 4px;
+}
+
+.hide-helper-instructions-content::-webkit-scrollbar-thumb {
+    background-color: rgba(150, 150, 150, 0.5);
+    border-radius: 4px;
+    border: 2px solid rgba(30, 30, 30, 0.5);
+}
+
+.hide-helper-instructions-content::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(180, 180, 180, 0.7);
+}
+
+.hide-helper-instructions-content h2 {
+    font-size: 18px;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    color: #dddddd;
+    border-left: 4px solid #007bff;
+    padding-left: 10px;
+}
+
+.hide-helper-instructions-content h2:first-child {
+    margin-top: 0;
+}
+
+.hide-helper-instructions-content p {
+    margin-bottom: 15px;
+    color: #cccccc;
+}
+
+.hide-helper-instructions-content strong {
+    color: #66aaff;
+}
+
+.hide-helper-instructions-content code {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-family: monospace;
+    color: #ff9966;
+}
+
+.hide-helper-instructions-content ul {
+    padding-left: 20px;
+    margin-bottom: 15px;
+}
+
+.hide-helper-instructions-content li {
+    margin-bottom: 8px;
+    color: #cccccc;
+}
+
+.hide-helper-instructions-content .icon-example {
+    color: #bbbbbb;
+}
+
+.hide-helper-instructions-content .button-like {
+    display: inline-block;
+    padding: 2px 6px;
+    border: 1px solid #555555;
+    background-color: rgba(50, 50, 50, 0.5);
+    border-radius: 3px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.hide-helper-instructions-content .important {
+    color: #ff6666;
+    font-weight: bold;
 }
