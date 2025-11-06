@@ -1,283 +1,337 @@
-/* 弹出对话框容器 */
-.hide-helper-popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 69%;
-    max-width: 400px;
-    background-color: rgba(0, 0, 0, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    z-index: 1001;
-    padding: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    display: none;
-    color: #ffffff;
+/* --- CSS变量定义 --- */
+:root {
+    --accent-color: #007bff;
+    --accent-color-hover: #0056b3;
+    --background-popup: rgba(28, 28, 35, 0.7);
+    --border-color: rgba(255, 255, 255, 0.15);
+    --text-primary: #f0f0f0;
+    --text-secondary: #a0a0b0;
+    --input-bg: rgba(0, 0, 0, 0.3);
+    --btn-secondary-bg: rgba(255, 255, 255, 0.1);
+    --btn-secondary-hover-bg: rgba(255, 255, 255, 0.2);
+    --danger-color: #dc3545;
+    --danger-color-hover: #c82333;
 }
 
-/* 弹出对话框标题 */
-.hide-helper-popup-title {
+/* --- 入口按钮 (注入到 #data_bank_wand_container) --- */
+#hide-helper-wand-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    color: var(--text-secondary);
+}
+
+#hide-helper-wand-button:hover {
+    color: var(--text-primary);
+}
+
+#hide-helper-wand-button i {
     font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* --- 弹窗通用样式 --- */
+.hide-helper-popup, .hide-helper-instructions-popup {
+    position: fixed;
+    width: 90%;
+    max-width: 420px;
+    background: var(--background-popup);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    z-index: 1001;
+    padding: 20px 25px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    display: none; /* JS控制显示 */
+    flex-direction: column;
+    gap: 20px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* --- 弹窗标题 --- */
+.hide-helper-popup-title {
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
     text-align: center;
-    color: #ffffff;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+.hide-helper-popup-title:hover,
+.hide-helper-popup-title:hover i {
+    color: var(--accent-color);
 }
 
-/* 标签样式 */
+/* --- 内容区域 --- */
+.hide-helper-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .hide-helper-label {
-    margin-right: 10px;
-    font-weight: bold;
-    color: #ffffff;
-    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin: 0; /* 重置旧边距 */
 }
 
-/* 当前设置显示 */
-.hide-helper-current {
-    margin: 30px 0;
-    padding: 8px;
-    border-radius: 4px;
-    background-color: transparent;
-    text-align: left;
-    color: #ffffff;
-    font-size: 13px;
-}
-
-/* 输入框容器 */
-.hide-helper-input-container {
-    flex: 1;
-    min-width: 50px;
-}
-
-/* 输入框样式 */
+/* --- 输入框样式 --- */
 #hide-last-n {
     width: 100%;
-    padding: 6px 12px;
-    margin: 0;
-    border-radius: 4px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background-color: rgba(0, 0, 0, 0.3);
-    color: #ffffff;
-    font-size: 13px;
-    height: 35px;
-    box-sizing: border-box;
-}
-
-/* 按钮样式 */
-.hide-helper-btn {
-    display: inline-block;
-    padding: 6px 14px;
-    border-radius: 4px;
-    border: none;
-    background-color: #808080;
-    color: #ffffff;
-    font-size: 13px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    height: 35px;
-    box-sizing: border-box;
-    white-space: nowrap;
-    min-width: 80px;
-    flex-shrink: 0;
-}
-
-.hide-helper-btn:hover {
-    background-color: #666666;
-}
-
-/* 底部按钮容器 */
-.hide-helper-popup-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 30px;
-    padding-top: 10px;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-/* 关闭按钮 */
-.hide-helper-close-btn {
-    display: block;
-    padding: 6px 20px;
-    background-color: #808080;
-    color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 13px;
-    height: 35px;
-    box-sizing: border-box;
-    margin: 0;
-    white-space: nowrap;
-    min-width: 80px;
-    flex-shrink: 0;
-}
-
-.hide-helper-close-btn:hover {
-    background-color: #666666;
-}
-
-/* 设置类型选择器容器 */
-.hide-helper-settings-type {
-    display: flex;
-    align-items: center;
-}
-
-/* 设置类型下拉选择框 - 保留供参考 */
-.hide-helper-select {
-    padding: 6px 10px;
-    border-radius: 4px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background-color: rgba(0, 0, 0, 0.3);
-    color: #ffffff;
-    font-size: 13px;
-    height: 35px;
-    box-sizing: border-box;
-    min-width: 80px;
-}
-
-/* 输入行容器 */
-.hide-helper-input-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-/* 使用说明弹窗 */
-.hide-helper-instructions-popup {
-    position: fixed;
-    top: 20%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
-    max-width: 800px;
-    max-height: 80vh;
-    background-color: rgba(25, 25, 25, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px 15px;
     border-radius: 8px;
-    z-index: 1002;
-    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.7);
-    color: #ffffff;
+    border: 1px solid var(--border-color);
+    background-color: var(--input-bg);
+    color: var(--text-primary);
+    font-size: 16px;
+    height: auto; /* 重置旧高度 */
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#hide-last-n:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
+}
+
+/* --- 当前设置显示 --- */
+.hide-helper-current {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 0; /* 重置旧边距 */
+}
+
+.hide-helper-current strong {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+#hide-current-value {
+    font-weight: bold;
+    color: var(--accent-color);
+    font-size: 16px;
+    margin-left: 8px;
+}
+
+/* --- 模式切换开关 --- */
+.hide-helper-mode-switch {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.2);
+    padding: 12px 15px;
+    border-radius: 8px;
+}
+.hide-helper-mode-switch .label-group {
     display: flex;
     flex-direction: column;
 }
+.hide-helper-mode-switch #hide-mode-label {
+     font-weight: 500;
+     font-size: 14px;
+     color: var(--text-primary);
+}
+.hide-helper-mode-switch #hide-mode-description {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
 
+.hide-helper-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+}
+
+.hide-helper-switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.hide-helper-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #333;
+    transition: .4s;
+    border-radius: 28px;
+}
+
+.hide-helper-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .hide-helper-slider {
+    background-color: var(--accent-color);
+}
+
+input:checked + .hide-helper-slider:before {
+    transform: translateX(22px);
+}
+
+/* --- 底部按钮容器 --- */
+.hide-helper-popup-footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 20px;
+}
+
+/* --- 按钮样式 --- */
+.hide-helper-btn, .hide-helper-close-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    white-space: nowrap;
+    height: auto;
+    min-width: 0;
+}
+
+#hide-save-settings-btn {
+    background-color: var(--accent-color);
+    color: white;
+}
+#hide-save-settings-btn:hover {
+    background-color: var(--accent-color-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+#hide-unhide-all-btn {
+    background-color: var(--danger-color);
+    color: white;
+}
+#hide-unhide-all-btn:hover {
+    background-color: var(--danger-color-hover);
+    transform: translateY(-2px);
+}
+
+#hide-helper-instructions-btn,
+.hide-helper-close-btn {
+    background-color: var(--btn-secondary-bg);
+    color: var(--text-primary);
+}
+#hide-helper-instructions-btn:hover,
+.hide-helper-close-btn:hover {
+    background-color: var(--btn-secondary-hover-bg);
+}
+
+/* -- 清理不再需要的旧样式 -- */
+.hide-helper-input-container, .hide-helper-input-row, .hide-helper-settings-type, .hide-helper-select {
+    /* 这些类在新布局中不再使用，保留为空或删除 */
+}
+
+/* --- 使用说明弹窗 --- */
+.hide-helper-instructions-popup {
+    max-width: 800px;
+    max-height: 80vh;
+    z-index: 1002;
+}
 .hide-helper-instructions-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    background-color: rgba(40, 40, 40, 0.95);
-    border-radius: 8px 8px 0 0;
-    flex-shrink: 0; /* 防止标题区域被压缩 */
+    border-bottom: 1px solid var(--border-color);
+    background: none;
+    border-radius: 0;
 }
-
 .hide-helper-instructions-title {
     font-size: 18px;
     font-weight: bold;
-    color: #ffffff;
 }
-
 .hide-helper-instructions-close-btn {
-    background: none;
-    border: none;
-    color: #ffffff;
-    font-size: 24px;
-    cursor: pointer;
-    padding: 0 5px;
+    background: none; border: none; color: var(--text-secondary); font-size: 28px; cursor: pointer; transition: color 0.2s ease;
 }
-
+.hide-helper-instructions-close-btn:hover {
+    color: var(--text-primary);
+}
 .hide-helper-instructions-content {
-    padding: 20px;
-    overflow-y: auto; /* 确保内容可滚动 */
-    overflow-x: hidden;
-    line-height: 1.6;
-    flex: 1 1 auto; /* 允许内容区域灵活伸缩 */
-    height: calc(80vh - 60px); /* 减去标题区域高度 */
+    padding: 10px 25px 25px;
+    overflow-y: auto;
+    line-height: 1.7;
     scrollbar-width: thin;
-    scrollbar-color: rgba(150, 150, 150, 0.5) rgba(30, 30, 30, 0.5);
+    scrollbar-color: var(--accent-color) rgba(0,0,0,0.3);
+    height: auto; /* 移除固定高度计算 */
+}
+.hide-helper-instructions-content h2 { font-size: 18px; margin-top: 25px; margin-bottom: 15px; color: var(--text-primary); border-left: 4px solid var(--accent-color); padding-left: 10px;}
+.hide-helper-instructions-content h2:first-child { margin-top: 0; }
+.hide-helper-instructions-content p { margin-bottom: 15px; color: var(--text-secondary); }
+.hide-helper-instructions-content strong { color: var(--accent-color); font-weight: 500; }
+.hide-helper-instructions-content code { background-color: rgba(0, 0, 0, 0.5); padding: 3px 6px; border-radius: 4px; font-family: monospace; color: #ff9966;}
+.hide-helper-instructions-content ul { padding-left: 20px; }
+.hide-helper-instructions-content li { margin-bottom: 8px; color: var(--text-secondary); }
+
+/* Webkit滚动条样式 */
+.hide-helper-instructions-content::-webkit-scrollbar { width: 8px; }
+.hide-helper-instructions-content::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); border-radius: 4px; }
+.hide-helper-instructions-content::-webkit-scrollbar-thumb { background-color: var(--accent-color); border-radius: 4px; }
+.hide-helper-instructions-content::-webkit-scrollbar-thumb:hover { background-color: var(--accent-color-hover); }
+
+/* --- 新增：弹窗右上角关闭图标 --- */
+.hide-helper-popup-close-icon {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    border: none;
+    background: none;
+    color: var(--text-secondary);
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Webkit浏览器的滚动条样式 */
-.hide-helper-instructions-content::-webkit-scrollbar {
-    width: 10px;
-}
-
-.hide-helper-instructions-content::-webkit-scrollbar-track {
-    background: rgba(30, 30, 30, 0.5);
-    border-radius: 4px;
-}
-
-.hide-helper-instructions-content::-webkit-scrollbar-thumb {
-    background-color: rgba(150, 150, 150, 0.5);
-    border-radius: 4px;
-    border: 2px solid rgba(30, 30, 30, 0.5);
-}
-
-.hide-helper-instructions-content::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(180, 180, 180, 0.7);
-}
-
-.hide-helper-instructions-content h2 {
-    font-size: 18px;
-    margin-top: 25px;
-    margin-bottom: 15px;
-    color: #dddddd;
-    border-left: 4px solid #007bff;
-    padding-left: 10px;
-}
-
-.hide-helper-instructions-content h2:first-child {
-    margin-top: 0;
-}
-
-.hide-helper-instructions-content p {
-    margin-bottom: 15px;
-    color: #cccccc;
-}
-
-.hide-helper-instructions-content strong {
-    color: #66aaff;
-}
-
-.hide-helper-instructions-content code {
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 2px 5px;
-    border-radius: 3px;
-    font-family: monospace;
-    color: #ff9966;
-}
-
-.hide-helper-instructions-content ul {
-    padding-left: 20px;
-    margin-bottom: 15px;
-}
-
-.hide-helper-instructions-content li {
-    margin-bottom: 8px;
-    color: #cccccc;
-}
-
-.hide-helper-instructions-content .icon-example {
-    color: #bbbbbb;
-}
-
-.hide-helper-instructions-content .button-like {
-    display: inline-block;
-    padding: 2px 6px;
-    border: 1px solid #555555;
-    background-color: rgba(50, 50, 50, 0.5);
-    border-radius: 3px;
-    font-weight: bold;
-    color: #ffffff;
-}
-
-.hide-helper-instructions-content .important {
-    color: #ff6666;
-    font-weight: bold;
+.hide-helper-popup-close-icon:hover {
+    color: var(--text-primary);
+    transform: rotate(90deg);
 }
