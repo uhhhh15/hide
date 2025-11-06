@@ -12,7 +12,7 @@ const defaultSettings = {
     // 用于存储每个实体设置的对象
     settings_by_entity: {},
     // 迁移标志
-    migration_v1_complete: false,
+    migration_v1_complete: true,
     // 添加全局设置相关字段
     useGlobalSettings: false,
     globalHideSettings: {
@@ -43,6 +43,32 @@ const domCache = {
         });
     }
 };
+
+/**
+ * 通用弹窗居中函数
+ * @param {jQuery} $popup - 需要居中的弹窗的jQuery对象
+ */
+function centerPopup($popup) {
+    if (!$popup || $popup.length === 0 || $popup.is(':hidden')) {
+        return;
+    }
+
+    const windowWidth = $(window).width();
+    const windowHeight = $(window).height();
+    const popupWidth = $popup.outerWidth();
+    const popupHeight = $popup.outerHeight();
+
+    // 计算 top 和 left，确保弹窗不会完全贴边
+    const top = Math.max(10, (windowHeight - popupHeight) / 2);
+    const left = Math.max(10, (windowWidth - popupWidth) / 2);
+
+    $popup.css({
+        top: `${top}px`,
+        left: `${left}px`,
+        // 确保移除旧的 transform 定位，防止冲突
+        transform: 'none'
+    });
+}
 
 // 获取优化的上下文
 function getContextOptimized() {
@@ -286,11 +312,13 @@ function createUI() {
 // 创建输入区旁的按钮
 function createInputWandButton() {
     console.log(`[${extensionName}] Entering createInputWandButton.`);
+    // 移除旧按钮，以防重复
+    $('#hide-helper-wand-button').remove();
     const buttonHtml = `
-    <div id="hide-helper-wand-button" class="list-group-item flex-container flexGap5" title="隐藏助手">
-        <span style="padding-top: 2px;"><i class="fa-solid fa-ghost"></i></span>
-        <span>隐藏助手</span>
-    </div>`;
+        <div id="hide-helper-wand-button" title="打开隐藏助手设置">
+            <i class="fa-solid fa-ghost"></i>
+            <span>隐藏助手</span>
+        </div>`;
     console.log(`[${extensionName}] Appending wand button to #data_bank_wand_container.`);
     $('#data_bank_wand_container').append(buttonHtml);
     console.log(`[${extensionName}] Exiting createInputWandButton.`);
@@ -300,24 +328,42 @@ function createInputWandButton() {
 function createPopup() {
     console.log(`[${extensionName}] Entering createPopup.`);
     const popupHtml = `
-    <div id="hide-helper-popup" class="hide-helper-popup">
-        <div class="hide-helper-popup-title">隐藏助手设置</div>
-        <div class="hide-helper-input-row">
-            <button id="hide-save-settings-btn" class="hide-helper-btn">保存设置</button>
-            <div class="hide-helper-input-container">
-                <input type="number" id="hide-last-n" min="0" placeholder="隐藏最近N楼之前的消息">
+        <div id="hide-helper-popup" class="hide-helper-popup">
+            <button id="hide-helper-popup-close-icon" class="hide-helper-popup-close-icon">&times;</button>
+            <div class="hide-helper-popup-title">
+                <span>查看使用说明</span>
             </div>
-            <button id="hide-unhide-all-btn" class="hide-helper-btn">取消隐藏</button>
-        </div>
-        <div class="hide-helper-current">
-            <strong>当前隐藏设置:</strong> <span id="hide-current-value">无</span>
-        </div>
-        <div class="hide-helper-popup-footer">
-            <button id="hide-settings-type-btn" class="hide-helper-btn">聊天模式</button>
-            <button id="hide-helper-popup-close" class="hide-helper-close-btn">关闭</button>
-            <button id="hide-helper-instructions-btn" class="hide-helper-btn">使用说明</button>
-        </div>
-    </div>`;
+
+            <div class="hide-helper-section">
+                <label for="hide-last-n" class="hide-helper-label"></label>
+                <input type="number" id="hide-last-n" min="0" placeholder="隐藏最新N楼之前的消息">
+            </div>
+
+            <div class="hide-helper-current">
+                <strong>当前保留楼层数:</strong>
+                <span id="hide-current-value">无</span>
+            </div>
+
+            <div class="hide-helper-mode-switch">
+                <div class="label-group">
+                    <span id="hide-mode-label">全局模式</span>
+                    <span id="hide-mode-description">设置将应用于所有聊天</span>
+                </div>
+                <label class="hide-helper-switch">
+                    <input type="checkbox" id="hide-mode-toggle">
+                    <span class="hide-helper-slider"></span>
+                </label>
+            </div>
+
+            <div class="hide-helper-popup-footer">
+                <button id="hide-save-settings-btn" class="hide-helper-btn">
+                    <i class="fa-solid fa-save"></i> 保存设置
+                </button>
+                <button id="hide-unhide-all-btn" class="hide-helper-btn">
+                    <i class="fa-solid fa-eye"></i> 取消隐藏
+                </button>
+            </div>
+        </div>`;
     console.log(`[${extensionName}] Appending popup HTML to body.`);
     $('body').append(popupHtml);
     console.log(`[${extensionName}] Exiting createPopup.`);
@@ -405,28 +451,28 @@ function updateCurrentHideSettingsDisplay() {
         }
     }
 
-    const displayValue = (currentSettings && currentSettings.hideLastN > 0) ? currentSettings.hideLastN : '无';
-    console.debug(`[${extensionName} DEBUG] updateCurrentHideSettingsDisplay: Setting display text to: "${displayValue}"`);
+    // 更新当前隐藏值
+    const displayValue = (currentSettings && currentSettings.hideLastN > 0) ? currentSettings.hideLastN : '所有楼层均不隐藏';
     domCache.currentValueDisplay.textContent = displayValue;
 
+    // 更新输入框的值
     if (domCache.hideLastNInput) {
         const inputValue = currentSettings?.hideLastN > 0 ? currentSettings.hideLastN : '';
-        console.debug(`[${extensionName} DEBUG] updateCurrentHideSettingsDisplay: Setting input value to: "${inputValue}"`);
         domCache.hideLastNInput.value = inputValue;
-    } else {
-        console.debug(`[${extensionName} DEBUG] updateCurrentHideSettingsDisplay: hideLastNInput element not in cache.`);
     }
-    
-    // 更新设置类型选择框
-    const $typeBtn = $('#hide-settings-type-btn');
-    if ($typeBtn.length) {
-        const useGlobal = extension_settings[extensionName]?.useGlobalSettings || false;
-        console.debug(`[${extensionName} DEBUG] updateCurrentHideSettingsDisplay: Setting type button text to: "${useGlobal ? '全局模式' : '聊天模式'}"`);
-        $typeBtn.text(useGlobal ? '全局模式' : '聊天模式');
+
+    // 更新模式切换开关的状态和文本
+    const useGlobal = extension_settings[extensionName]?.useGlobalSettings || false;
+    $('#hide-mode-toggle').prop('checked', useGlobal);
+
+    if (useGlobal) {
+        $('#hide-mode-label').text('全局模式');
+        $('#hide-mode-description').text('隐藏将应用于所有角色卡');
     } else {
-        console.debug(`[${extensionName} DEBUG] updateCurrentHideSettingsDisplay: Type button element not found.`);
+        $('#hide-mode-label').text('角色模式');
+        $('#hide-mode-description').text('隐藏仅对当前角色卡生效');
     }
-    
+
     console.debug(`[${extensionName} DEBUG] Exiting updateCurrentHideSettingsDisplay.`);
 }
 
@@ -447,109 +493,88 @@ function debounce(fn, delay) {
 // 显示使用说明弹窗
 function showInstructions() {
     console.log(`[${extensionName}] Showing instructions popup.`);
-    
-    // 如果已有旧的弹窗，先移除
+
+    // 如果已有旧的弹窗，先移除，并解绑可能残留的事件
     $('#hide-helper-instructions-popup').remove();
-    
-    // 创建说明弹窗HTML
-    const instructionsHtml = `
-    <div id="hide-helper-instructions-popup" class="hide-helper-instructions-popup">
-        <div class="hide-helper-instructions-header">
-            <span class="hide-helper-instructions-title">隐藏助手 - 使用说明</span>
-            <button id="hide-helper-instructions-close" class="hide-helper-instructions-close-btn">×</button>
-        </div>
-        <div class="hide-helper-instructions-content">
-            <h2>核心功能：设置保留消息数量</h2>
-            <p>
-                该插件的功能是自动隐藏消息，并支持为不同的角色卡和群聊绑定不同的隐藏消息数，当然也支持所有角色卡和群聊应用同一个隐藏值。
-            </p>
-            
-            <p>
-                首先，要设置希望保留的最新消息数量，请在 <strong class="button-like">保存设置</strong> 按钮右侧的输入框中输入一个数字“X”。
-            </p>
-            <p>
-                点击 <strong class="button-like">保存设置</strong> 后，酒馆将只发送最新的 X 条消息（楼），并自动隐藏所有在此之前的消息。
-            </p>
-            <p>
-                如果想要更改隐藏的值，直接在输入框输入新数值，然后点击 <strong class="button-like">保存设置</strong> 即可，插件会相应更新隐藏数值，隐藏的数值会在 <strong class="button-like">当前隐藏设置</strong> 显示。
-            </p>
-            <p>
-                <strong>例如：</strong>
-                假设当前聊天一共有 10 条消息（从第 0 楼到第 9 楼）。
-                <ul>
-                    <li>在输入框中输入数字 <code>4</code></li>
-                    <li>点击 <strong class="button-like">保存设置</strong></li>
-                    <li>结果：最新的 4 条消息（即第 6 楼到第 9 楼）将正常发送。</li>
-                    <li>第 6 楼之前的所有消息（即第 0 楼到第 5 楼）都将被隐藏。</li>
-                    <li>此时，再发送一条消息（当前聊天变为11条消息，最新楼层为第10楼）。</li>
-                    <li>结果：仍然保持最新的 4 条消息（即第 7 楼到第 10 楼）将正常发送。</li>
-                    <li>第 7 楼之前的所有消息（即第 0 楼到第 6 楼）都将被隐藏。</li>
-                    <li>依次类推，AI发送消息或手动删除消息，插件也会相应主动向前隐藏相应数量的消息或取消隐藏相应数量的消息，以保持最新的X条消息不隐藏，X楼之前的消息都隐藏。</li>
-                </ul>
-            </p>
+    $(window).off('resize.hideHelperInstructions');
 
-            <h2>识别被隐藏的消息</h2>
-            <p>
-                当一条消息被成功隐藏后，该条消息的上方会显示一个 <span class="icon-example"><i class="fa-solid fa-ghost"></i></span> 幽灵图标。这个图标明确地表明了该条消息当前处于隐藏状态（也就不会发送给AI）。
-            </p>
+    // 创建说明弹窗HTML (HTML内容不变)
+	const instructionsHtml = `
+		<div id="hide-helper-instructions-popup" class="hide-helper-instructions-popup">
+			<div class="hide-helper-instructions-header">
+				<span class="hide-helper-instructions-title">隐藏助手 - 使用说明</span>
+				<button id="hide-helper-instructions-close" class="hide-helper-instructions-close-btn">&times;</button>
+			</div>
+			<div class="hide-helper-instructions-content">
+				<h2>核心功能</h2>
+				<p>
+					本插件的核心功能是： 在每次与AI交互时，仅发送最新的N条消息，并自动隐藏其余的旧消息。您也可以为不同的角色/群聊设置不同的保留数量，也可以使用一个全局设置统一管理。
+				</p>
+				<p>
+					在弹窗的输入框中填入您想 <strong>保留的最新消息数量</strong> (例如 <code>4</code>)，然后点击 <strong class="button-like">保存设置</strong> 按钮。插件便会立即生效，只保留最新的4条消息，并隐藏此前的所有内容。
+				</p>
+				<p>
+					<strong>示例：</strong> 假设当前聊天共有10条消息。
+					<ul>
+						<li>您在输入框中输入 <code>4</code> 并保存。</li>
+						<li>结果：最新的4条消息（第6到9楼）会正常显示并发送给AI。</li>
+						<li>之前的所有消息（第0到5楼）将被自动隐藏。</li>
+						<li>当您或AI发送新消息后，插件会自动调整，确保始终只有最新的4条消息是可见的。</li>
+					</ul>
+				</p>
 
-            <h2>动态更新与 AI 交互</h2>
-            <p>
-                插件会智能地、持续地工作：
-                <ul>
-                    <li>它会自动始终保持设定的数字“X”值。无论是发送新消息、接收 AI 的回复，还是删除现有消息，插件都会动态调整，确保始终只有最新的 X 条消息正常发送，其余的保持隐藏。</li>
-                    <li><span class="important">重要提示：</span>被隐藏的消息不会被包含在发送给 AI 的上下文中。这意味着 AI 不会“看到”这些被隐藏的内容。</li>
-                </ul>
-            </p>
+				<h2>全局模式 vs 角色模式</h2>
+				<p>
+					插件提供两种隐藏模式，以满足不同需求：
+					<ul>
+						<li><strong>全局模式：</strong> 在此模式下，您设置的保留数量将应用于 <strong>所有</strong> 角色卡和群聊。一次设置，处处生效。</li>
+						<li><strong>角色模式：</strong> 在此模式下，设置将 <strong>仅</strong> 绑定到当前聊天。您可以为每个角色或群聊设定并保存一个独立的保留数量。</li>
+					</ul>
+				</p>
+				<p>
+					您可以通过弹窗中的 <strong>拨动开关</strong> 在这两种模式间轻松切换。开关下方会有文字提示当前处于哪种模式，一目了然。
+				</p>
+				<p>
+					<strong>请注意：</strong> 无论在哪种模式下，<strong class="button-like">当前保留楼层数</strong> 显示的都是对当前聊天生效的数值。
+				</p>
 
-            <h2>隐藏模式：全局与聊天</h2>
-            <p>
-                该插件提供了两种操作模式，可自行选用：
-                <ul>
-                    <li><strong>全局模式：</strong>在此模式下，设置的隐藏数值“X”将应用于<strong>所有</strong>的角色卡和群聊。</li>
-                    <li><strong>聊天模式：</strong>在此模式下，隐藏设置将<strong>仅</strong>应用并绑定到当前正在聊天的角色卡或群聊。可以为每一个角色卡或群聊设置并保存一个独立的、不同的隐藏数值"X"。</li>
-                </ul>
-            </p>
-            <p>
-                可以通过点击 <strong class="button-like">关闭</strong> 按钮旁边的 <strong class="button-like">全局模式 / 聊天模式</strong> 切换按钮，在两种模式之间快速切换。当前生效的模式会显示在按钮上。
-            </p>
-            <p>
-                <strong>请注意：</strong> <strong class="button-like">当前隐藏设置</strong> 是指当前正在聊天的角色卡或群聊使用或绑定的隐藏设置值。
-            </p>
+				<h2>取消隐藏</h2>
+				 <p>
+					点击 <strong class="button-like">取消隐藏</strong> 按钮后，隐藏助手会立刻将当前模式（全局或角色）的隐藏设置重置为无，此时所有隐藏的楼层消息都会被取消隐藏。
+				</p>
+				
+				<h2>识别与交互</h2>
+				<p>
+					被成功隐藏的消息上方会出现一个 <span class="icon-example"><i class="fa-solid fa-ghost"></i></span> 幽灵图标，作为清晰的标识。
+				</p>
+				<p>
+					<span class="important">重要提示：</span> 被隐藏的消息 <strong>不会</strong> 被包含在发送给AI的上下文中。这意味着AI无法“看到”这些内容，这对于控制上下文长度和引导对话非常有帮助。
+				</p>
+			</div>
+		</div>`;
 
-            <h2>启用与禁用插件</h2>
-            <p>
-                如果需要暂时停用或重新启用本插件的功能，可以前往“酒馆”主界面的插件管理页面，在那里找到“隐藏助手”并进行启用或禁用操作。
-            </p>
-
-            <h2>问题与反馈</h2>
-            <p>
-                如果在使用过程中遇到任何问题、发现任何 Bug，或者有任何功能上的建议，都非常欢迎随时反馈！感谢大家的支持！
-            </p>
-        </div>
-    </div>`;
-    
     // 添加到body
     $('body').append(instructionsHtml);
-    
+
     // 获取弹窗元素
     const $popup = $('#hide-helper-instructions-popup');
-    
-    $popup.css({
-        'display': 'flex', // 使用flex布局
-        'visibility': 'visible',
-        'position': 'fixed',
-        'left': '50%',
-        'top': '20%', // 固定在顶部10%位置
-        'transform': 'translateX(-50%)',
-        'max-height': '80vh'
-    });
-    
+
+    // 使用 flex 布局显示弹窗
+    $popup.css('display', 'flex');
+
+    // 立即居中
+    centerPopup($popup);
+
+    // 绑定 resize 事件
+    $(window).on('resize.hideHelperInstructions', () => centerPopup($popup));
+
     // 添加关闭按钮事件
     $('#hide-helper-instructions-close').on('click', function() {
         $popup.remove();
+        // 关闭时解绑对应的 resize 事件
+        $(window).off('resize.hideHelperInstructions');
     });
-    
+
     console.log(`[${extensionName}] Instructions popup displayed.`);
 }
 
@@ -862,32 +887,31 @@ function setupEventListeners() {
         updateCurrentHideSettingsDisplay();
 
         const $popup = $('#hide-helper-popup');
-        console.log(`[${extensionName}] Wand button: Displaying popup.`);
-        $popup.css({
-            'display': 'block', 'visibility': 'hidden', 'position': 'fixed',
-            'left': '50%', 'transform': 'translateX(-50%)'
-        });
-        setTimeout(() => {
-            console.debug(`[${extensionName} DEBUG] Wand button: Calculating popup position.`);
-            const popupHeight = $popup.outerHeight();
-            const windowHeight = $(window).height();
-            const topPosition = Math.max(10, Math.min((windowHeight - popupHeight) / 2, windowHeight - popupHeight - 50));
-             console.debug(`[${extensionName} DEBUG] Wand button: Calculated topPosition: ${topPosition}px. Making popup visible.`);
-            $popup.css({ 'top': topPosition + 'px', 'visibility': 'visible' });
-        }, 0);
+
+        // 直接显示弹窗
+        $popup.show();
+
+        // 立即执行一次居中
+        centerPopup($popup);
+
+        // 绑定窗口大小调整事件，以便动态重新居中
+        // 使用命名空间 .hideHelperMain 以便精确解绑
+        $(window).off('resize.hideHelperMain').on('resize.hideHelperMain', () => centerPopup($popup));
     });
 
     // 弹出框关闭按钮事件
-    console.log(`[${extensionName}] Setting up click listener for #hide-helper-popup-close.`);
-    $('#hide-helper-popup-close').on('click', function() {
-        console.log(`[${extensionName}] Popup close button clicked.`);
+    console.log(`[${extensionName}] Setting up click listener for #hide-helper-popup-close-icon.`);
+    $('#hide-helper-popup-close-icon').on('click', function() {
+        console.log(`[${extensionName}] Popup close icon clicked.`);
         $('#hide-helper-popup').hide();
+        // 解绑主弹窗的 resize 事件
+        $(window).off('resize.hideHelperMain');
     });
 
-    // 使用说明按钮事件
-    console.log(`[${extensionName}] Setting up click listener for #hide-helper-instructions-btn.`);
-    $('#hide-helper-instructions-btn').on('click', function() {
-        console.log(`[${extensionName}] Instructions button clicked.`);
+    // 弹窗标题（使用说明）点击事件
+    console.log(`[${extensionName}] Setting up click listener for .hide-helper-popup-title.`);
+    $(document).on('click', '.hide-helper-popup-title', function() {
+        console.log(`[${extensionName}] Popup title (instructions link) clicked.`);
         showInstructions();
     });
 
@@ -912,32 +936,26 @@ function setupEventListeners() {
         }
     });
 
-    // 添加设置类型切换事件
-    console.log(`[${extensionName}] Setting up change listener for #hide-settings-type.`);
-    $('#hide-settings-type-btn').on('click', function() {
-        const $btn = $(this);
-        // 检查当前模式并切换
-        const currentMode = extension_settings[extensionName]?.useGlobalSettings;
-        const newMode = !currentMode;
-        
+    // 设置模式切换事件
+    console.log(`[${extensionName}] Setting up change listener for #hide-mode-toggle.`);
+    $('#hide-mode-toggle').on('change', function() {
+        const newMode = $(this).is(':checked'); // true for global, false for chat
+
         if (extension_settings[extensionName]) {
             // 如果之前未定义，确保初始化全局设置
             if (!extension_settings[extensionName].globalHideSettings) {
                 extension_settings[extensionName].globalHideSettings = { ...defaultSettings.globalHideSettings };
             }
-            
+
             extension_settings[extensionName].useGlobalSettings = newMode;
-            
-            console.log(`[${extensionName}] Settings type changed from ${currentMode ? 'global' : 'chat'} to ${newMode ? 'global' : 'chat'}`);
+
+            console.log(`[${extensionName}] Settings mode changed to ${newMode ? 'global' : 'chat'}`);
             saveSettingsDebounced();
-            
-            // 更新按钮文本
-            $btn.text(newMode ? '全局模式' : '聊天模式');
-            
+
             // 更新显示并运行检查
             updateCurrentHideSettingsDisplay();
             runFullHideCheckDebounced();
-            
+
             toastr.info(`已切换到${newMode ? '全局' : '聊天'}设置模式`);
         }
     });
@@ -1104,10 +1122,6 @@ jQuery(async () => {
         // 3. 更新初始 UI 状态
         console.log(`[${extensionName}] 初始设置: 设置全局开关显示。`); // 中文日志
         $('#hide-helper-toggle').val(extension_settings[extensionName]?.enabled ? 'enabled' : 'disabled');
-        
-        // 设置初始设置类型下拉框状态
-        console.log(`[${extensionName}] 初始设置: 设置设置类型下拉框显示。`); // 中文日志
-        $('#hide-settings-type-btn').text(extension_settings[extensionName]?.useGlobalSettings ? '全局模式' : '聊天模式');
 
         console.log(`[${extensionName}] 初始设置: 更新当前隐藏设置显示。`); // 中文日志
         updateCurrentHideSettingsDisplay();
