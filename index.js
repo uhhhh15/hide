@@ -1,7 +1,7 @@
 // index.js (使用 extension_settings 存储并包含自动迁移，优化了初始化)
 import { extension_settings, loadExtensionSettings, getContext } from "../../../extensions.js";
 // 尝试导入全局列表，路径可能需要调整！如果导入失败，迁移逻辑需要改用 API 调用
-import { saveSettingsDebounced, eventSource, event_types, getRequestHeaders, characters } from "../../../../script.js";
+import { saveSettingsDebounced, eventSource, event_types, getRequestHeaders, characters, scrollChatToBottom } from "../../../../script.js";
 
 import { groups } from "../../../group-chats.js";
 
@@ -19,7 +19,10 @@ const defaultSettings = {
         hideLastN: 0,
         lastProcessedLength: 0,
         userConfigured: false
-    }
+    },
+    // --- 新增: Limiter 设置 ---
+    limiter_isEnabled: false,
+    limiter_messageLimit: 20,
 };
 
 // 缓存上下文
@@ -75,8 +78,8 @@ function getContextOptimized() {
     console.debug(`[${extensionName} DEBUG] Entering getContextOptimized.`);
     if (!cachedContext) {
         console.debug(`[${extensionName} DEBUG] Context cache miss. Calling getContext().`);
-        cachedContext = getContext();
-        console.debug(`[${extensionName} DEBUG] Context fetched:`, cachedContext ? `CharacterId: ${cachedContext.characterId}, GroupId: ${cachedContext.groupId}, Chat Length: ${cachedContext.chat?.length}` : 'null');
+        cachedContext = getContext(); // getContext returns a rich object
+        console.debug(`[${extensionName} DEBUG] Context fetched.`);
     } else {
         console.debug(`[${extensionName} DEBUG] Context cache hit.`);
     }
@@ -246,15 +249,12 @@ function loadSettings() {
 
     // 使用 Object.assign 合并默认值，确保所有顶级键都存在
     Object.assign(extension_settings[extensionName], {
-        enabled: extension_settings[extensionName].hasOwnProperty('enabled') ? extension_settings[extensionName].enabled : defaultSettings.enabled,
-        settings_by_entity: extension_settings[extensionName].settings_by_entity || { ...defaultSettings.settings_by_entity },
-        migration_v1_complete: extension_settings[extensionName].migration_v1_complete || defaultSettings.migration_v1_complete,
-        // 添加全局设置相关字段
-        useGlobalSettings: extension_settings[extensionName].hasOwnProperty('useGlobalSettings') 
-            ? extension_settings[extensionName].useGlobalSettings 
-            : defaultSettings.useGlobalSettings,
-        globalHideSettings: extension_settings[extensionName].globalHideSettings || { ...defaultSettings.globalHideSettings }
+        ...defaultSettings, // 先用默认值填充所有
+        ...extension_settings[extensionName] // 然后用保存的值覆盖
     });
+    // 确保深层对象也被正确初始化
+    extension_settings[extensionName].globalHideSettings = extension_settings[extensionName].globalHideSettings || { ...defaultSettings.globalHideSettings };
+    extension_settings[extensionName].settings_by_entity = extension_settings[extensionName].settings_by_entity || { ...defaultSettings.settings_by_entity };
 
     // --- 检查并运行迁移 ---
     if (!extension_settings[extensionName].migration_v1_complete) {
@@ -324,44 +324,127 @@ function createInputWandButton() {
     console.log(`[${extensionName}] Exiting createInputWandButton.`);
 }
 
+// index.js (部分)
+
 // 创建弹出对话框
 function createPopup() {
     console.log(`[${extensionName}] Entering createPopup.`);
     const popupHtml = `
         <div id="hide-helper-popup" class="hide-helper-popup">
             <button id="hide-helper-popup-close-icon" class="hide-helper-popup-close-icon">&times;</button>
-            <div class="hide-helper-popup-title">
-                <span>查看使用说明</span>
+
+            <!-- 标签页导航 -->
+            <div class="popup-tabs-nav">
+                <button class="tab-button active" data-tab="hide-panel">隐藏楼层</button>
+                <button class="tab-button" data-tab="limiter-panel">限制楼层</button>
+                <button class="tab-button" data-tab="instructions-panel">使用说明</button>
             </div>
 
-            <div class="hide-helper-section">
-                <label for="hide-last-n" class="hide-helper-label"></label>
-                <input type="number" id="hide-last-n" min="0" placeholder="隐藏最新N楼之前的消息">
-            </div>
-
-            <div class="hide-helper-current">
-                <strong>当前保留楼层数:</strong>
-                <span id="hide-current-value">无</span>
-            </div>
-
-            <div class="hide-helper-mode-switch">
-                <div class="label-group">
-                    <span id="hide-mode-label">全局模式</span>
-                    <span id="hide-mode-description">设置将应用于所有聊天</span>
+            <!-- 标签页内容 -->
+            <div class="popup-tabs-content">
+                <!-- 面板1: 隐藏楼层 -->
+                <div id="hide-panel" class="tab-panel active" data-tab="hide-panel">
+                    <div class="hide-helper-section">
+                        <label for="hide-last-n" class="hide-helper-label">保留最新的N条消息，并隐藏其余旧楼层</label>
+                        <input type="number" id="hide-last-n" min="0" placeholder="例如: 10">
+                    </div>
+                    <div class="hide-helper-current">
+                        <strong>当前保留楼层数:</strong>
+                        <span id="hide-current-value">无</span>
+                    </div>
+                    <div class="hide-helper-mode-switch">
+                        <div class="label-group">
+                            <span id="hide-mode-label">全局模式</span>
+                            <span id="hide-mode-description">设置将应用于所有聊天</span>
+                        </div>
+                        <label class="hide-helper-switch">
+                            <input type="checkbox" id="hide-mode-toggle">
+                            <span class="hide-helper-slider"></span>
+                        </label>
+                    </div>
+                    <div class="hide-helper-popup-footer">
+                        <button id="hide-save-settings-btn" class="hide-helper-btn">
+                            <i class="fa-solid fa-save"></i> 保存设置
+                        </button>
+                        <button id="hide-unhide-all-btn" class="hide-helper-btn">
+                            <i class="fa-solid fa-eye"></i> 取消隐藏
+                        </button>
+                    </div>
                 </div>
-                <label class="hide-helper-switch">
-                    <input type="checkbox" id="hide-mode-toggle">
-                    <span class="hide-helper-slider"></span>
-                </label>
-            </div>
 
-            <div class="hide-helper-popup-footer">
-                <button id="hide-save-settings-btn" class="hide-helper-btn">
-                    <i class="fa-solid fa-save"></i> 保存设置
-                </button>
-                <button id="hide-unhide-all-btn" class="hide-helper-btn">
-                    <i class="fa-solid fa-eye"></i> 取消隐藏
-                </button>
+                <!-- 面板2: 限制楼层 -->
+                <div id="limiter-panel" class="tab-panel" data-tab="limiter-panel">
+                    <div class="limiter-setting-item">
+                        <label for="limiter-enabled">启用消息楼层限制</label>
+                        <div class="hide-helper-checkbox-container">
+                            <input id="limiter-enabled" type="checkbox">
+                            <label for="limiter-enabled"></label>
+                        </div>
+                    </div>
+                    <div class="limiter-setting-item">
+                        <label for="limiter-count">仅显示最新的消息楼层数量</label>
+                        <input id="limiter-count" type="number" class="text_pole" min="1" max="500" placeholder="例如: 20">
+                    </div>
+                    <div class="limiter-description">
+                        该功能会实时动态限制聊天界面加载的消息楼层数量，以减少酒馆卡顿，提高流畅度。没有加载（且也为被隐藏）的楼层消息依然会被当做上下文发送给AI。
+                    </div>
+                </div>
+
+                <!-- 面板3: 使用说明 -->
+                <div id="instructions-panel" class="tab-panel" data-tab="instructions-panel">
+                    <div id="hide-helper-instructions-content" class="hide-helper-instructions-content">
+                        
+                        <video class="instructions-video" controls muted loop playsinline>
+                            <source src="https://files.catbox.moe/wmv5bd.mp4" type="video/mp4">
+                            您的浏览器不支持 Video 标签。
+                        </video>
+
+                        <h2>核心功能协同与区别</h2>
+                        <p><strong>隐藏楼层</strong> 和 <strong>限制楼层</strong> 是两个可以独立配置并协同工作的功能，用于解决不同问题（可搭配使用）：</p>
+                        <ul>
+                            <li><strong>隐藏楼层（节省tokens）:</strong> 此功能通过会将消息进行隐藏，被隐藏的消息会出现👻幽灵图标。被隐藏的消息<strong>不会</strong>被发送给AI。</li>
+                            <li><strong>限制楼层（提高流畅度）:</strong> 此功能不修改任何数据，它仅仅是<strong>视觉上</strong>限制了聊天界面加载和显示的消息楼层数量。所有未被隐藏的消息依然会被发送给AI，只是没有在前端被渲染出来，这可以极大提升超长对话的性能、减少酒馆卡顿。</li>
+                            <li><strong>注意 :</strong>“隐藏”这个词在酒馆中是指：出现幽灵图标👻的消息。这种消息不会当做上下文发送给AI。而没有加载的消息，仅仅是聊天界面没有加载，不代表它不被发送给AI。是否发送给AI，要看它是否被隐藏，而不是看它是否显示在聊天界面中。</li>
+                        </ul>
+
+                        <h2>隐藏楼层 (功能一)</h2>
+                        <p>
+                           此功能的核心是：在每次与AI交互时，仅发送最新的N条消息作为上下文，并自动隐藏其余的旧消息。
+                        </p>
+                        <p>
+                            在输入框中填入您想 <strong>保留的最新消息数量</strong> (例如 <code>4</code>)，然后点击 <span class="button-like">保存设置</span> 按钮。插件便会立即生效，隐藏设定范围之外的所有内容。
+                        </p>
+                        <p>
+                            <strong>示例：</strong> 假设当前聊天共有10条消息。您输入 <code>4</code> 并保存，则最新的4条消息会正常显示并发送给AI，而之前的6条消息将被隐藏。当您或AI发送新消息后，插件会自动调整，确保始终只有最新的4条消息是可见的。
+                        </p>
+                        <h3>全局模式 vs 角色模式</h3>
+                        <p>
+                            您可以通过弹窗中的 <strong>拨动开关</strong> 在两种模式间轻松切换：
+                            <ul>
+                                <li><strong>全局模式：</strong> 在此模式下，您设置的保留数量将应用于 <strong>所有</strong> 角色卡和群聊。一次设置，处处生效。</li>
+                                <li><strong>角色模式：</strong> 在此模式下，设置将 <strong>仅</strong> 绑定到当前聊天。您可以为每个角色或群聊设定并保存一个独立的保留数量。</li>
+                            </ul>
+                        </p>
+                         <h3>取消隐藏</h3>
+                         <p>
+                            点击 <span class="button-like">取消隐藏</span> 按钮后，插件会立刻将当前模式（全局或角色）的隐藏设置重置为0，此时所有被隐藏的楼层都会重新显示。
+                        </p>
+                        <p class="important">
+                            <i class="fa-solid fa-circle-info"></i> 被隐藏的消息 <strong>不会</strong> 被包含在发送给AI的上下文中。这意味着AI无法"看到"这些内容，这对于控制上下文长度和引导对话非常有帮助。
+                        </p>
+
+                        <h2>限制楼层 (功能2)</h2>
+                        <p>
+                            此功能旨在优化超长对话的浏览体验。它只影响您在聊天窗口中<strong>【显示】</strong>的消息数量，而不会修改任何聊天数据或影响发送给AI的上下文。
+                        </p>
+                        <p>
+                           <strong>示例：</strong> 您设置只<strong>显示</strong>最新的 <code>20</code> 条消息。即使您的完整对话有1000条，聊天窗口也只会加载并显示最后20条，让界面保持清爽和流畅。
+                        </p>
+                        <p>
+                           要使用此功能，请打开<strong>【启用消息数量限制】</strong>的开关，并在下方的输入框中填入您希望显示的消息数量即可。
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>`;
     console.log(`[${extensionName}] Appending popup HTML to body.`);
@@ -435,43 +518,160 @@ function saveCurrentHideSettings(hideLastN) {
     return true;
 }
 
+/**
+ * Limiter: 核心功能：应用消息数量限制。
+ */
+function limiter_applyLimit() {
+    const settings = extension_settings[extensionName];
+    if (!settings.limiter_isEnabled) {
+        // 如果插件被禁用，但当前视图是受限的，需要重新加载以恢复完整视图
+        if ($('#chat').attr('data-limiter-active')) {
+            // SillyTavern's reloadCurrentChat() is often too slow or buggy,
+            // a full hide check can restore the view more reliably.
+            runFullHideCheck();
+            $('#chat').removeAttr('data-limiter-active');
+        }
+        return;
+    }
+
+    // 给聊天窗口添加一个标记，表示它当前是受限视图
+    $('#chat').attr('data-limiter-active', 'true');
+
+    if ($('#chat .edit_textarea').length > 0) {
+        console.log("[Hide Helper / Limiter] 用户正在编辑消息，已取消重绘。");
+        return;
+    }
+
+    const limit = settings.limiter_messageLimit;
+    if (limit <= 0) return;
+
+    // 【修正1】: 不再解构 refreshSwipeButtons，而是获取包含它的 swipe 对象
+    const { chat, clearChat, addOneMessage, swipe } = getContextOptimized();
+    if (!chat || !clearChat || !addOneMessage || !swipe) {
+        console.error("[Hide Helper / Limiter] Context functions not available.");
+        return;
+    }
+
+    clearChat();
+
+    const messagesToDisplay = chat.slice(-limit);
+
+    messagesToDisplay.forEach(message => {
+        const originalIndex = chat.indexOf(message);
+        addOneMessage(message, {
+            scroll: false,
+            forceId: originalIndex
+        });
+    });
+
+    // 通过 swipe.refresh() 正确调用函数
+    swipe.refresh();
+
+    // 实施健壮的延迟滚动逻辑，解决刷新和调整时的滚动问题
+    setTimeout(() => {
+        const images = $('#chat .mes img');
+        const imageCount = images.length;
+
+        if (imageCount === 0) {
+            // 如果没有图片，直接滚动到底部
+            scrollChatToBottom();
+        } else {
+            // 如果有图片，则等待所有图片加载完成后再滚动
+            let loadedCount = 0;
+            const onImageSettled = () => {
+                loadedCount++;
+                if (loadedCount >= imageCount) {
+                    scrollChatToBottom();
+                }
+            };
+
+            images.each(function() {
+                // 对于已经加载完成（如从缓存读取）的图片，浏览器可能不会再次触发 'load' 事件
+                if (this.complete) {
+                    onImageSettled();
+                } else {
+                    // 监听 load 和 error 事件，确保无论成功或失败都会触发回调
+                    $(this).on('load', onImageSettled).on('error', onImageSettled);
+                }
+            });
+        }
+    }, 0);
+
+    $('#show_more_messages').remove();
+}
+
+/**
+ * Limiter: 处理新消息的增量更新
+ */
+function limiter_handleNewMessage() {
+    const settings = extension_settings[extensionName];
+    if (!settings.limiter_isEnabled) return;
+
+    setTimeout(() => {
+        const limit = settings.limiter_messageLimit;
+        const messageElements = $('#chat .mes');
+
+        if (messageElements.length > limit) {
+            messageElements.first().remove();
+        }
+    }, 0);
+}
+
+/**
+ * Limiter: 处理消息删除后的视图补充
+ */
+function limiter_handleDeletedMessage() {
+    const settings = extension_settings[extensionName];
+    if (!settings.limiter_isEnabled) return;
+
+    setTimeout(() => {
+        const limit = settings.limiter_messageLimit;
+        const messageElements = $('#chat .mes');
+        const currentCount = messageElements.length;
+
+        const { chat, addOneMessage } = getContextOptimized();
+         if (!chat || !addOneMessage) return;
+
+        if (currentCount < limit && chat.length > currentCount) {
+            const oldestMesId = parseInt(messageElements.first().attr('mesid'));
+            const messageToAddIndex = oldestMesId - 1;
+
+            if (messageToAddIndex >= 0 && chat[messageToAddIndex]) {
+                addOneMessage(chat[messageToAddIndex], {
+                    scroll: false,
+                    forceId: messageToAddIndex,
+                    insertBefore: oldestMesId
+                });
+            }
+        }
+    }, 0);
+}
 
 // 更新当前设置显示
 function updateCurrentHideSettingsDisplay() {
     console.debug(`[${extensionName} DEBUG] Entering updateCurrentHideSettingsDisplay.`);
-    const currentSettings = getCurrentHideSettings();
-    console.debug(`[${extensionName} DEBUG] updateCurrentHideSettingsDisplay: Read settings:`, currentSettings);
 
-    if (!domCache.currentValueDisplay) {
-        console.debug(`[${extensionName} DEBUG] updateCurrentHideSettingsDisplay: DOM cache for currentValueDisplay not ready, initializing.`);
-        domCache.init();
-        if (!domCache.currentValueDisplay) {
-            console.warn(`[${extensionName} DEBUG] updateCurrentHideSettingsDisplay: currentValueDisplay element still not found after init. Aborting update.`);
-            return;
-        }
+    // --- 更新 Hide 面板 ---
+    const currentHideSettings = getCurrentHideSettings();
+    console.debug(`[${extensionName} DEBUG] updateCurrentHideSettingsDisplay (Hide): Read settings:`, currentHideSettings);
+
+    if (domCache.currentValueDisplay) {
+        const displayValue = (currentHideSettings && currentHideSettings.hideLastN > 0) ? currentHideSettings.hideLastN : '所有楼层均不隐藏';
+        domCache.currentValueDisplay.textContent = displayValue;
     }
-
-    // 更新当前隐藏值
-    const displayValue = (currentSettings && currentSettings.hideLastN > 0) ? currentSettings.hideLastN : '所有楼层均不隐藏';
-    domCache.currentValueDisplay.textContent = displayValue;
-
-    // 更新输入框的值
     if (domCache.hideLastNInput) {
-        const inputValue = currentSettings?.hideLastN > 0 ? currentSettings.hideLastN : '';
+        const inputValue = currentHideSettings?.hideLastN > 0 ? currentHideSettings.hideLastN : '';
         domCache.hideLastNInput.value = inputValue;
     }
-
-    // 更新模式切换开关的状态和文本
     const useGlobal = extension_settings[extensionName]?.useGlobalSettings || false;
     $('#hide-mode-toggle').prop('checked', useGlobal);
+    $('#hide-mode-label').text(useGlobal ? '全局模式' : '角色模式');
+    $('#hide-mode-description').text(useGlobal ? '隐藏将应用于所有角色卡' : '隐藏仅对当前角色卡生效');
 
-    if (useGlobal) {
-        $('#hide-mode-label').text('全局模式');
-        $('#hide-mode-description').text('隐藏将应用于所有角色卡');
-    } else {
-        $('#hide-mode-label').text('角色模式');
-        $('#hide-mode-description').text('隐藏仅对当前角色卡生效');
-    }
+    // --- 更新 Limiter 面板 ---
+    const settings = extension_settings[extensionName];
+    $('#limiter-enabled').prop('checked', settings.limiter_isEnabled);
+    $('#limiter-count').val(settings.limiter_messageLimit);
 
     console.debug(`[${extensionName} DEBUG] Exiting updateCurrentHideSettingsDisplay.`);
 }
@@ -490,93 +690,6 @@ function debounce(fn, delay) {
     };
 }
 
-// 显示使用说明弹窗
-function showInstructions() {
-    console.log(`[${extensionName}] Showing instructions popup.`);
-
-    // 如果已有旧的弹窗，先移除，并解绑可能残留的事件
-    $('#hide-helper-instructions-popup').remove();
-    $(window).off('resize.hideHelperInstructions');
-
-    // 创建说明弹窗HTML (HTML内容不变)
-	const instructionsHtml = `
-		<div id="hide-helper-instructions-popup" class="hide-helper-instructions-popup">
-			<div class="hide-helper-instructions-header">
-				<span class="hide-helper-instructions-title">隐藏助手 - 使用说明</span>
-				<button id="hide-helper-instructions-close" class="hide-helper-instructions-close-btn">&times;</button>
-			</div>
-			<div class="hide-helper-instructions-content">
-				<h2>核心功能</h2>
-				<p>
-					本插件的核心功能是： 在每次与AI交互时，仅发送最新的N条消息，并自动隐藏其余的旧消息。您也可以为不同的角色/群聊设置不同的保留数量，也可以使用一个全局设置统一管理。
-				</p>
-				<p>
-					在弹窗的输入框中填入您想 <strong>保留的最新消息数量</strong> (例如 <code>4</code>)，然后点击 <strong class="button-like">保存设置</strong> 按钮。插件便会立即生效，只保留最新的4条消息，并隐藏此前的所有内容。
-				</p>
-				<p>
-					<strong>示例：</strong> 假设当前聊天共有10条消息。
-					<ul>
-						<li>您在输入框中输入 <code>4</code> 并保存。</li>
-						<li>结果：最新的4条消息（第6到9楼）会正常显示并发送给AI。</li>
-						<li>之前的所有消息（第0到5楼）将被自动隐藏。</li>
-						<li>当您或AI发送新消息后，插件会自动调整，确保始终只有最新的4条消息是可见的。</li>
-					</ul>
-				</p>
-
-				<h2>全局模式 vs 角色模式</h2>
-				<p>
-					插件提供两种隐藏模式，以满足不同需求：
-					<ul>
-						<li><strong>全局模式：</strong> 在此模式下，您设置的保留数量将应用于 <strong>所有</strong> 角色卡和群聊。一次设置，处处生效。</li>
-						<li><strong>角色模式：</strong> 在此模式下，设置将 <strong>仅</strong> 绑定到当前聊天。您可以为每个角色或群聊设定并保存一个独立的保留数量。</li>
-					</ul>
-				</p>
-				<p>
-					您可以通过弹窗中的 <strong>拨动开关</strong> 在这两种模式间轻松切换。开关下方会有文字提示当前处于哪种模式，一目了然。
-				</p>
-				<p>
-					<strong>请注意：</strong> 无论在哪种模式下，<strong class="button-like">当前保留楼层数</strong> 显示的都是对当前聊天生效的数值。
-				</p>
-
-				<h2>取消隐藏</h2>
-				 <p>
-					点击 <strong class="button-like">取消隐藏</strong> 按钮后，隐藏助手会立刻将当前模式（全局或角色）的隐藏设置重置为无，此时所有隐藏的楼层消息都会被取消隐藏。
-				</p>
-				
-				<h2>识别与交互</h2>
-				<p>
-					被成功隐藏的消息上方会出现一个 <span class="icon-example"><i class="fa-solid fa-ghost"></i></span> 幽灵图标，作为清晰的标识。
-				</p>
-				<p>
-					<span class="important">重要提示：</span> 被隐藏的消息 <strong>不会</strong> 被包含在发送给AI的上下文中。这意味着AI无法“看到”这些内容，这对于控制上下文长度和引导对话非常有帮助。
-				</p>
-			</div>
-		</div>`;
-
-    // 添加到body
-    $('body').append(instructionsHtml);
-
-    // 获取弹窗元素
-    const $popup = $('#hide-helper-instructions-popup');
-
-    // 使用 flex 布局显示弹窗
-    $popup.css('display', 'flex');
-
-    // 立即居中
-    centerPopup($popup);
-
-    // 绑定 resize 事件
-    $(window).on('resize.hideHelperInstructions', () => centerPopup($popup));
-
-    // 添加关闭按钮事件
-    $('#hide-helper-instructions-close').on('click', function() {
-        $popup.remove();
-        // 关闭时解绑对应的 resize 事件
-        $(window).off('resize.hideHelperInstructions');
-    });
-
-    console.log(`[${extensionName}] Instructions popup displayed.`);
-}
 
 // 防抖版本的全量检查
 const runFullHideCheckDebounced = debounce(runFullHideCheck, 200);
@@ -874,8 +987,56 @@ async function unhideAllMessages() {
 function setupEventListeners() {
     console.log(`[${extensionName}] Entering setupEventListeners.`);
 
-    // 弹出对话框按钮事件
-    console.log(`[${extensionName}] Setting up click listener for #hide-helper-wand-button.`);
+    // --- 新增：为"使用说明"面板初始化自定义滚动条 ---
+    try {
+        const instructionsPanel = document.getElementById('instructions-panel');
+        const contentContainer = document.getElementById('hide-helper-instructions-content');
+
+        if (instructionsPanel && contentContainer) {
+            const scrollbar = document.createElement('div');
+            // 使用在 CSS 中定义的、唯一的类名
+            scrollbar.className = 'k-scrollerbar-instructions';
+            instructionsPanel.prepend(scrollbar);
+
+            let scrollTimeout;
+            const handleScroll = () => {
+                // 1. 让滚动条可见
+                scrollbar.style.opacity = '1';
+
+                // 2. 获取必要的测量值
+                const { scrollHeight, clientHeight, scrollTop } = contentContainer;
+                // 修改：滚动条轨道的最大高度基于内容容器高度加上偏移量
+                const trackHeight = contentContainer.clientHeight + 34;
+                const totalScrollableDistance = scrollHeight - clientHeight;
+
+                if (totalScrollableDistance <= 0) {
+                    scrollbar.style.height = '0px';
+                    return;
+                }
+
+                // 3. 计算滚动进度 (0 到 1)
+                const scrollProgress = scrollTop / totalScrollableDistance;
+
+                // 4. 计算滚动条的新高度
+                const barHeight = trackHeight * scrollProgress;
+                scrollbar.style.height = `${barHeight}px`;
+
+                // 5. 设置计时器，在滚动停止0.75秒后隐藏滚动条
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    scrollbar.style.opacity = '0';
+                }, 750); // 修改：延迟时间从 1500ms 减少到 750ms
+            };
+
+            contentContainer.addEventListener('scroll', handleScroll);
+        }
+    } catch (error) {
+        console.error(`[${extensionName}] Error initializing custom scrollbar for instructions panel:`, error);
+    }
+    // --- 滚动条逻辑结束 ---
+
+    // --- 弹窗和标签页交互 ---
+
     $('#hide-helper-wand-button').on('click', function() {
         console.log(`[${extensionName}] Wand button clicked.`);
         if (!extension_settings[extensionName]?.enabled) {
@@ -887,36 +1048,27 @@ function setupEventListeners() {
         updateCurrentHideSettingsDisplay();
 
         const $popup = $('#hide-helper-popup');
-
-        // 直接显示弹窗
         $popup.show();
-
-        // 立即执行一次居中
         centerPopup($popup);
-
-        // 绑定窗口大小调整事件，以便动态重新居中
-        // 使用命名空间 .hideHelperMain 以便精确解绑
         $(window).off('resize.hideHelperMain').on('resize.hideHelperMain', () => centerPopup($popup));
     });
 
-    // 弹出框关闭按钮事件
-    console.log(`[${extensionName}] Setting up click listener for #hide-helper-popup-close-icon.`);
     $('#hide-helper-popup-close-icon').on('click', function() {
         console.log(`[${extensionName}] Popup close icon clicked.`);
         $('#hide-helper-popup').hide();
-        // 解绑主弹窗的 resize 事件
         $(window).off('resize.hideHelperMain');
     });
 
-    // 弹窗标题（使用说明）点击事件
-    console.log(`[${extensionName}] Setting up click listener for .hide-helper-popup-title.`);
-    $(document).on('click', '.hide-helper-popup-title', function() {
-        console.log(`[${extensionName}] Popup title (instructions link) clicked.`);
-        showInstructions();
+    // 新增: 标签页切换逻辑
+    $(document).on('click', '.tab-button', function() {
+        const targetTab = $(this).data('tab');
+        $('.tab-button').removeClass('active');
+        $(this).addClass('active');
+        $('.tab-panel').removeClass('active');
+        $(`.tab-panel[data-tab="${targetTab}"]`).addClass('active');
     });
 
-    // 全局启用/禁用切换事件
-    console.log(`[${extensionName}] Setting up change listener for #hide-helper-toggle.`);
+    // --- 全局插件开关 ---
     $('#hide-helper-toggle').on('change', function() {
         const isEnabled = $(this).val() === 'enabled';
         console.log(`[${extensionName}] Global toggle changed. New state: ${isEnabled ? 'enabled' : 'disabled'}`);
@@ -936,31 +1088,25 @@ function setupEventListeners() {
         }
     });
 
-    // 设置模式切换事件
-    console.log(`[${extensionName}] Setting up change listener for #hide-mode-toggle.`);
+    // --- 面板1: Hide 设置 ---
+
     $('#hide-mode-toggle').on('change', function() {
-        const newMode = $(this).is(':checked'); // true for global, false for chat
+        const newMode = $(this).is(':checked');
 
         if (extension_settings[extensionName]) {
-            // 如果之前未定义，确保初始化全局设置
             if (!extension_settings[extensionName].globalHideSettings) {
                 extension_settings[extensionName].globalHideSettings = { ...defaultSettings.globalHideSettings };
             }
 
             extension_settings[extensionName].useGlobalSettings = newMode;
-
             console.log(`[${extensionName}] Settings mode changed to ${newMode ? 'global' : 'chat'}`);
             saveSettingsDebounced();
-
-            // 更新显示并运行检查
             updateCurrentHideSettingsDisplay();
             runFullHideCheckDebounced();
-
             toastr.info(`已切换到${newMode ? '全局' : '聊天'}设置模式`);
         }
     });
 
-    // 输入框输入事件
     const hideLastNInput = document.getElementById('hide-last-n');
     if (hideLastNInput) {
         console.log(`[${extensionName}] Setting up input listener for #hide-last-n.`);
@@ -972,15 +1118,13 @@ function setupEventListeners() {
                  e.target.value = '';
             } else {
                  console.debug(`[${extensionName} DEBUG] Input valid. Keeping value: ${value}`);
-                 e.target.value = value; // 保持合法数字
+                 e.target.value = value;
             }
         });
     } else {
         console.warn(`[${extensionName}] Could not find #hide-last-n input element to attach listener.`);
     }
 
-    // 保存设置按钮事件
-    console.log(`[${extensionName}] Setting up click listener for #hide-save-settings-btn.`);
     $('#hide-save-settings-btn').on('click', function() {
         console.log(`[${extensionName}] Save settings button clicked.`);
         const value = parseInt(hideLastNInput.value);
@@ -1003,7 +1147,7 @@ function setupEventListeners() {
 
             if (success) {
                 console.log(`[${extensionName}] Save button: Save instruction issued successfully. Running full check and updating display.`);
-                runFullHideCheck(); // 直接运行检查
+                runFullHideCheck();
                 updateCurrentHideSettingsDisplay();
                 toastr.success('隐藏设置已保存');
             } else {
@@ -1018,80 +1162,80 @@ function setupEventListeners() {
         }
     });
 
-    // 全部取消隐藏按钮事件
-    console.log(`[${extensionName}] Setting up click listener for #hide-unhide-all-btn.`);
     $('#hide-unhide-all-btn').on('click', async function() {
         console.log(`[${extensionName}] Unhide all button clicked.`);
         await unhideAllMessages();
         console.log(`[${extensionName}] Unhide all process finished.`);
     });
 
-    // --- 核心事件监听 ---
+    // --- 面板2: Limiter 设置 ---
 
-    // 聊天切换事件
-    console.log(`[${extensionName}] Setting up listener for event: ${event_types.CHAT_CHANGED}`);
-    eventSource.on(event_types.CHAT_CHANGED, (data) => {
-        console.log(`[${extensionName}] Event received: ${event_types.CHAT_CHANGED}`, data);
-        console.log(`[${extensionName}] CHAT_CHANGED: Clearing context cache.`);
-        cachedContext = null;
+    function onLimiterSettingsChange() {
+        const settings = extension_settings[extensionName];
+        settings.limiter_isEnabled = $('#limiter-enabled').is(':checked');
+        settings.limiter_messageLimit = Number($('#limiter-count').val());
+        saveSettingsDebounced();
 
-        const newContext = getContextOptimized();
-        const newCharId = newContext?.characterId;
-        const newGroupId = newContext?.groupId;
-        const newEntityId = getCurrentEntityId();
-        console.log(`[${extensionName}] CHAT_CHANGED: New context info - CharacterId: ${newCharId}, GroupId: ${newGroupId}, EntityId: ${newEntityId}`);
-
-        console.log(`[${extensionName}] CHAT_CHANGED: Updating global toggle display.`);
-        $('#hide-helper-toggle').val(extension_settings[extensionName]?.enabled ? 'enabled' : 'disabled');
-
-        console.log(`[${extensionName}] CHAT_CHANGED: Updating current hide settings display for new chat/entity.`);
-        updateCurrentHideSettingsDisplay();
-
-        if (extension_settings[extensionName]?.enabled) {
-            console.log(`[${extensionName}] CHAT_CHANGED: Extension is enabled. Scheduling debounced full hide check.`);
-            runFullHideCheckDebounced();
+        // 立即应用或移除限制
+        if (settings.limiter_isEnabled) {
+            limiter_applyLimit();
         } else {
-            console.log(`[${extensionName}] CHAT_CHANGED: Extension is disabled. Skipping full hide check.`);
+            // Manually trigger a reload if limiter was active
+            if ($('#chat').attr('data-limiter-active')) {
+                $('#chat').removeAttr('data-limiter-active');
+                const { reloadCurrentChat } = getContext();
+                if (reloadCurrentChat) reloadCurrentChat();
+            }
+        }
+    }
+    $('#limiter-enabled, #limiter-count').on('change', onLimiterSettingsChange);
+
+    // --- 核心事件监听 (协同工作) ---
+
+    eventSource.on(event_types.CHAT_CHANGED, (data) => {
+        console.log(`[${extensionName}] Event received: ${event_types.CHAT_CHANGED}`);
+        cachedContext = null; // 清理缓存
+
+        updateCurrentHideSettingsDisplay(); // 更新所有UI
+
+        // 协同执行: 1. Hide数据处理 -> 2. Limiter视图渲染
+        if (extension_settings[extensionName]?.enabled) {
+            runFullHideCheck(); // 立即执行，非防抖，确保数据最新
+        }
+        if (extension_settings[extensionName]?.limiter_isEnabled) {
+            limiter_applyLimit(); // 在数据处理后，重绘视图
         }
     });
 
-    // 新消息事件
     const handleNewMessage = (eventType) => {
         console.debug(`[${extensionName} DEBUG] Event received: ${eventType}`);
         if (extension_settings[extensionName]?.enabled) {
-            console.debug(`[${extensionName} DEBUG] ${eventType}: Extension enabled. Scheduling incremental hide check.`);
             setTimeout(() => runIncrementalHideCheck(), 100);
-        } else {
-             console.debug(`[${extensionName} DEBUG] ${eventType}: Extension disabled. Skipping incremental check.`);
+        }
+        if (extension_settings[extensionName]?.limiter_isEnabled) {
+            limiter_handleNewMessage();
         }
     };
-    console.log(`[${extensionName}] Setting up listener for event: ${event_types.MESSAGE_RECEIVED}`);
     eventSource.on(event_types.MESSAGE_RECEIVED, () => handleNewMessage(event_types.MESSAGE_RECEIVED));
-    console.log(`[${extensionName}] Setting up listener for event: ${event_types.MESSAGE_SENT}`);
     eventSource.on(event_types.MESSAGE_SENT, () => handleNewMessage(event_types.MESSAGE_SENT));
 
-    // 消息删除事件
-    console.log(`[${extensionName}] Setting up listener for event: ${event_types.MESSAGE_DELETED}`);
     eventSource.on(event_types.MESSAGE_DELETED, () => {
         console.log(`[${extensionName}] Event received: ${event_types.MESSAGE_DELETED}`);
         if (extension_settings[extensionName]?.enabled) {
-            console.log(`[${extensionName}] ${event_types.MESSAGE_DELETED}: Extension enabled. Scheduling debounced full hide check.`);
             runFullHideCheckDebounced();
-        } else {
-             console.log(`[${extensionName}] ${event_types.MESSAGE_DELETED}: Extension disabled. Skipping full check.`);
+        }
+        if (extension_settings[extensionName]?.limiter_isEnabled) {
+            limiter_handleDeletedMessage();
         }
     });
 
-    // 生成结束事件
+    // 生成结束事件，确保最终一致性
     const streamEndEvent = event_types.GENERATION_ENDED;
-    console.log(`[${extensionName}] Setting up listener for event: ${streamEndEvent} (generation ended)`);
     eventSource.on(streamEndEvent, () => {
-         console.log(`[${extensionName}] Event received: ${streamEndEvent}`);
-         if (extension_settings[extensionName]?.enabled) {
-            console.log(`[${extensionName}] ${streamEndEvent}: Extension enabled. Scheduling debounced full hide check after generation end.`);
+        console.log(`[${extensionName}] Event received: ${streamEndEvent}`);
+        // 运行一个完整的检查来纠正任何增量更新中可能出现的问题
+        if (extension_settings[extensionName]?.enabled) {
             runFullHideCheckDebounced();
-        } else {
-             console.log(`[${extensionName}] ${streamEndEvent}: Extension disabled. Skipping full check.`);
         }
     });
 
