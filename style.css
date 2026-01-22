@@ -1,0 +1,575 @@
+/* --- CSS变量定义 --- */
+:root {
+    /* 强调色和危险色保持不变 */
+    --accent-color: rgba(148, 0, 211, 0.3);
+    --accent-color-hover: rgba(148, 0, 211, 1);
+    --danger-color: rgba(148, 0, 211, 0.3);
+    --danger-color-hover: #c82333;
+
+    /* 全新设计的"柔和中性"亮色主题 */
+    --background-popup: rgba(255, 255, 255, 1); /* 纯白色背景 */
+    --background-secondary: #f1f3f5;             /* 新增：用于所有次级元素（如开关、输入框、代码块）的背景，确保统一 */
+    --border-color: #dee2e6;                      /* 柔和的边框颜色 */
+    --text-primary: #343a40;                      /* 略微柔和的主文本黑色 */
+    --text-secondary: #868e96;                    /* 对比度适中的次要文本灰色 */
+    --input-bg: #ffffff;                          /* 输入框背景保持纯白以示区分 */
+    --btn-secondary-bg: var(--background-secondary); /* 次要按钮使用新的次级背景色 */
+    --btn-secondary-hover-bg: #e9ecef;            /* 次要按钮悬停时颜色加深 */
+}
+
+/* --- 入口按钮 (注入到 #data_bank_wand_container) --- */
+#hide-helper-wand-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    color: var(--text-secondary);
+}
+
+#hide-helper-wand-button:hover {
+    color: var(--text-primary);
+}
+
+#hide-helper-wand-button i {
+    font-size: 16px;
+}
+
+/* --- 弹窗通用样式 --- */
+.hide-helper-popup, .hide-helper-instructions-popup {
+    position: fixed;
+    width: 90%;
+    max-width: 420px;
+    background: var(--background-popup);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    z-index: 1001;
+    padding: 20px 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* 修改阴影 */
+    display: none; /* JS控制显示 */
+    flex-direction: column;
+    gap: 20px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* --- 弹窗标题 --- */
+#hide-helper-popup .hide-helper-popup-title {
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+    text-align: center;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+#hide-helper-popup .hide-helper-popup-title:hover,
+#hide-helper-popup .hide-helper-popup-title:hover i {
+    color: var(--accent-color);
+}
+
+/* --- 内容区域 --- */
+#hide-helper-popup .hide-helper-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#hide-helper-popup .hide-helper-label {
+    font-weight: 500;
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin: 0; /* 重置旧边距 */
+}
+
+/* --- 输入框样式 --- */
+.hide-helper-popup #hide-last-n {
+    width: 100%;
+    padding: 10px 15px !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--border-color) !important;
+    background-color: var(--input-bg) !important;
+    color: var(--text-primary) !important;
+    font-size: 16px !important;
+    height: auto !important;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hide-helper-popup #hide-last-n:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
+}
+
+/* --- 当前设置显示 --- */
+#hide-helper-popup .hide-helper-current {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 0; /* 重置旧边距 */
+}
+
+#hide-helper-popup .hide-helper-current strong {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+#hide-current-value {
+    font-weight: bold;
+    color: var(--accent-color);
+    font-size: 16px;
+    margin-left: 8px;
+}
+
+/* --- 模式切换开关 --- */
+#hide-helper-popup .hide-helper-mode-switch {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--background-secondary);
+    padding: 12px 15px;
+    border-radius: 8px;
+}
+#hide-helper-popup .hide-helper-mode-switch .label-group {
+    display: flex;
+    flex-direction: column;
+}
+#hide-helper-popup .hide-helper-mode-switch #hide-mode-label {
+     font-weight: 500;
+     font-size: 14px;
+     color: var(--text-primary);
+}
+#hide-helper-popup .hide-helper-mode-switch #hide-mode-description {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.hide-helper-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+}
+
+.hide-helper-popup .hide-helper-switch input[type="checkbox"] {
+    /* --- 强制样式重置，抵御全局 !important 样式 --- */
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    background-color: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    outline: none !important;
+    /* --- 强制隐藏 --- */
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    position: absolute !important; /* 确保完全脱离文档流 */
+}
+
+.hide-helper-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--border-color); /* 使用边框颜色作为关闭状态背景 */
+    transition: .4s;
+    border-radius: 28px;
+}
+
+.hide-helper-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .hide-helper-slider {
+    background-color: var(--accent-color);
+}
+
+input:checked + .hide-helper-slider:before {
+    transform: translateX(22px);
+}
+
+/* --- 底部按钮容器 --- */
+#hide-helper-popup .hide-helper-popup-footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 20px;
+}
+
+/* --- 按钮样式 --- */
+.hide-helper-popup .hide-helper-btn,
+.hide-helper-popup .hide-helper-close-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px !important;
+    border-radius: 8px !important;
+    border: none !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    white-space: nowrap;
+    height: auto !important;
+    min-width: 0;
+    /* 强制覆盖背景和颜色 */
+    background-color: var(--btn-secondary-bg) !important;
+    color: var(--text-primary) !important;
+}
+
+#hide-helper-popup #hide-save-settings-btn {
+    background-color: var(--accent-color) !important;
+    color: white !important;
+}
+#hide-helper-popup #hide-unhide-all-btn {
+    background-color: var(--danger-color) !important;
+    color: white !important;
+}
+
+#hide-save-settings-btn:hover {
+    background-color: var(--accent-color-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+#hide-unhide-all-btn:hover {
+    background-color: var(--danger-color-hover);
+    transform: translateY(-2px);
+}
+
+#hide-helper-popup #hide-helper-instructions-btn,
+#hide-helper-popup .hide-helper-close-btn {
+    background-color: var(--btn-secondary-bg) !important;
+    color: var(--text-primary) !important;
+}
+#hide-helper-popup #hide-helper-instructions-btn:hover,
+#hide-helper-popup .hide-helper-close-btn:hover {
+    background-color: var(--btn-secondary-hover-bg) !important;
+}
+
+/* -- 清理不再需要的旧样式 -- */
+.hide-helper-input-container, .hide-helper-input-row, .hide-helper-settings-type, .hide-helper-select {
+    /* 这些类在新布局中不再使用，保留为空或删除 */
+}
+
+/* --- 使用说明弹窗 --- */
+.hide-helper-instructions-popup {
+    max-width: 800px;
+    max-height: 80vh;
+    z-index: 1002;
+}
+.hide-helper-instructions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    background: none;
+    border-radius: 0;
+}
+.hide-helper-instructions-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+.hide-helper-instructions-close-btn {
+    background: none; border: none; color: var(--text-secondary); font-size: 28px; cursor: pointer; transition: color 0.2s ease;
+}
+.hide-helper-instructions-close-btn:hover {
+    color: var(--text-primary);
+}
+.hide-helper-instructions-content {
+    padding: 10px 25px 25px;
+    overflow-y: auto;
+    line-height: 1.7;
+    height: auto; /* 移除固定高度计算 */
+    /* --- 新增：隐藏原生滚动条 --- */
+    scrollbar-width: none; /* Firefox */
+}
+.hide-helper-instructions-content::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+}
+.hide-helper-instructions-content h2 { font-size: 18px; margin-top: 25px; margin-bottom: 15px; color: var(--text-primary); border-left: 4px solid var(--accent-color); padding-left: 10px;}
+.hide-helper-instructions-content h2:first-child { margin-top: 0; }
+.hide-helper-instructions-content p { margin-bottom: 15px; color: var(--text-secondary); }
+.hide-helper-instructions-content strong { color: var(--accent-color); font-weight: 500; }
+.hide-helper-instructions-content code { background-color: var(--background-secondary); padding: 3px 6px; border-radius: 4px; font-family: monospace; color: #c7254e;}
+.hide-helper-instructions-content ul { padding-left: 20px; }
+.hide-helper-instructions-content li { margin-bottom: 8px; color: var(--text-secondary); }
+
+/* --- 新增：弹窗右上角关闭图标 --- */
+#hide-helper-popup .hide-helper-popup-close-icon {
+    position: absolute;
+    top: 6px;
+    right: 5px;
+    width: 30px;
+    border: none;
+    background: none;
+    color: var(--text-secondary);
+    font-size: 25px;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#hide-helper-popup .hide-helper-popup-close-icon:hover {
+    color: var(--text-primary);
+    transform: rotate(90deg);
+}
+
+/* --- 新增：弹窗标签页样式 (增加 ID 前缀防止污染和被污染) --- */
+#hide-helper-popup .popup-tabs-nav {
+    display: flex !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    /* 这里的负 margin 必须与父容器的 padding 精确匹配以确保贴边 */
+    margin: -20px -25px 20px -25px !important;
+    padding: 0 15px !important;
+    background: transparent !important;
+    box-sizing: border-box !important;
+}
+
+#hide-helper-popup .tab-button {
+    /* 基础样式重置 */
+    all: unset !important;
+    box-sizing: border-box !important;
+    display: block !important;
+
+    /* 标签页具体样式 */
+    padding: 10px 20px !important;
+    cursor: pointer !important;
+    background-color: transparent !important;
+    color: var(--text-secondary) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    border-bottom: 3px solid transparent !important;
+    transition: color 0.2s ease, border-color 0.2s ease !important;
+    margin-bottom: -1px !important; /* 与导航栏底边框对齐 */
+    text-align: center !important;
+    user-select: none !important;
+}
+
+#hide-helper-popup .tab-button:hover {
+    color: var(--text-primary) !important;
+    background-color: rgba(0, 0, 0, 0.05) !important; /* 增加轻微悬停感 */
+}
+
+#hide-helper-popup .tab-button.active {
+    color: var(--accent-color) !important;
+    border-bottom-color: var(--accent-color) !important;
+}
+
+#hide-helper-popup .popup-tabs-content .tab-panel {
+    display: none !important;
+    animation: fadeIn 0.3s ease-out !important;
+    position: relative !important;
+    box-sizing: border-box !important;
+}
+
+#hide-helper-popup .popup-tabs-content .tab-panel.active {
+    display: block !important;
+}
+
+/* --- 新增：限制器面板内的设置项样式 --- */
+#hide-helper-popup .limiter-setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: var(--background-secondary);
+    border-radius: 8px;
+}
+#hide-helper-popup .limiter-setting-item label {
+    color: var(--text-secondary);
+}
+#hide-helper-popup .limiter-setting-item .text_pole {
+    max-width: 100px;
+    text-align: center;
+    /* 使用 !important 强制覆盖主应用的样式 */
+    background-color: var(--input-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+    padding: 5px 10px !important;
+    border-radius: 8px !important;
+    box-sizing: border-box;
+}
+
+#hide-helper-popup .limiter-description {
+    font-size: 13px;
+    color: var(--text-secondary);
+    padding: 10px;
+    border-radius: 8px;
+    line-height: 1.6;
+    margin-top: 15px;
+}
+
+/* --- 调整：使用说明面板的内边距 --- */
+#hide-helper-instructions-content {
+    padding: 0;
+    max-height: 40vh; /* 限制在弹窗内的高度 */
+}
+
+/* --- 新增：自定义复选框样式，强制覆盖全局样式 --- */
+#hide-helper-popup .hide-helper-checkbox-container {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#hide-helper-popup .hide-helper-checkbox-container input[type="checkbox"] {
+    /* 强制重置并隐藏原生复选框 */
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    position: absolute !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    outline: none !important;
+}
+
+#hide-helper-popup .hide-helper-checkbox-container label {
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    width: 22px; /* 定义复选框大小 */
+    height: 22px;
+    background-color: var(--input-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 4px;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* 鼠标悬停在标签上时的效果 */
+#hide-helper-popup .hide-helper-checkbox-container label:hover {
+    border-color: var(--accent-color) !important;
+}
+
+/* 创建对钩 (::before 伪元素) */
+#hide-helper-popup .hide-helper-checkbox-container label::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 3px;
+    width: 6px;
+    height: 12px;
+    border-style: solid;
+    /* 修改：对钩颜色直接使用 --accent-color */
+    border-color: var(--accent-color) !important;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    opacity: 0; /* 默认隐藏 */
+    transition: opacity 0.2s ease;
+}
+
+/* 当复选框被选中时，仅改变边框颜色以提供反馈 */
+#hide-helper-popup .hide-helper-checkbox-container input:checked + label {
+    border-color: var(--accent-color) !important; /* 修改：边框颜色变为强调色 */
+}
+
+/* 当复选框被选中时，显示对钩 */
+#hide-helper-popup .hide-helper-checkbox-container input:checked + label::before {
+    opacity: 1;
+}
+
+/* --- 新增：使用说明面板的自定义滚动条样式 --- */
+.k-scrollerbar-instructions {
+    right: -25px; /* 修改：从左侧改为右侧定位，并向外推25px以贴合弹窗边缘 */
+    top: -20px;   /* 修改：向上推20px以贴合弹窗顶部 */
+    /* 修改：滚动条颜色直接使用 --accent-color 变量 */
+    background-color: var(--accent-color);
+    border-radius: .3em;
+    position: absolute;
+    z-index: 200; /* 确保在内容之上 */
+    width: 5px;
+    height: 0;          /* 初始高度为0 */
+    opacity: 0;         /* 初始不可见 */
+    /* 为高度和透明度变化添加平滑过渡动画 */
+    transition: opacity 0.5s ease-out, height 0.1s linear;
+    pointer-events: none; /* 确保不会阻挡鼠标事件 */
+}
+
+/* --- 新增：使用说明中的特殊样式 --- */
+.hide-helper-instructions-content .button-like {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 5px;
+    background-color: var(--background-secondary);
+    color: var(--text-primary);
+    font-weight: 500;
+    border: 1px solid var(--border-color);
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+.hide-helper-instructions-content .important {
+    display: block;
+    padding: 12px 15px;
+    margin-top: 15px;
+    border-radius: 8px;
+    background-color: rgba(148, 0, 211, 0.05); /* 使用强调色的非常淡的版本 */
+    border-left: 4px solid var(--accent-color);
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.6;
+}
+.hide-helper-instructions-content .important i {
+    margin-right: 8px;
+    color: var(--accent-color);
+}
+.hide-helper-instructions-content .important strong {
+    color: var(--text-primary);
+}
+.hide-helper-instructions-content h3 {
+    font-size: 16px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+/* --- 使用说明中的视频播放器样式 --- */
+.instructions-video {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    display: block;
+    border: 1px solid var(--border-color);
+    background-color: var(--background-secondary); /* 添加背景色以防视频加载慢时出现空白 */
+}
