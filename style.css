@@ -1,0 +1,1576 @@
+/* --- CSS变量定义 --- */
+:root {
+    /* ==================== 白天主题变量定义 ==================== */
+    --light-background-popup: rgba(255, 255, 255, 1);
+    --light-background-secondary: rgba(241, 243, 245, 1);
+    --light-border-color: rgba(222, 226, 230, 1);
+    --light-text-primary: rgba(52, 58, 64, 1);
+    --light-text-secondary: rgba(134, 142, 150, 1);
+    --light-input-bg: rgba(255, 255, 255, 1);
+    --light-btn-secondary-bg: rgba(241, 243, 245, 1);
+    --light-btn-secondary-hover-bg: rgba(233, 236, 239, 1);
+    --light-tab-hover-bg: rgba(0, 0, 0, 0.05);
+
+    /* 白天主题 - 强调色 */
+    --light-accent-color: rgba(148, 0, 211, 0.3);
+    --light-accent-color-hover: rgba(148, 0, 211, 1);
+    --light-accent-color-text: rgba(148, 0, 211, 0.75);
+    --light-accent-color-bg-light: rgba(148, 0, 211, 0.08);
+    --light-accent-color-bg-very-light: rgba(148, 0, 211, 0.05);
+
+    /* 白天主题 - 聊天统计与说明的附加颜色 */
+    --light-code-color: rgba(199, 37, 78, 1);
+    --light-stats-bg-ejs: rgba(254, 226, 226, 1);
+    --light-stats-bg-constant: rgba(219, 234, 254, 1);
+    --light-stats-bg-dynamic: rgba(220, 252, 231, 1);
+    --light-stats-color-ejs: rgba(239, 68, 68, 1);
+    --light-stats-color-constant: rgba(59, 130, 246, 1);
+    --light-stats-color-dynamic: rgba(34, 197, 94, 1);
+
+    /* 强调色和危险色 */
+    --light-danger-color: rgba(148, 0, 211, 0.3);
+    --light-danger-color-hover: rgba(200, 35, 51, 1);
+
+    /* ==================== 通用变量（不随主题变化） ==================== */
+    /* 白色系 */
+    --light-color-white: rgba(255, 255, 255, 1);
+    --light-color-white-transparent: rgba(255, 255, 255, 1);
+    --light-color-white-hover: rgba(255, 255, 255, 0.05);
+
+    /* 黑色半透明系 */
+    --light-color-black-overlay: rgba(0, 0, 0, 0.3);
+    --light-color-black-shadow: rgba(0, 0, 0, 0.1);
+    --light-color-black-hover: rgba(0, 0, 0, 0.05);
+    --light-color-black-shadow-strong: rgba(0, 0, 0, 0.2);
+    --light-color-black-shadow-very-light: rgba(0, 0, 0, 0.02);
+    --light-color-black-shadow-medium: rgba(0, 0, 0, 0.04);
+    --light-color-black-shadow-heavier: rgba(0, 0, 0, 0.08);
+    --light-color-black-shadow-text: rgba(0, 0, 0, 0.4);
+
+    /* 蓝色系 */
+    --light-color-blue-focus: rgba(0, 123, 255, 0.3);
+
+    /* 统计色系 */
+    --light-stats-book: rgba(255, 255, 255, 1);
+    --light-stats-red-dark: rgba(239, 68, 68, 1);
+    --light-stats-red-light: rgba(248, 113, 113, 1);
+    --light-stats-blue-dark: rgba(59, 130, 246, 1);
+    --light-stats-blue-light: rgba(96, 165, 250, 1);
+    --light-stats-green-dark: rgba(34, 197, 94, 1);
+    --light-stats-green-light: rgba(74, 222, 128, 1);
+
+    /* ==================== 黑夜主题变量定义 ==================== */
+    --dark-background-popup: rgba(30, 30, 30, 1);
+    --dark-background-secondary: rgba(45, 45, 45, 1);
+    --dark-border-color: rgba(64, 64, 64, 1);
+    --dark-text-primary: rgba(224, 224, 224, 1);
+    --dark-text-secondary: rgba(255, 255, 255, 0.85);
+    --dark-input-bg: rgba(30, 30, 30, 1);
+    --dark-btn-secondary-bg: rgba(45, 45, 45, 1);
+    --dark-btn-secondary-hover-bg: rgba(61, 61, 61, 1);
+    --dark-tab-hover-bg: rgba(255, 255, 255, 0.05);
+
+    /* 黑夜主题 - 强调色 */
+    --dark-accent-color: rgb(216, 168, 231, 0.95);
+    --dark-accent-color-hover: rgb(216, 168, 231, 0.95);
+    --dark-accent-color-text: rgb(216, 168, 231, 0.95);
+    --dark-accent-color-bg-light: rgba(216, 168, 231, 0.15);
+    --dark-accent-color-bg-very-light: rgba(216, 168, 231, 0.08);
+
+    /* 黑夜主题 - 聊天统计与说明的附加颜色 */
+    --dark-code-color: rgba(255, 123, 147, 1);
+    --dark-stats-bg-ejs: rgba(248, 113, 113, 0.8);
+    --dark-stats-bg-constant: rgba(96, 165, 250, 0.8);
+    --dark-stats-bg-dynamic: rgba(74, 222, 128, 0.8);
+    --dark-stats-color-ejs: rgba(248, 113, 113, 1);
+    --dark-stats-color-constant: rgba(96, 165, 250, 1);
+    --dark-stats-color-dynamic: rgba(74, 222, 128, 1);
+    
+    /* 强调色和危险色 */
+    --dark-danger-color: rgb(216, 168, 231, 0.95);
+    --dark-danger-color-hover: rgb(216, 168, 231, 0.95);
+
+    /* ==================== 通用变量（不随主题变化） ==================== */
+    /* 白色系 */
+    --dark-color-white: rgba(255, 255, 255, 1);
+    --dark-color-white-transparent: rgba(255, 255, 255, 1);
+    --dark-color-white-hover: rgba(255, 255, 255, 0.05);
+
+    /* 黑色半透明系 */
+    --dark-color-black-overlay: rgba(0, 0, 0, 0.3);
+    --dark-color-black-shadow: rgba(0, 0, 0, 0.1);
+    --dark-color-black-hover: rgba(0, 0, 0, 0.05);
+    --dark-color-black-shadow-strong: rgba(0, 0, 0, 0.2);
+    --dark-color-black-shadow-very-light: rgba(0, 0, 0, 0.02);
+    --dark-color-black-shadow-medium: rgba(0, 0, 0, 0.04);
+    --dark-color-black-shadow-heavier: rgba(0, 0, 0, 0.08);
+    --dark-color-black-shadow-text: rgba(0, 0, 0, 0.4);
+
+    /* 蓝色系 */
+    --dark-color-blue-focus: rgba(0, 123, 255, 0.3);
+
+    /* 统计色系 */
+    --dark-stats-book: rgba(0, 0, 0, 1);
+    --dark-stats-red-dark: rgba(239, 68, 68, 1);
+    --dark-stats-red-light: rgba(248, 113, 113, 1);
+    --dark-stats-blue-dark: rgba(59, 130, 246, 1);
+    --dark-stats-blue-light: rgba(96, 165, 250, 1);
+    --dark-stats-green-dark: rgba(34, 197, 94, 1);
+    --dark-stats-green-light: rgba(74, 222, 128, 1);
+
+    /* ==================== 当前主题变量（默认使用白天主题） ==================== */
+    --background-popup: var(--light-background-popup);
+    --background-secondary: var(--light-background-secondary);
+    --border-color: var(--light-border-color);
+    --text-primary: var(--light-text-primary);
+    --text-secondary: var(--light-text-secondary);
+    --input-bg: var(--light-input-bg);
+    --btn-secondary-bg: var(--light-btn-secondary-bg);
+    --btn-secondary-hover-bg: var(--light-btn-secondary-hover-bg);
+    --tab-hover-bg: var(--light-tab-hover-bg);
+    --code-color: var(--light-code-color);
+    --stats-book: var(--light-stats-book);
+    --stats-bg-ejs: var(--light-stats-bg-ejs);
+    --stats-bg-constant: var(--light-stats-bg-constant);
+    --stats-bg-dynamic: var(--light-stats-bg-dynamic);
+    --stats-color-ejs: var(--light-stats-color-ejs);
+    --stats-color-constant: var(--light-stats-color-constant);
+    --stats-color-dynamic: var(--light-stats-color-dynamic);
+
+    /* ==================== 强调色通用变量（白天主题） ==================== */
+    --accent-color: var(--light-accent-color);
+    --accent-color-hover: var(--light-accent-color-hover);
+    --accent-color-text: var(--light-accent-color-text);
+    --accent-color-bg-light: var(--light-accent-color-bg-light);
+    --accent-color-bg-very-light: var(--light-accent-color-bg-very-light);
+    --danger-color: var(--light-danger-color);
+    --danger-color-hover: var(--light-danger-color-hover);
+
+    /* ==================== 通用变量（白天主题） ==================== */
+    --color-white: var(--light-color-white);
+    --color-white-transparent: var(--light-color-white-transparent);
+    --color-white-hover: var(--light-color-white-hover);
+    --color-black-overlay: var(--light-color-black-overlay);
+    --color-black-shadow: var(--light-color-black-shadow);
+    --color-black-hover: var(--light-color-black-hover);
+    --color-black-shadow-strong: var(--light-color-black-shadow-strong);
+    --color-black-shadow-very-light: var(--light-color-black-shadow-very-light);
+    --color-black-shadow-medium: var(--light-color-black-shadow-medium);
+    --color-black-shadow-heavier: var(--light-color-black-shadow-heavier);
+    --color-black-shadow-text: var(--light-color-black-shadow-text);
+    --color-blue-focus: var(--light-color-blue-focus);
+    --stats-red-dark: var(--light-stats-red-dark);
+    --stats-red-light: var(--light-stats-red-light);
+    --stats-blue-dark: var(--light-stats-blue-dark);
+    --stats-blue-light: var(--light-stats-blue-light);
+    --stats-green-dark: var(--light-stats-green-dark);
+    --stats-green-light: var(--light-stats-green-light);
+}
+
+/* --- 暗色主题变量切换 --- */
+[data-theme="dark"] {
+    /* 切换到黑夜主题变量 */
+    --background-popup: var(--dark-background-popup);
+    --background-secondary: var(--dark-background-secondary);
+    --border-color: var(--dark-border-color);
+    --text-primary: var(--dark-text-primary);
+    --text-secondary: var(--dark-text-secondary);
+    --input-bg: var(--dark-input-bg);
+    --btn-secondary-bg: var(--dark-btn-secondary-bg);
+    --btn-secondary-hover-bg: var(--dark-btn-secondary-hover-bg);
+    --tab-hover-bg: var(--dark-tab-hover-bg);
+    --code-color: var(--dark-code-color);
+    --stats-book: var(--dark-stats-book);
+    --stats-bg-ejs: var(--dark-stats-bg-ejs);
+    --stats-bg-constant: var(--dark-stats-bg-constant);
+    --stats-bg-dynamic: var(--dark-stats-bg-dynamic);
+    --stats-color-ejs: var(--dark-stats-color-ejs);
+    --stats-color-constant: var(--dark-stats-color-constant);
+    --stats-color-dynamic: var(--dark-stats-color-dynamic);
+
+    /* ==================== 强调色通用变量（暗黑主题） ==================== */
+    --accent-color: var(--dark-accent-color);
+    --accent-color-hover: var(--dark-accent-color-hover);
+    --accent-color-text: var(--dark-accent-color-text);
+    --accent-color-bg-light: var(--dark-accent-color-bg-light);
+    --accent-color-bg-very-light: var(--dark-accent-color-bg-very-light);
+    --danger-color: var(--dark-danger-color);
+    --danger-color-hover: var(--dark-danger-color-hover);
+
+    /* ==================== 通用变量（黑夜主题） ==================== */
+    --color-white: var(--dark-color-white);
+    --color-white-transparent: var(--dark-color-white-transparent);
+    --color-white-hover: var(--dark-color-white-hover);
+    --color-black-overlay: var(--dark-color-black-overlay);
+    --color-black-shadow: var(--dark-color-black-shadow);
+    --color-black-hover: var(--dark-color-black-hover);
+    --color-black-shadow-strong: var(--dark-color-black-shadow-strong);
+    --color-black-shadow-very-light: var(--dark-color-black-shadow-very-light);
+    --color-black-shadow-medium: var(--dark-color-black-shadow-medium);
+    --color-black-shadow-heavier: var(--dark-color-black-shadow-heavier);
+    --color-black-shadow-text: var(--dark-color-black-shadow-text);
+    --color-blue-focus: var(--dark-color-blue-focus);
+    --stats-red-dark: var(--dark-stats-red-dark);
+    --stats-red-light: var(--dark-stats-red-light);
+    --stats-blue-dark: var(--dark-stats-blue-dark);
+    --stats-blue-light: var(--dark-stats-blue-light);
+    --stats-green-dark: var(--dark-stats-green-dark);
+    --stats-green-light: var(--dark-stats-green-light);
+}
+
+/* --- 入口按钮 (注入到 #data_bank_wand_container) --- */
+#hide-helper-wand-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    color: var(--text-secondary);
+}
+
+#hide-helper-wand-button:hover {
+    color: var(--text-primary);
+}
+
+#hide-helper-wand-button i {
+    font-size: 16px;
+}
+
+/* --- 弹窗遮罩层 --- */
+.hide-helper-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--color-black-overlay);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    z-index: 8888;
+    display: none;
+    animation: backdropFadeIn 0.3s ease-out;
+    /* 确保 backdrop-filter 生效的关键属性 */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    will-change: backdrop-filter;
+}
+
+@keyframes backdropFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* --- 弹窗通用样式 --- */
+.hide-helper-popup, .hide-helper-instructions-popup {
+    position: fixed;
+    /* 🌟废弃纯CSS居中，交由JS实时计算，防止移动端定位冲突跑出屏幕顶部 */
+    max-height: 90vh; /* 🌟兜底保障：不管切换出多长的面板内容，永远不可能被撑出可视屏幕界限外 */
+
+    width: 90%;
+    max-width: 420px;
+    background: var(--background-popup);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    z-index: 9999;
+    padding: 20px 25px;
+    box-shadow: 0 4px 20px var(--color-black-shadow); /* 修改阴影 */
+    display: none; /* JS控制显示 */
+    flex-direction: column;
+    gap: 20px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    /* 移除 translate 属性，配合 JS 的像素级定位 */
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* --- 弹窗标题 --- */
+#hide-helper-popup .hide-helper-popup-title {
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+    text-align: center;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+#hide-helper-popup .hide-helper-popup-title:hover,
+#hide-helper-popup .hide-helper-popup-title:hover i {
+    color: var(--accent-color);
+}
+
+/* --- 内容区域 --- */
+#hide-helper-popup .hide-helper-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* --- hide-last-n 专用区域样式 --- */
+#hide-helper-popup .hide-last-n-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--background-secondary);
+    padding: 12px 15px;
+    border-radius: 8px;
+    gap: 10px;
+}
+
+#hide-helper-popup .hide-last-n-section .hide-helper-label {
+    flex: 1;
+    margin: 0;
+}
+
+/* --- hide-last-n 输入框样式 --- */
+.hide-helper-popup .hide-last-n-input {
+    min-width: 45px;
+    max-width: 45px;
+    padding: 8px 12px !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--border-color) !important;
+    background-color: var(--input-bg) !important;
+    color: var(--text-primary) !important;
+    font-size: 16px !important;
+    height: auto !important;
+    box-sizing: border-box;
+    text-align: right;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    /* 隐藏 Firefox 的数字输入框上下箭头 */
+    -moz-appearance: textfield !important;
+}
+
+/* 隐藏 Chrome, Safari, Edge, Opera 的数字输入框上下箭头 */
+.hide-helper-popup .hide-last-n-input::-webkit-outer-spin-button,
+.hide-helper-popup .hide-last-n-input::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+}
+
+#hide-helper-popup .hide-helper-label {
+    font-weight: 500;
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin: 0; /* 重置旧边距 */
+}
+
+/* --- 输入框焦点样式 --- */
+.hide-helper-popup .hide-last-n-input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px var(--color-blue-focus);
+}
+
+/* --- 当前设置显示 --- */
+#hide-helper-popup .hide-helper-current {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 0; /* 重置旧边距 */
+}
+
+#hide-helper-popup .hide-helper-current strong {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+#hide-current-value {
+    font-weight: bold;
+    color: var(--accent-color);
+    font-size: 16px;
+    margin-left: 8px;
+}
+
+/* --- 模式切换开关 --- */
+#hide-helper-popup .hide-helper-mode-switch {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--background-secondary);
+    padding: 12px 15px;
+    border-radius: 8px;
+}
+#hide-helper-popup .hide-helper-mode-switch .label-group {
+    display: flex;
+    flex-direction: column;
+}
+#hide-helper-popup .hide-helper-mode-switch #hide-mode-label {
+     font-weight: 500;
+     font-size: 14px;
+     color: var(--text-primary);
+}
+#hide-helper-popup .hide-helper-mode-switch #hide-mode-description {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.hide-helper-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+}
+
+.hide-helper-popup .hide-helper-switch input[type="checkbox"] {
+    /* --- 强制样式重置，抵御全局 !important 样式 --- */
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    background-color: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    outline: none !important;
+    /* --- 强制隐藏 --- */
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    position: absolute !important; /* 确保完全脱离文档流 */
+}
+
+.hide-helper-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--border-color); /* 使用边框颜色作为关闭状态背景 */
+    transition: .4s;
+    border-radius: 28px;
+}
+
+.hide-helper-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: var(--color-white);
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .hide-helper-slider {
+    background-color: var(--accent-color);
+}
+
+input:checked + .hide-helper-slider:before {
+    transform: translateX(22px);
+}
+
+/* --- 底部按钮容器 --- */
+#hide-helper-popup .hide-helper-popup-footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding-top: 20px;
+}
+
+/* --- 按钮样式 --- */
+.hide-helper-popup .hide-helper-btn,
+.hide-helper-popup .hide-helper-close-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px !important;
+    border-radius: 8px !important;
+    border: none !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    white-space: nowrap;
+    height: auto !important;
+    min-width: 0;
+    /* 强制覆盖背景和颜色 */
+    background-color: var(--btn-secondary-bg) !important;
+    color: var(--text-primary) !important;
+}
+
+#hide-helper-popup #hide-save-settings-btn {
+    background-color: var(--accent-color) !important;
+    color: var(--color-white) !important;
+}
+#hide-helper-popup #hide-unhide-all-btn {
+    background-color: var(--danger-color) !important;
+    color: var(--color-white) !important;
+    width: auto !important;
+    margin: 0 auto !important;
+}
+
+#hide-save-settings-btn:hover {
+    background-color: var(--accent-color-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px var(--color-blue-focus);
+}
+
+#hide-unhide-all-btn:hover {
+    background-color: var(--danger-color-hover);
+    transform: translateY(-2px);
+}
+
+#hide-helper-popup #hide-helper-instructions-btn,
+#hide-helper-popup .hide-helper-close-btn {
+    background-color: var(--btn-secondary-bg) !important;
+    color: var(--text-primary) !important;
+}
+#hide-helper-popup #hide-helper-instructions-btn:hover,
+#hide-helper-popup .hide-helper-close-btn:hover {
+    background-color: var(--btn-secondary-hover-bg) !important;
+}
+
+/* -- 清理不再需要的旧样式 -- */
+.hide-helper-input-container, .hide-helper-input-row, .hide-helper-settings-type, .hide-helper-select {
+    /* 这些类在新布局中不再使用，保留为空或删除 */
+}
+
+/* --- 使用说明弹窗 --- */
+.hide-helper-instructions-popup {
+    max-width: 800px;
+    max-height: 80vh;
+    z-index: 1002;
+}
+.hide-helper-instructions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    background: none;
+    border-radius: 0;
+}
+.hide-helper-instructions-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+.hide-helper-instructions-close-btn {
+    background: none; border: none; color: var(--text-secondary); font-size: 28px; cursor: pointer; transition: color 0.2s ease;
+}
+.hide-helper-instructions-close-btn:hover {
+    color: var(--text-primary);
+}
+.hide-helper-instructions-content {
+    padding: 10px 25px 25px;
+    overflow-y: auto;
+    line-height: 1.7;
+    height: auto; /* 移除固定高度计算 */
+    /* --- 新增：隐藏原生滚动条 --- */
+    scrollbar-width: none; /* Firefox */
+}
+.hide-helper-instructions-content::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+}
+.hide-helper-instructions-content h2 { font-size: 18px; margin-top: 25px; margin-bottom: 15px; color: var(--text-primary); border-left: 4px solid var(--accent-color); padding-left: 10px;}
+.hide-helper-instructions-content h2:first-child { margin-top: 0; }
+.hide-helper-instructions-content p { margin-bottom: 15px; color: var(--text-secondary); }
+.hide-helper-instructions-content strong { color: var(--accent-color-text); font-weight: 500; }
+.hide-helper-instructions-content code { background-color: var(--background-secondary); padding: 3px 6px; border-radius: 4px; font-family: monospace; color: var(--code-color);}
+.hide-helper-instructions-content ul { padding-left: 20px; }
+.hide-helper-instructions-content li { margin-bottom: 8px; color: var(--text-secondary); }
+
+/* --- 新增：弹窗右上角关闭图标 --- */
+#hide-helper-popup .hide-helper-popup-close-icon {
+    position: absolute;
+    top: 6px;
+    right: 5px;
+    width: 30px;
+    border: none;
+    background: none;
+    color: var(--text-secondary);
+    font-size: 25px;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#hide-helper-popup .hide-helper-popup-close-icon:hover {
+    color: var(--text-primary);
+    transform: rotate(90deg);
+}
+
+/* --- 新增：弹窗标签页样式 (增加 ID 前缀防止污染和被污染) --- */
+#hide-helper-popup .popup-tabs-nav {
+    display: flex !important;
+    justify-content: space-evenly !important; /* 增加分散对齐 */
+    border-bottom: 1px solid var(--border-color) !important;
+    /* 这里的负 margin 必须与父容器的 padding 精确匹配以确保贴边 */
+    margin: -20px -25px 20px -25px !important;
+    padding: 0 15px !important;
+    background: transparent !important;
+    box-sizing: border-box !important;
+}
+
+#hide-helper-popup .tab-button {
+    /* 基础样式重置 */
+    all: unset !important;
+    box-sizing: border-box !important;
+    display: block !important;
+    flex: 1 !important; /* 增加伸缩比例均分宽度 */
+
+    /* 标签页具体样式 */
+    padding: 10px 8px !important;
+    cursor: pointer !important;
+    background-color: transparent !important;
+    color: var(--text-secondary) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    border-bottom: 3px solid transparent !important;
+    transition: color 0.2s ease, border-color 0.2s ease !important;
+    margin-bottom: -1px !important; /* 与导航栏底边框对齐 */
+    text-align: center !important;
+    user-select: none !important;
+}
+
+#hide-helper-popup .tab-button:hover {
+    color: var(--text-primary) !important;
+    background-color: var(--tab-hover-bg) !important;
+}
+
+#hide-helper-popup .tab-button.active {
+    color: var(--accent-color) !important;
+    border-bottom-color: var(--accent-color) !important;
+}
+
+#hide-helper-popup .popup-tabs-content .tab-panel {
+    display: none !important;
+    animation: fadeIn 0.3s ease-out !important;
+    position: relative !important;
+    box-sizing: border-box !important;
+}
+
+#hide-helper-popup .popup-tabs-content .tab-panel.active {
+    display: block !important;
+}
+
+/* --- popup-tabs-content 固定高度与滚动 --- */
+#hide-helper-popup .popup-tabs-content {
+    max-height: 470px;
+    overflow-y: auto;
+    scrollbar-width: none !important; /* Firefox: 彻底隐藏滚动条 */
+
+    /* 🌟增加弹性缩放：在极限的小屏幕手机上触碰了 90vh 天花板时，它会自动转变为内部滚动，死死守住弹窗不被撑大 */
+    flex: 1 1 auto;
+}
+
+/* 核心拦截：彻底隐藏所有弹窗内子元素的原生滚动条 (含横向和纵向)，严格限制在插件作用域 */
+#hide-helper-popup *::-webkit-scrollbar {
+    display: none !important;
+}
+
+#hide-helper-popup * {
+    scrollbar-width: none !important;
+}
+
+/* --- 隐藏楼层面板中的说明区域样式 --- */
+.hide-panel-instructions {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.hide-panel-instructions h3 {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 15px;
+    padding-left: 10px;
+    border-left: 4px solid var(--accent-color);
+}
+
+.hide-panel-instructions .instructions-content {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+}
+
+/* 重要提示样式 */
+.hide-panel-instructions .important-note {
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background-color: var(--accent-color-bg-light);
+    border-left: 4px solid var(--accent-color);
+    color: var(--text-primary);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.hide-panel-instructions .important-note strong {
+    color: var(--text-secondary);
+}
+
+.hide-panel-instructions p {
+    margin-bottom: 10px;
+}
+
+.hide-panel-instructions strong {
+    color: var(--accent-color-text);
+    font-weight: 500;
+}
+
+.hide-panel-instructions ul,
+.hide-panel-instructions ol {
+    padding-left: 20px;
+    margin-bottom: 10px;
+}
+
+.hide-panel-instructions li {
+    margin-bottom: 5px;
+}
+
+/* --- 新增：限制器面板内的设置项样式 --- */
+#hide-helper-popup .limiter-setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: var(--background-secondary);
+    border-radius: 8px;
+}
+#hide-helper-popup .limiter-setting-item label {
+    color: var(--text-secondary);
+}
+
+/* --- 禁用消息样式 --- */
+#hide-helper-popup #hide-disabled-msg,
+#hide-helper-popup #limiter-disabled-msg {
+    display: none !important;
+    justify-content: center !important;
+    color: var(--text-secondary) !important;
+}
+
+#hide-helper-popup #hide-disabled-msg:not([style*="display: block"]),
+#hide-helper-popup #limiter-disabled-msg:not([style*="display: block"]) {
+    display: none !important;
+}
+#hide-helper-popup .limiter-setting-item .text_pole {
+    max-width: 100px;
+    text-align: center;
+    /* 使用 !important 强制覆盖主应用的样式 */
+    background-color: var(--input-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+    padding: 5px 10px !important;
+    border-radius: 8px !important;
+    box-sizing: border-box;
+}
+
+#hide-helper-popup .limiter-description {
+    font-size: 13px;
+    color: var(--text-secondary);
+    padding: 10px;
+    border-radius: 8px;
+    line-height: 1.6;
+    margin-top: 15px;
+}
+
+/* --- 调整：使用说明面板的内边距 --- */
+#hide-helper-instructions-content {
+    padding: 0;
+    max-height: 465px !important; /* 统一设为最大高度465px */
+}
+
+/* --- 新增：自定义复选框样式，强制覆盖全局样式 --- */
+#hide-helper-popup .hide-helper-checkbox-container {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#hide-helper-popup .hide-helper-checkbox-container input[type="checkbox"] {
+    /* 强制重置并隐藏原生复选框 */
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    position: absolute !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    outline: none !important;
+}
+
+#hide-helper-popup .hide-helper-checkbox-container label {
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    width: 22px; /* 定义复选框大小 */
+    height: 22px;
+    background-color: var(--input-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 4px;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* 鼠标悬停在标签上时的效果 */
+#hide-helper-popup .hide-helper-checkbox-container label:hover {
+    border-color: var(--accent-color) !important;
+}
+
+/* 创建对钩 (::before 伪元素) */
+#hide-helper-popup .hide-helper-checkbox-container label::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 3px;
+    width: 6px;
+    height: 12px;
+    border-style: solid;
+    /* 修改：对钩颜色直接使用 --accent-color */
+    border-color: var(--accent-color) !important;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    opacity: 0; /* 默认隐藏 */
+    transition: opacity 0.2s ease;
+}
+
+/* 当复选框被选中时，仅改变边框颜色以提供反馈 */
+#hide-helper-popup .hide-helper-checkbox-container input:checked + label {
+    border-color: var(--accent-color) !important; /* 修改：边框颜色变为强调色 */
+}
+
+/* 当复选框被选中时，显示对钩 */
+#hide-helper-popup .hide-helper-checkbox-container input:checked + label::before {
+    opacity: 1;
+}
+
+/* 自定义滚动条样式已彻底移除 */
+
+/* --- 新增：使用说明中的特殊样式 --- */
+.hide-helper-instructions-content .button-like {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 5px;
+    background-color: var(--background-secondary);
+    color: var(--text-primary);
+    font-weight: 500;
+    border: 1px solid var(--border-color);
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+.hide-helper-instructions-content .important {
+    display: block;
+    padding: 12px 15px;
+    margin-top: 15px;
+    border-radius: 8px;
+    background-color: var(--accent-color-bg-very-light); /* 使用强调色的非常淡的版本 */
+    border-left: 4px solid var(--accent-color);
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.6;
+}
+.hide-helper-instructions-content .important i {
+    margin-right: 8px;
+    color: var(--accent-color);
+}
+.hide-helper-instructions-content .important strong {
+    color: var(--text-primary);
+}
+.hide-helper-instructions-content h3 {
+    font-size: 16px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+/* --- 使用说明中的视频播放器样式 --- */
+.instructions-video {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    display: block;
+    border: 1px solid var(--border-color);
+    background-color: var(--background-secondary); /* 添加背景色以防视频加载慢时出现空白 */
+}
+
+/* ==================== 聊天统计 (Token Stats) 样式 ==================== */
+
+/* 统计面板容器 */
+#token-stats-panel .tub-body {
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    max-height: none !important; /* 移除高度限制，将主滚动权交给弹窗外部结构 */
+}
+
+#token-stats-panel .tub-title-text,
+#token-stats-panel .tub-stat-value {
+    color: var(--text-primary) !important;
+    font-weight: bold !important;
+}
+
+#token-stats-panel .tub-body,
+#token-stats-panel .tub-stat-label,
+#token-stats-panel .tub-legend,
+#token-stats-panel .tub-section-title {
+    color: var(--text-secondary) !important;
+}
+
+/* 概览行 */
+#token-stats-panel .tub-row-1 {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 10px !important;
+    margin-bottom: 20px !important;
+}
+
+#token-stats-panel .tub-stat-box {
+    background: var(--background-secondary) !important;
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 12px 5px !important;
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 5px !important;
+}
+
+#token-stats-panel .tub-stat-value {
+    font-size: 1.1em !important;
+}
+
+#token-stats-panel .tub-stat-label {
+    font-size: 0.75em !important;
+    opacity: 0.9 !important;
+}
+
+#token-stats-panel .tub-stat-box small {
+    color: var(--text-secondary) !important;
+}
+
+/* 饼图行 */
+#token-stats-panel .tub-row-2 {
+    background: var(--background-secondary) !important;
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 20px !important;
+    margin-bottom: 20px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 40px !important;
+    padding-right: 40px !important;
+}
+
+#token-stats-panel .tub-pie-chart {
+    width: 100px !important;
+    height: 100px !important;
+    border-radius: 50% !important;
+    margin-bottom: 0 !important;
+    position: relative !important;
+    box-shadow: 0 2px 8px var(--color-black-hover) !important;
+    flex-shrink: 0 !important;
+}
+
+#token-stats-panel .tub-pie-text {
+    position: absolute !important;
+    transform: translate(-50%, -50%) !important;
+    color: var(--color-white) !important;
+    font-size: 11px !important;
+    font-weight: bold !important;
+    text-shadow: 0px 1px 2px var(--color-black-shadow-text) !important;
+    pointer-events: none !important;
+}
+
+#token-stats-panel .tub-legend {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    font-size: 0.85em !important;
+}
+
+#token-stats-panel .tub-dot {
+    display: inline-block !important;
+    width: 10px !important;
+    height: 10px !important;
+    border-radius: 50% !important;
+    margin-right: 8px !important;
+}
+#token-stats-panel .tub-dot-blue { background: var(--stats-blue-dark) !important; }
+#token-stats-panel .tub-dot-green { background: var(--stats-green-dark) !important; }
+#token-stats-panel .tub-dot-red { background: var(--stats-red-dark) !important; }
+
+/* 条目列表区域 */
+#token-stats-panel .tub-row-3 {
+    max-height: 300px !important; /* 设置固定最大高度以开启内层列表的独立滚动 */
+    padding-right: 25px !important; /* 增加内边距给滚动条留出空间 */
+    margin-right: -25px !important; /* 使内部的列表容器延展到弹窗最右侧 */
+    position: relative !important;
+    overscroll-behavior: contain !important; /* 核心：防止在列表内部滚动时穿透带动外层页面滑动 */
+}
+
+#token-stats-panel .tub-row-3 > * {
+    direction: ltr !important;
+}
+
+/* --- 聊天统计面板：原生滚动条已被上文全局规则隐藏，仅保留必要结构 --- */
+#token-stats-panel .tub-scrollable {
+    overflow-y: auto !important;
+}
+
+/* 过滤按钮 */
+#token-stats-panel .tub-book-filters {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    margin-bottom: 15px !important;
+}
+
+#token-stats-panel .tub-book-btn {
+    background: var(--background-secondary) !important;
+    border: none !important;
+    color: var(--text-secondary) !important;
+    padding: 5px 12px !important;
+    border-radius: 15px !important;
+    font-size: 0.75em !important;
+    cursor: pointer !important;
+    transition: all 0.2s !important;
+    font-weight: 500 !important;
+}
+
+#token-stats-panel .tub-book-btn:hover {
+    background: var(--btn-secondary-hover-bg) !important;
+    color: var(--text-primary) !important;
+}
+
+#token-stats-panel .tub-book-btn.active {
+    background: var(--text-primary) !important;
+    color: var(--stats-book) !important;
+}
+
+/* 搜索框 */
+#token-stats-panel .tub-search-wrapper {
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    position: relative !important;
+}
+
+#token-stats-panel .tub-search-icon {
+    cursor: pointer !important;
+    color: var(--text-secondary) !important;
+    transition: color 0.2s !important;
+}
+
+#token-stats-panel .tub-search-icon:hover {
+    color: var(--accent-color) !important;
+}
+
+#token-stats-panel .tub-search-input {
+    width: 0 !important;
+    opacity: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    border-bottom: 2px solid var(--accent-color) !important;
+    outline: none !important;
+    background: transparent !important;
+    font-size: 0.8em !important;
+    color: var(--text-primary) !important;
+    transition: width 0.3s ease, opacity 0.3s ease, padding 0.3s ease !important;
+    pointer-events: none !important;
+}
+
+#token-stats-panel .tub-search-input.active {
+    width: 120px !important;
+    opacity: 1 !important;
+    padding: 2px 5px !important;
+    pointer-events: auto !important;
+}
+
+/* 列表项样式 */
+#token-stats-panel .tub-new-list-item {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 6px 15px !important;
+    border-radius: 8px !important;
+    margin-bottom: 8px !important;
+    color: var(--text-primary) !important;
+    font-weight: 500 !important;
+    font-size: 0.9em !important;
+    cursor: pointer !important;
+    transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.2s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    box-shadow: 0 1px 3px var(--color-black-shadow-very-light) !important;
+    user-select: none !important;
+    direction: ltr !important;
+}
+
+#token-stats-panel .tub-nli-label {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 80% !important;
+}
+
+#token-stats-panel .tub-nli-value {
+    font-weight: bold !important;
+    font-size: 1.05em !important;
+}
+
+#token-stats-panel .tub-new-list-item:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 12px var(--color-black-shadow-heavier) !important;
+}
+
+#token-stats-panel .tub-new-list-item:active {
+    transform: translateY(1px) !important;
+    box-shadow: 0 2px 4px var(--color-black-shadow-medium) !important;
+}
+
+/* ==================== 聊天统计样式结束 ==================== */
+
+/* --- 主题切换按钮容器 --- */
+.theme-switch-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background: var(--background-secondary);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+}
+
+/* ==================== 内联样式转换为 CSS 类 ==================== */
+
+/* --- 设置面板提示文本 --- */
+.hide-settings-tip {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 8px;
+}
+
+/* --- 居中的按钮容器 --- */
+#hide-helper-popup .hide-helper-popup-footer-center {
+    display: flex;
+    justify-content: center;
+}
+
+/* --- 主题切换标签 --- */
+.theme-switch-label {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+/* ==================== 聊天统计面板内联样式转换 ==================== */
+
+/* --- 条目头部粘性容器 --- */
+#token-stats-panel .tub-entries-header-sticky {
+    position: sticky;
+    top: -1px;
+    background-color: var(--background-popup);
+    z-index: 10;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    margin-left: -5px;
+    padding-left: 5px;
+}
+
+/* --- Flex 行容器（两端对齐） --- */
+#token-stats-panel .tub-flex-row-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 10px;
+}
+
+/* --- Flex 行容器（居中对齐） --- */
+#token-stats-panel .tub-flex-row-center {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* --- 无底部边距的标题 --- */
+#token-stats-panel .tub-section-title-no-margin {
+    margin-bottom: 0 !important;
+}
+
+/* --- 总计显示样式 --- */
+#token-stats-panel .tub-entries-total-display {
+    font-size: 0.85em;
+    font-weight: bold;
+    color: var(--text-primary) !important;
+}
+
+/* --- 统计数字颜色类 --- */
+#token-stats-panel .tub-stat-color-ejs {
+    color: var(--stats-color-ejs) !important;
+}
+
+#token-stats-panel .tub-stat-color-dynamic {
+    color: var(--stats-color-dynamic) !important;
+}
+
+#token-stats-panel .tub-stat-color-constant {
+    color: var(--stats-color-constant) !important;
+}
+
+/* --- 空状态提示 --- */
+#token-stats-panel .tub-empty-state {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 10px 0;
+    direction: ltr !important;
+}
+
+/* --- 书标签样式 --- */
+#token-stats-panel .tub-book-tag {
+    color: var(--text-secondary);
+    font-size: 0.85em;
+    font-weight: normal;
+}
+
+/* --- 图例项样式 --- */
+#token-stats-panel .tub-legend-item {
+    display: flex;
+    align-items: center;
+}
+
+/* --- 使用说明标题警告文字 --- */
+.hide-panel-instructions .title-warning-text {
+    color: red;
+}
+
+/* ==================== 内联样式转换结束 ==================== */
+
+/* ==================== 日志级别选择器样式 ==================== */
+
+/* --- 日志级别选择器容器 --- */
+.log-level-switch-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background: var(--background-secondary);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+}
+
+/* --- 日志级别标签 --- */
+.log-level-label {
+    color: var(--text-primary);
+    font-weight: 500;
+    font-size: 14px;
+}
+
+/* --- 日志级别选择器 --- */
+.log-level-select {
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
+    border: 1px solid var(--border-color) !important;
+    background-color: var(--input-bg) !important;
+    color: var(--text-primary) !important;
+    font-size: 13px !important;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    min-width: 180px;
+}
+
+.log-level-select:hover {
+    border-color: var(--accent-color) !important;
+}
+
+.log-level-select:focus {
+    outline: none;
+    border-color: var(--accent-color) !important;
+    box-shadow: 0 0 0 3px var(--color-blue-focus) !important;
+}
+
+/* --- 下拉选项样式（某些浏览器支持） --- */
+.log-level-select option {
+    background-color: var(--background-popup);
+    color: var(--text-primary);
+    padding: 8px;
+}
+
+/* ==================== 版本信息与更新检测样式 ==================== */
+
+/* NEW 徽章 */
+.hide-new-badge {
+    background-color: #ff4444;
+    color: white;
+    font-size: 0.7em;
+    padding: 1px 5px;
+    border-radius: 4px;
+    margin-left: 6px;
+    font-weight: bold;
+    vertical-align: middle;
+    line-height: normal;
+    animation: pulse-red 2s infinite;
+}
+
+@keyframes pulse-red {
+    0% { box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.4); }
+    70% { box-shadow: 0 0 0 6px rgba(255, 68, 68, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 68, 68, 0); }
+}
+
+/* 版本信息行 */
+.hide-version-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 2px;
+    font-size: 0.9em;
+    opacity: 0.9;
+}
+
+/* 更新按钮特殊样式 */
+.hide-update-btn {
+    font-size: 0.9em !important;
+    padding: 4px 12px !important;
+    min-width: auto !important;
+    width: auto !important; /* 强制宽度自动 */
+}
+
+/* 有更新时的按钮样式 */
+.hide-update-btn.has-update {
+    color: #ff4444 !important;
+    border-color: #ff4444 !important;
+    font-weight: bold;
+}
+.hide-update-btn.has-update:hover {
+    background-color: #ff4444 !important;
+    color: white !important;
+}
+
+.hide-update-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* ==================== 主题提示弹窗样式 ==================== */
+
+.hide-helper-notification-popup {
+    position: fixed;
+    max-width: 400px;
+    width: 90%;
+    background: var(--background-popup);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px var(--color-black-shadow-strong);
+    z-index: 10000;
+    display: none;
+    max-height: 90vh;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.hide-helper-notification-popup .notification-content {
+    padding: 25px;
+    text-align: center;
+}
+
+.hide-helper-notification-popup .notification-icon {
+    font-size: 48px;
+    color: var(--accent-color);
+    margin-bottom: 15px;
+}
+
+.hide-helper-notification-popup h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 10px 0;
+}
+
+.hide-helper-notification-popup p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0 0 20px 0;
+}
+
+.hide-helper-notification-popup .notification-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.hide-helper-notification-popup .notification-buttons .hide-helper-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    white-space: nowrap;
+    height: auto !important;
+    min-width: 0;
+    flex: 1;
+}
+
+.hide-helper-notification-popup .notification-primary-btn {
+    background-color: var(--accent-color) !important;
+    color: var(--color-white) !important;
+}
+
+.hide-helper-notification-popup .notification-primary-btn:hover {
+    background-color: var(--accent-color-hover) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--color-blue-focus);
+}
+
+.hide-helper-notification-popup .notification-secondary-btn {
+    background-color: var(--btn-secondary-bg) !important;
+    color: var(--text-primary) !important;
+}
+
+.hide-helper-notification-popup .notification-secondary-btn:hover {
+    background-color: var(--btn-secondary-hover-bg) !important;
+}
+
+/* ==================== 日志UI显示开关样式 ==================== */
+
+.log-ui-toggle-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background: var(--background-secondary);
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid var(--border-color);
+}
+
+.log-ui-toggle-label {
+    color: var(--text-primary);
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.log-level-selector-wrapper {
+    overflow: hidden;
+}
+
+/* ==================== 模态弹窗样式 (Modals) ==================== */
+
+.hide-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: var(--color-black-overlay);
+    z-index: 99999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+.hide-modal-overlay.visible { display: flex; }
+
+.hide-modal-box {
+    background: var(--background-popup);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    width: 400px;
+    max-width: 90vw;
+    padding: 20px;
+    box-shadow: 0 10px 40px var(--color-black-shadow-strong);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    color: var(--text-primary);
+}
+
+.hide-modal-header {
+    font-size: 18px;
+    font-weight: bold;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    color: var(--text-primary);
+}
+
+.hide-update-tip {
+    font-size: 0.85em;
+    color: var(--text-secondary);
+    text-align: center;
+    margin: 10px 15px;
+    padding: 8px;
+    background: var(--background-secondary);
+    border-radius: 4px;
+}
+
+.hide-modal-footer {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.hide-modal-footer .menu_button {
+    width: auto !important;
+    flex: 0 0 auto;
+    min-width: 80px;
+    padding: 10px 16px !important;
+    border-radius: 8px !important;
+    border: none !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    cursor: pointer;
+    background-color: var(--btn-secondary-bg) !important;
+    color: var(--text-primary) !important;
+    transition: all 0.2s ease;
+}
+
+.hide-modal-footer .menu_button:hover {
+    background-color: var(--btn-secondary-hover-bg) !important;
+}
+
+.hide-modal-footer .menu_button.primary {
+    background-color: var(--accent-color) !important;
+    color: var(--color-white) !important;
+}
+
+.hide-modal-footer .menu_button.primary:hover {
+    background-color: var(--accent-color-hover) !important;
+}
+
+/* 更新日志内容区 */
+.hide-changelog-viewer {
+    background: var(--background-secondary);
+    padding: 15px;
+    border-radius: 6px;
+    max-height: 300px;
+    overflow-y: auto;
+    font-family: monospace;
+    font-size: 0.9em;
+    white-space: pre-wrap;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
