@@ -1,0 +1,1698 @@
+/* --- CSS变量定义 --- */
+:root {
+    /* ==================== 白天主题变量定义 ==================== */
+    --light-background-popup: rgba(255, 255, 255, 1);
+    --light-background-secondary: rgba(241, 243, 245, 1);
+    --light-border-color: rgba(222, 226, 230, 1);
+    --light-text-primary: rgba(52, 58, 64, 1);
+    --light-text-secondary: rgba(134, 142, 150, 1);
+    --light-input-bg: rgba(255, 255, 255, 1);
+    --light-btn-secondary-bg: rgba(241, 243, 245, 1);
+    --light-btn-secondary-hover-bg: rgba(233, 236, 239, 1);
+    --light-tab-hover-bg: rgba(0, 0, 0, 0.05);
+
+    --light-accent-color: rgba(148, 0, 211, 0.3);
+    --light-accent-color-hover: rgba(148, 0, 211, 1);
+    --light-accent-color-text: rgba(148, 0, 211, 0.75);
+    --light-accent-color-bg-light: rgba(148, 0, 211, 0.08);
+    --light-accent-color-bg-very-light: rgba(148, 0, 211, 0.05);
+
+    --light-code-color: rgba(199, 37, 78, 1);
+    --light-stats-bg-ejs: rgba(254, 226, 226, 1);
+    --light-stats-bg-constant: rgba(219, 234, 254, 1);
+    --light-stats-bg-dynamic: rgba(220, 252, 231, 1);
+    --light-stats-color-ejs: rgba(239, 68, 68, 1);
+    --light-stats-color-constant: rgba(59, 130, 246, 1);
+    --light-stats-color-dynamic: rgba(34, 197, 94, 1);
+
+    --light-danger-color: rgba(148, 0, 211, 0.3);
+    --light-danger-color-hover: rgba(200, 35, 51, 1);
+
+    /* ==================== 黑夜主题变量定义 ==================== */
+    --dark-background-popup: rgba(30, 30, 30, 1);
+    --dark-background-secondary: rgba(45, 45, 45, 1);
+    --dark-border-color: rgba(64, 64, 64, 1);
+    --dark-text-primary: rgba(224, 224, 224, 1);
+    --dark-text-secondary: rgba(255, 255, 255, 0.85);
+    --dark-input-bg: rgba(30, 30, 30, 1);
+    --dark-btn-secondary-bg: rgba(45, 45, 45, 1);
+    --dark-btn-secondary-hover-bg: rgba(61, 61, 61, 1);
+    --dark-tab-hover-bg: rgba(255, 255, 255, 0.05);
+
+    --dark-accent-color: rgb(216, 168, 231, 0.95);
+    --dark-accent-color-hover: rgb(216, 168, 231, 0.95);
+    --dark-accent-color-text: rgb(216, 168, 231, 0.95);
+    --dark-accent-color-bg-light: rgba(216, 168, 231, 0.15);
+    --dark-accent-color-bg-very-light: rgba(216, 168, 231, 0.08);
+
+    --dark-code-color: rgba(255, 123, 147, 1);
+    --dark-stats-bg-ejs: rgba(248, 113, 113, 0.8);
+    --dark-stats-bg-constant: rgba(96, 165, 250, 0.8);
+    --dark-stats-bg-dynamic: rgba(74, 222, 128, 0.8);
+    --dark-stats-color-ejs: rgba(248, 113, 113, 1);
+    --dark-stats-color-constant: rgba(96, 165, 250, 1);
+    --dark-stats-color-dynamic: rgba(74, 222, 128, 1);
+    
+    --dark-danger-color: rgb(216, 168, 231, 0.95);
+    --dark-danger-color-hover: rgb(216, 168, 231, 0.95);
+
+    /* ==================== 当前主题变量（默认白天，增加 hh- 前缀隔离） ==================== */
+    --hh-background-popup: var(--light-background-popup);
+    --hh-background-secondary: var(--light-background-secondary);
+    --hh-border-color: var(--light-border-color);
+    --hh-text-primary: var(--light-text-primary);
+    --hh-text-secondary: var(--light-text-secondary);
+    --hh-input-bg: var(--light-input-bg);
+    --hh-btn-secondary-bg: var(--light-btn-secondary-bg);
+    --hh-btn-secondary-hover-bg: var(--light-btn-secondary-hover-bg);
+    --hh-tab-hover-bg: var(--light-tab-hover-bg);
+    --hh-code-color: var(--light-code-color);
+    --hh-stats-book: rgba(255, 255, 255, 1);
+    --hh-stats-bg-ejs: var(--light-stats-bg-ejs);
+    --hh-stats-bg-constant: var(--light-stats-bg-constant);
+    --hh-stats-bg-dynamic: var(--light-stats-bg-dynamic);
+    --hh-stats-color-ejs: var(--light-stats-color-ejs);
+    --hh-stats-color-constant: var(--light-stats-color-constant);
+    --hh-stats-color-dynamic: var(--light-stats-color-dynamic);
+    --hh-accent-color: var(--light-accent-color);
+    --hh-accent-color-hover: var(--light-accent-color-hover);
+    --hh-accent-color-text: var(--light-accent-color-text);
+    --hh-accent-color-bg-light: var(--light-accent-color-bg-light);
+    --hh-accent-color-bg-very-light: var(--light-accent-color-bg-very-light);
+    --hh-danger-color: var(--light-danger-color);
+    --hh-danger-color-hover: var(--light-danger-color-hover);
+
+    /* 通用基础颜色 (加上隔离前缀) */
+    --hh-color-white: rgba(255, 255, 255, 1);
+    --hh-color-black-overlay: rgba(0, 0, 0, 0.3);
+    --hh-color-black-shadow: rgba(0, 0, 0, 0.1);
+    --hh-color-black-hover: rgba(0, 0, 0, 0.05);
+    --hh-color-black-shadow-strong: rgba(0, 0, 0, 0.2);
+    --hh-color-black-shadow-very-light: rgba(0, 0, 0, 0.02);
+    --hh-color-black-shadow-medium: rgba(0, 0, 0, 0.04);
+    --hh-color-black-shadow-heavier: rgba(0, 0, 0, 0.08);
+    --hh-color-black-shadow-text: rgba(0, 0, 0, 0.4);
+    --hh-color-blue-focus: rgba(0, 123, 255, 0.3);
+    --hh-stats-red-dark: rgba(239, 68, 68, 1);
+    --hh-stats-blue-dark: rgba(59, 130, 246, 1);
+    --hh-stats-green-dark: rgba(34, 197, 94, 1);
+    /* 条目详情子窗的滚动条：默认隐藏（滑块透明），三档颜色见下方 .hide-entry-body 规则 */
+    --hh-scrollbar-thumb-faint: rgba(0, 0, 0, 0.15);
+    --hh-scrollbar-thumb: rgba(0, 0, 0, 0.22);
+    --hh-scrollbar-thumb-hover: rgba(0, 0, 0, 0.38);
+    /* 预算预警框：红底用低透明度红，与红字配合在亮色下仍清晰 */
+    --hh-stats-overbudget-bg: rgba(239, 68, 68, 0.14);
+}
+
+/* --- 暗色主题变量切换 (限定只在带有属性的插件容器内生效) --- */
+#hide-helper-popup[data-theme="dark"], 
+#hide-helper-entry-popup[data-theme="dark"],
+/* 第二十轮补：世界书消息条目子窗与上下文目录子窗此前只被 JS 打了 data-theme="dark"，
+   但选择器列表里没有它们 → 暗色下仍拿亮色变量（本子窗在暗色下会是白底）。这里补齐。 */
+#hide-helper-wi-msg-popup[data-theme="dark"],
+#hide-helper-ctx-outline-popup[data-theme="dark"],
+/* 第二十七轮补：新增的「完整上下文·合并内容」窗 */
+#hide-helper-ctx-merged-popup[data-theme="dark"],
+/* 第二十七轮 R2：查看器工具栏的下拉菜单挂在 body 上（不在任何窗口里）→ 暗色要自带一份变量 */
+.hh-menu[data-theme="dark"],
+#hide-helper-chat-stats-popup[data-theme="dark"],
+.hide-modal-overlay[data-theme="dark"], 
+.hide-helper-notification-popup[data-theme="dark"] {
+    --hh-background-popup: var(--dark-background-popup);
+    --hh-background-secondary: var(--dark-background-secondary);
+    --hh-border-color: var(--dark-border-color);
+    --hh-text-primary: var(--dark-text-primary);
+    --hh-text-secondary: var(--dark-text-secondary);
+    --hh-input-bg: var(--dark-input-bg);
+    --hh-btn-secondary-bg: var(--dark-btn-secondary-bg);
+    --hh-btn-secondary-hover-bg: var(--dark-btn-secondary-hover-bg);
+    --hh-tab-hover-bg: var(--dark-tab-hover-bg);
+    --hh-code-color: var(--dark-code-color);
+    --hh-stats-book: rgba(0, 0, 0, 1);
+    --hh-stats-bg-ejs: var(--dark-stats-bg-ejs);
+    --hh-stats-bg-constant: var(--dark-stats-bg-constant);
+    --hh-stats-bg-dynamic: var(--dark-stats-bg-dynamic);
+    /* 滚动条三档：faint=滚动中/悬停滚动条（浅）；thumb=悬停滑块；thumb-hover=按住拖拽（最深） */
+    --hh-scrollbar-thumb-faint: rgba(255, 255, 255, 0.2);
+    --hh-scrollbar-thumb: rgba(255, 255, 255, 0.28);
+    --hh-scrollbar-thumb-hover: rgba(255, 255, 255, 0.45);
+    --hh-stats-overbudget-bg: rgba(248, 113, 113, 0.22);
+    --hh-stats-color-ejs: var(--dark-stats-color-ejs);
+    --hh-stats-color-constant: var(--dark-stats-color-constant);
+    --hh-stats-color-dynamic: var(--dark-stats-color-dynamic);
+    --hh-accent-color: var(--dark-accent-color);
+    --hh-accent-color-hover: var(--dark-accent-color-hover);
+    --hh-accent-color-text: var(--dark-accent-color-text);
+    --hh-accent-color-bg-light: var(--dark-accent-color-bg-light);
+    --hh-accent-color-bg-very-light: var(--dark-accent-color-bg-very-light);
+    --hh-danger-color: var(--dark-danger-color);
+    --hh-danger-color-hover: var(--dark-danger-color-hover);
+}
+
+/* --- 主题切换水波纹 (View Transitions API) --- */
+/* 关闭新旧快照的默认交叉淡入，改由 JS (Web Animations) 做「左下角→右上角」的裁剪扩散 */
+::view-transition-old(hh-theme-surface) {
+    animation: none;
+    mix-blend-mode: normal;
+}
+::view-transition-new(hh-theme-surface) {
+    animation: none;
+    mix-blend-mode: normal;
+}
+.hh-ripple-surface {
+    view-transition-name: hh-theme-surface;
+}
+/* 切换期间冻结弹窗内的微过渡（背景色 0.2s 等几十处），避免与涟漪叠加、减少样式重算 */
+.hh-theme-switching,
+.hh-theme-switching *,
+.hh-theme-switching *::before,
+.hh-theme-switching *::after {
+    transition: none !important;
+}
+/* 仅本次切换期间关闭页面根快照的默认动画，避免与弹窗涟漪并行合成造成卡顿 */
+html.hh-theme-switching::view-transition-old(root),
+html.hh-theme-switching::view-transition-new(root) {
+    animation: none;
+}
+
+/* --- 入口按钮 --- */
+#hide-helper-wand-button {
+    display: flex; align-items: center; gap: 8px; padding: 5px 10px; border-radius: 5px; cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease;
+    color: var(--hh-text-secondary);
+}
+#hide-helper-wand-button:hover { color: var(--hh-text-primary); }
+#hide-helper-wand-button i { font-size: 16px; }
+
+/* --- 弹窗遮罩层 --- */
+.hide-helper-backdrop {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh;
+    background-color: var(--hh-color-black-overlay); backdrop-filter: blur(12px) saturate(180%); -webkit-backdrop-filter: blur(12px) saturate(180%);
+    z-index: 8888; display: none; animation: backdropFadeIn 0.3s ease-out; transform: translateZ(0); will-change: backdrop-filter;
+}
+@keyframes backdropFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* --- 弹窗通用样式 --- */
+.hide-helper-popup, .hide-helper-instructions-popup {
+    position: fixed; max-height: 90vh; width: 90%; max-width: 420px;
+    background: var(--hh-background-popup); border: 1px solid var(--hh-border-color);
+    border-radius: 12px; z-index: 9999; padding: 20px 25px;
+    box-shadow: 0 4px 20px var(--hh-color-black-shadow); display: none; flex-direction: column; gap: 20px;
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); animation: hhFadeIn 0.3s ease-out;
+}
+@keyframes hhFadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+#hide-helper-popup .hide-helper-popup-title {
+    font-size: 20px; font-weight: 500; margin: 0; padding-bottom: 15px; border-bottom: 1px solid var(--hh-border-color); text-align: center;
+    color: var(--hh-text-primary); display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; transition: color 0.2s ease;
+}
+#hide-helper-popup .hide-helper-popup-title:hover, #hide-helper-popup .hide-helper-popup-title:hover i { color: var(--hh-accent-color); }
+
+#hide-helper-popup .hide-helper-section { display: flex; flex-direction: column; gap: 10px; }
+
+#hide-helper-popup .hide-last-n-section {
+    display: flex; flex-direction: row; justify-content: space-between; align-items: center;
+    background: var(--hh-background-secondary); padding: 12px 15px; border-radius: 8px; gap: 10px;
+}
+#hide-helper-popup .hide-last-n-section .hide-helper-label { flex: 1; margin: 0; }
+
+.hide-helper-popup .hide-last-n-input {
+    min-width: 45px; max-width: 45px; padding: 8px 12px !important; border-radius: 8px !important;
+    border: 1px solid var(--hh-border-color) !important; background-color: var(--hh-input-bg) !important;
+    color: var(--hh-text-primary) !important; font-size: 16px !important; height: auto !important;
+    box-sizing: border-box; text-align: right; transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    -moz-appearance: textfield !important;
+}
+.hide-helper-popup .hide-last-n-input::-webkit-outer-spin-button, .hide-helper-popup .hide-last-n-input::-webkit-inner-spin-button {
+    -webkit-appearance: none !important; margin: 0 !important;
+}
+#hide-helper-popup .hide-helper-label { font-weight: 500; color: var(--hh-text-secondary); font-size: 14px; margin: 0; }
+.hide-helper-popup .hide-last-n-input:focus { outline: none; border-color: var(--hh-accent-color); box-shadow: 0 0 0 3px var(--hh-color-blue-focus); }
+
+#hide-helper-popup .hide-helper-current { text-align: center; color: var(--hh-text-secondary); font-size: 14px; padding: 10px; border-radius: 8px; margin: 0; }
+#hide-helper-popup .hide-helper-current strong { color: var(--hh-text-primary); font-weight: 500; }
+#hide-current-value { font-weight: bold; color: var(--hh-accent-color); font-size: 16px; margin-left: 8px; }
+
+#hide-helper-popup .hide-helper-mode-switch {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--hh-background-secondary); padding: 12px 15px; border-radius: 8px;
+}
+#hide-helper-popup .hide-helper-mode-switch .label-group { display: flex; flex-direction: column; }
+#hide-helper-popup .hide-helper-mode-switch #hide-mode-label { font-weight: 500; font-size: 14px; color: var(--hh-text-primary); }
+#hide-helper-popup .hide-helper-mode-switch #hide-mode-description { font-size: 12px; color: var(--hh-text-secondary); }
+
+.hide-helper-switch { position: relative; display: inline-block; width: 50px; height: 28px; }
+.hide-helper-popup .hide-helper-switch input[type="checkbox"] {
+    -webkit-appearance: none !important; appearance: none !important; background-color: transparent !important;
+    margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important;
+    opacity: 0 !important; width: 0 !important; height: 0 !important; position: absolute !important;
+}
+.hide-helper-slider {
+    position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--hh-border-color); transition: .4s; border-radius: 28px;
+}
+.hide-helper-slider:before {
+    position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px;
+    background-color: var(--hh-color-white); transition: .4s; border-radius: 50%;
+}
+.hide-helper-switch input:checked + .hide-helper-slider { background-color: var(--hh-accent-color); }
+.hide-helper-switch input:checked + .hide-helper-slider:before { transform: translateX(22px); }
+
+#hide-helper-popup .hide-helper-popup-footer { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding-top: 20px; }
+.hide-helper-popup .hide-helper-btn, .hide-helper-popup .hide-helper-close-btn {
+    display: inline-flex; justify-content: center; align-items: center; gap: 8px; padding: 10px 16px !important;
+    border-radius: 8px !important; border: none !important; font-size: 14px !important; font-weight: 500 !important;
+    cursor: pointer; transition: all 0.2s ease; box-sizing: border-box; white-space: nowrap; height: auto !important; min-width: 0;
+    background-color: var(--hh-btn-secondary-bg) !important; color: var(--hh-text-primary) !important;
+}
+#hide-helper-popup #hide-save-settings-btn { background-color: var(--hh-accent-color) !important; color: var(--hh-color-white) !important; }
+#hide-helper-popup #hide-unhide-all-btn { background-color: var(--hh-danger-color) !important; color: var(--hh-color-white) !important; width: auto !important; margin: 0 auto !important; }
+#hide-save-settings-btn:hover { background-color: var(--hh-accent-color-hover); transform: translateY(-2px); box-shadow: 0 4px 10px var(--hh-color-blue-focus); }
+#hide-unhide-all-btn:hover { background-color: var(--hh-danger-color-hover); transform: translateY(-2px); }
+#hide-helper-popup #hide-helper-instructions-btn:hover, #hide-helper-popup .hide-helper-close-btn:hover { background-color: var(--hh-btn-secondary-hover-bg) !important; }
+
+/* --- 弹窗内部关闭图标 --- */
+/* 关闭图标：必须抬到标签页之上（标签页导航排在它后面、且同为定位元素，否则「使用说明」这一格会盖住它，
+   点上去命中的是标签而不是关闭按钮）。z-index 只影响本弹窗内部层叠。 */
+#hide-helper-popup .hide-helper-popup-close-icon {
+    position: absolute; top: 6px; right: 5px; width: 30px; border: none; background: none; color: var(--hh-text-secondary);
+    font-size: 25px; line-height: 1; cursor: pointer; transition: color 0.2s ease, transform 0.2s ease; padding: 0; display: flex; align-items: center; justify-content: center;
+    z-index: 6;
+}
+#hide-helper-popup .hide-helper-popup-close-icon:hover { color: var(--hh-text-primary); transform: rotate(90deg); }
+
+/* --- 标签页 --- */
+/* 第三十三轮用户口径②：去掉导航下方的分割线（原先的 `border-bottom: 1px solid …`）。
+   标签与内容区之间不再有线，滑动下划线的落点（bottom: -1px）保持原样。 */
+/* 第三十七轮用户口径③：「`popup-tabs-nav` 下面增加下间距，与内容区域隔开」。
+   ⚠️ 为什么原来会挤：`.tab-button` 带 `margin-bottom: -1px`（为贴住那条已经删掉的分割线），
+   导航自身的 `padding` 又是 `0 …`，于是"标签文字底边 → 内容区第一行"只剩弹窗容器的 flex gap 在撑，
+   实际观感上标签像直接贴着内容。这里给导航补 `padding-bottom: 10px`（不动 margin ——
+   下划线指示条是 `bottom: -1px` 绝对定位，改 margin 会让它跟着挪，padding 不会）。
+   ⚠️ 必须写 `!important`：导航在这条规则之外还有一条媒体查询会重写整个 `padding`，见文件末尾。 */
+#hide-helper-popup .popup-tabs-nav {
+    display: flex !important; justify-content: space-evenly !important; border-bottom: none !important;
+    /* 右侧留出关闭图标的位置：否则最后一格标签的点击/悬停区域会压到关闭按钮上 */
+    padding: 0 44px 10px 15px !important; background: transparent !important; box-sizing: border-box !important;
+    position: relative !important;
+}
+#hide-helper-popup .tab-button {
+    all: unset !important; box-sizing: border-box !important; display: block !important; flex: 1 !important; padding: 10px 8px !important;
+    cursor: pointer !important; background-color: transparent !important; color: var(--hh-text-secondary) !important; font-size: 14px !important;
+    font-weight: 500 !important; transition: color 0.25s ease !important;
+    margin-bottom: -1px !important; text-align: center !important; user-select: none !important;
+    /* 第三十五轮用户口径④（移动端标签换行）：标题**一律不换行**。
+       根因：窄屏（实测 390px 视口 / 弹窗 351px、导航可用宽 300px）下每个标签只有约 60px，
+       「隐藏楼层 / 限制楼层 / 聊天统计 / 使用说明」都是四个汉字 ≈ 56px + 左右 8px padding，
+       刚好越界 → 每格都被折成两行（行高从 34px 涨到 60px，四格标题参差不齐，非常难看）。
+       修法：`white-space: nowrap` 禁止折行 + 窄屏时收紧内边距与字号（见文件末尾的媒体查询），
+       保证四格都能单行显示；万一某个语言文案更长，也只会被省略号截断，不会再出现"两行"的参差。 */
+    white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important;
+    line-height: 1.5 !important;
+}
+#hide-helper-popup .tab-button:hover { color: var(--hh-text-primary) !important; background-color: var(--hh-tab-hover-bg) !important; }
+#hide-helper-popup .tab-button.active { color: var(--hh-accent-color) !important; }
+
+/* 滑动下划线指示条（iOS 风格）—— width/transform 由 JS 内联写入，故二者不能用 !important（否则会覆盖内联值） */
+#hide-helper-popup .tub-tab-indicator {
+    position: absolute !important; left: 0 !important; bottom: -1px !important; height: 3px !important;
+    width: 0; transform: translateX(0);
+    background-color: var(--hh-accent-color) !important; border-radius: 3px 3px 0 0 !important;
+    pointer-events: none !important;
+    transition: transform 0.34s cubic-bezier(0.22, 0.61, 0.36, 1), width 0.34s cubic-bezier(0.22, 0.61, 0.36, 1) !important;
+}
+
+#hide-helper-popup .popup-tabs-content .tab-panel { display: none !important; position: relative !important; box-sizing: border-box !important; }
+#hide-helper-popup .popup-tabs-content .tab-panel.active { display: block !important; animation: hhSlideInLeft 0.34s cubic-bezier(0.25, 0.8, 0.25, 1) both !important; }
+#hide-helper-popup .popup-tabs-content .tab-panel.active.hh-slide-right { animation-name: hhSlideInRight !important; }
+/* 第三十七轮用户口径③：「`popup-tabs-nav` 下面增加下间距，与内容区域隔开」。
+   ⚠️ 为什么原来会挤（**真根因**，实测）：`#hide-helper-popup` 的基础类是
+      `display: none; flex-direction: column; gap: 20px`，**没有写 `display: flex`** ——
+      打开时 jQuery 的 `.show()` 会按元素默认值把它设成 `display: block`，于是：
+        · 父容器的 `gap: 20px` **完全不生效**（gap 只对 flex/grid 容器起作用）；
+        · 导航与内容区是紧贴的两个 block（实测 nav.bottom 130 === content.top 130，间距 **0**）。
+      也就是说这个间距从来就没存在过，之前全靠标签自身的 padding 撑出一点观感。
+   ⇒ 修法不依赖父容器（改 `display:flex` 会牵动整个弹窗的排版，风险大），
+     直接给**内容区**加 `margin-top`：位置可控、不影响导航的下划线指示条（那条是 `bottom: -1px` 绝对定位）。
+      导航那条 `padding-bottom: 10px` 保留（让标签的点击/悬停区不贴内容），两者叠加 = 视觉上 10 + 12 = 22px 的呼吸感。 */
+#hide-helper-popup .popup-tabs-content { max-height: 470px; overflow-y: auto; scrollbar-width: none !important; overflow-x: hidden !important; flex: 1 1 auto; margin-top: 12px; }
+#hide-helper-popup *::-webkit-scrollbar { display: none !important; }
+#hide-helper-popup * { scrollbar-width: none !important; }
+
+@keyframes hhSlideInLeft {
+    from { opacity: 0; transform: translateX(26px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes hhSlideInRight {
+    from { opacity: 0; transform: translateX(-26px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+/* --- 隐藏楼层指令区 --- */
+#hide-helper-popup .hide-panel-instructions { margin-top: 25px; padding-top: 20px; border-top: 1px solid var(--hh-border-color); }
+#hide-helper-popup .hide-panel-instructions h3 { font-size: 16px; font-weight: 500; color: var(--hh-text-primary); margin-bottom: 15px; padding-left: 10px; border-left: 4px solid var(--hh-accent-color); }
+#hide-helper-popup .hide-panel-instructions .instructions-content { font-size: 13px; line-height: 1.7; color: var(--hh-text-secondary); }
+#hide-helper-popup .hide-panel-instructions .important-note { padding: 12px 15px; margin-bottom: 20px; border-radius: 8px; background-color: var(--hh-accent-color-bg-light); border-left: 4px solid var(--hh-accent-color); color: var(--hh-text-primary); font-size: 14px; line-height: 1.6; }
+#hide-helper-popup .hide-panel-instructions .important-note strong { color: var(--hh-text-secondary); }
+#hide-helper-popup .hide-panel-instructions p { margin-bottom: 10px; }
+#hide-helper-popup .hide-panel-instructions strong { color: var(--hh-accent-color-text); font-weight: 500; }
+#hide-helper-popup .hide-panel-instructions ul, #hide-helper-popup .hide-panel-instructions ol { padding-left: 20px; margin-bottom: 10px; }
+#hide-helper-popup .hide-panel-instructions li { margin-bottom: 5px; }
+
+/* --- 限制器面板 --- */
+#hide-helper-popup .limiter-setting-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 10px; background: var(--hh-background-secondary); border-radius: 8px; }
+#hide-helper-popup .limiter-setting-item label { color: var(--hh-text-secondary); }
+#hide-helper-popup #hide-disabled-msg, #hide-helper-popup #limiter-disabled-msg { display: none !important; justify-content: center !important; color: var(--hh-text-secondary) !important; }
+#hide-helper-popup .limiter-setting-item .text_pole { max-width: 100px; text-align: center; background-color: var(--hh-input-bg) !important; border: 1px solid var(--hh-border-color) !important; color: var(--hh-text-primary) !important; padding: 5px 10px !important; border-radius: 8px !important; box-sizing: border-box; }
+#hide-helper-popup .limiter-description { font-size: 13px; color: var(--hh-text-secondary); padding: 10px; border-radius: 8px; line-height: 1.6; margin-top: 15px; }
+
+/* --- 功能启用/禁用（第三十六轮用户口径①：紧接「UI主题」下方） --- */
+/* 关闭某个功能时，对应标签页的**导航按钮与面板**一起藏起来。
+   ⚠️ 用 `display: none` + `!important` 是必须的：面板的显隐本来就由
+      `.tab-panel { display:none!important }` / `.tab-panel.active { display:block!important }` 决定，
+      不加 `!important` 压不住已 active 的那条；导航按钮同理（`.tab-button` 是 `display:block!important`）。 */
+#hide-helper-popup .tab-button.hh-tab-off,
+#hide-helper-popup .tab-panel.hh-tab-off { display: none !important; }
+.hh-feature-toggle-container {
+    display: flex; flex-direction: column; gap: 6px;
+    padding: 12px 15px; background: var(--hh-background-secondary);
+    border-radius: 8px; margin-bottom: 20px; border: 1px solid var(--hh-border-color);
+}
+.hh-feature-toggle-title { color: var(--hh-text-primary); font-weight: 500; margin-bottom: 2px; }
+.hh-feature-toggle-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 2px 0; }
+.hh-feature-toggle-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.hh-feature-toggle-name { color: var(--hh-text-primary); font-size: 14px; }
+/* 第三十七轮用户口径①：`.hh-feature-toggle-desc` 已删除（用户口径"太多余了"）——
+   每行只剩「名称 + 复选框」，故行距收成 2px、容器 gap 收成 6px，避免删掉说明后显得空。 */
+
+/* --- 自定义复选框 --- */
+#hide-helper-popup .hide-helper-checkbox-container { display: inline-block; vertical-align: middle; }
+#hide-helper-popup .hide-helper-checkbox-container input[type="checkbox"] { -webkit-appearance: none !important; appearance: none !important; opacity: 0 !important; width: 0 !important; height: 0 !important; position: absolute !important; margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; }
+#hide-helper-popup .hide-helper-checkbox-container label { cursor: pointer; position: relative; display: inline-block; width: 22px; height: 22px; background-color: var(--hh-input-bg) !important; border: 1px solid var(--hh-border-color) !important; border-radius: 4px; transition: background-color 0.2s ease, border-color 0.2s ease; }
+#hide-helper-popup .hide-helper-checkbox-container label:hover { border-color: var(--hh-accent-color) !important; }
+#hide-helper-popup .hide-helper-checkbox-container label::before { content: ''; position: absolute; left: 7px; top: 3px; width: 6px; height: 12px; border-style: solid; border-color: var(--hh-accent-color) !important; border-width: 0 2px 2px 0; transform: rotate(45deg); opacity: 0; transition: opacity 0.2s ease; }
+#hide-helper-popup .hide-helper-checkbox-container input:checked + label { border-color: var(--hh-accent-color) !important; }
+#hide-helper-popup .hide-helper-checkbox-container input:checked + label::before { opacity: 1; }
+
+/* --- 说明文档内容区隔离 --- */
+#hide-helper-popup .hide-helper-instructions-content { padding: 0; max-height: 465px !important; overflow-y: auto; line-height: 1.7; scrollbar-width: none; }
+#hide-helper-popup .hide-helper-instructions-content::-webkit-scrollbar { display: none; }
+#hide-helper-popup .hide-helper-instructions-content h2 { font-size: 18px; margin-top: 25px; margin-bottom: 15px; color: var(--hh-text-primary); border-left: 4px solid var(--hh-accent-color); padding-left: 10px; }
+#hide-helper-popup .hide-helper-instructions-content h2:first-child { margin-top: 0; }
+#hide-helper-popup .hide-helper-instructions-content p { margin-bottom: 15px; color: var(--hh-text-secondary); }
+#hide-helper-popup .hide-helper-instructions-content strong { color: var(--hh-accent-color-text); font-weight: 500; }
+#hide-helper-popup .hide-helper-instructions-content code { background-color: var(--hh-background-secondary); padding: 3px 6px; border-radius: 4px; font-family: monospace; color: var(--hh-code-color); }
+#hide-helper-popup .hide-helper-instructions-content ul { padding-left: 20px; }
+#hide-helper-popup .hide-helper-instructions-content li { margin-bottom: 8px; color: var(--hh-text-secondary); }
+#hide-helper-popup .hide-helper-instructions-content .button-like { display: inline-block; padding: 2px 8px; border-radius: 5px; background-color: var(--hh-background-secondary); color: var(--hh-text-primary); font-weight: 500; border: 1px solid var(--hh-border-color); font-size: 13px; vertical-align: middle; }
+#hide-helper-popup .hide-helper-instructions-content .important { display: block; padding: 12px 15px; margin-top: 15px; border-radius: 8px; background-color: var(--hh-accent-color-bg-very-light); border-left: 4px solid var(--hh-accent-color); color: var(--hh-text-secondary); font-size: 14px; line-height: 1.6; }
+#hide-helper-popup .hide-helper-instructions-content .important i { margin-right: 8px; color: var(--hh-accent-color); }
+#hide-helper-popup .hide-helper-instructions-content .important strong { color: var(--hh-text-primary); }
+#hide-helper-popup .hide-helper-instructions-content h3 { font-size: 16px; margin-top: 20px; margin-bottom: 10px; color: var(--hh-text-primary); font-weight: 500; }
+#hide-helper-popup .instructions-video { width: 100%; height: auto; border-radius: 8px; margin-bottom: 15px; display: block; border: 1px solid var(--hh-border-color); background-color: var(--hh-background-secondary); }
+
+/* --- 统计面板 --- */
+#token-stats-panel .tub-body { padding: 0 !important; margin: 0 !important; overflow: visible !important; max-height: none !important; }
+#token-stats-panel .tub-title-text, #hide-helper-wi-msg-popup .tub-title-text, #token-stats-panel .tub-stat-value, #hide-helper-wi-msg-popup .tub-stat-value { color: var(--hh-text-primary) !important; font-weight: bold !important; }
+#token-stats-panel .tub-body, #hide-helper-wi-msg-popup .tub-body, #token-stats-panel .tub-stat-label, #hide-helper-wi-msg-popup .tub-stat-label, #token-stats-panel .tub-legend, #hide-helper-wi-msg-popup .tub-legend, #token-stats-panel .tub-section-title, #hide-helper-wi-msg-popup .tub-section-title { color: var(--hh-text-secondary) !important; }
+#token-stats-panel .tub-row-1 { display: grid !important; grid-template-columns: repeat(4, 1fr) !important; gap: 10px !important; margin-bottom: 20px !important; }
+#token-stats-panel .tub-stat-box { background: var(--hh-background-secondary) !important; border: none !important; border-radius: 10px !important; padding: 12px 5px !important; text-align: center !important; display: flex !important; flex-direction: column !important; align-items: center !important; gap: 5px !important; }
+#token-stats-panel .tub-stat-value, #hide-helper-wi-msg-popup .tub-stat-value { font-size: 1.1em !important; }
+#token-stats-panel .tub-stat-label { font-size: 0.75em !important; opacity: 0.9 !important; }
+#token-stats-panel .tub-stat-box small { color: var(--hh-text-secondary) !important; }
+#token-stats-panel .tub-row-2, #hide-helper-wi-msg-popup .tub-row-2 { background: var(--hh-background-secondary) !important; border: none !important; border-radius: 10px !important; padding: 20px !important; margin-bottom: 20px !important; display: flex !important; flex-direction: row !important; justify-content: center !important; align-items: center !important; gap: 40px !important; padding-right: 40px !important; }
+#token-stats-panel .tub-pie-svg, #hide-helper-wi-msg-popup .tub-pie-svg { width: 100px !important; height: 100px !important; flex-shrink: 0 !important; }
+#token-stats-panel .tub-pie-wedge, #hide-helper-wi-msg-popup .tub-pie-wedge { shape-rendering: geometricPrecision !important; }
+#token-stats-panel .tub-pie-text, #hide-helper-wi-msg-popup .tub-pie-text { fill: var(--hh-color-white) !important; font-size: 11px !important; font-weight: bold !important; text-anchor: middle !important; dominant-baseline: central !important; pointer-events: none !important; text-shadow: 0px 1px 2px var(--hh-color-black-shadow-text) !important; }
+#token-stats-panel .tub-legend, #hide-helper-wi-msg-popup .tub-legend { display: flex !important; flex-direction: column !important; gap: 12px !important; font-size: 0.85em !important; }
+#token-stats-panel .tub-dot, #hide-helper-wi-msg-popup .tub-dot { display: inline-block !important; width: 10px !important; height: 10px !important; border-radius: 50% !important; margin-right: 8px !important; }
+#token-stats-panel .tub-dot-blue, #hide-helper-wi-msg-popup .tub-dot-blue { background: var(--hh-stats-blue-dark) !important; }
+#token-stats-panel .tub-dot-green, #hide-helper-wi-msg-popup .tub-dot-green { background: var(--hh-stats-green-dark) !important; }
+#token-stats-panel .tub-dot-red, #hide-helper-wi-msg-popup .tub-dot-red { background: var(--hh-stats-red-dark) !important; }
+/* ⚠️ 这里**不能**用 overscroll-behavior: contain —— 本列表是嵌在弹窗内容区（同样可滚动）里的内层滚动容器：
+   一旦禁止滚动链，鼠标停在列表上时滚轮就再也滚不动外层，列表会永远卡在"下半截在可视区外"的状态，
+   最后一项无法完整露出（本轮修复）。auto 让列表滚到底后把滚动权交回外层。 */
+#token-stats-panel .tub-row-3, #hide-helper-wi-msg-popup .tub-row-3 { max-height: 300px !important; padding-right: 25px !important; margin-right: -25px !important; position: relative !important; overscroll-behavior: auto !important; }
+#token-stats-panel .tub-row-3 > *, #hide-helper-wi-msg-popup .tub-row-3 > * { direction: ltr !important; }
+#token-stats-panel .tub-scrollable, #hide-helper-wi-msg-popup .tub-scrollable { overflow-y: auto !important; }
+#token-stats-panel .tub-book-filters, #hide-helper-wi-msg-popup .tub-book-filters { display: flex !important; flex-wrap: wrap !important; gap: 6px !important; margin-bottom: 15px !important; }
+#token-stats-panel .tub-book-btn, #hide-helper-wi-msg-popup .tub-book-btn { background: var(--hh-background-secondary) !important; border: none !important; color: var(--hh-text-secondary) !important; padding: 5px 12px !important; border-radius: 15px !important; font-size: 0.75em !important; cursor: pointer !important; transition: all 0.2s !important; font-weight: 500 !important; }
+#token-stats-panel .tub-book-btn:hover, #hide-helper-wi-msg-popup .tub-book-btn:hover { background: var(--hh-btn-secondary-hover-bg) !important; color: var(--hh-text-primary) !important; }
+#token-stats-panel .tub-book-btn.active, #hide-helper-wi-msg-popup .tub-book-btn.active { background: var(--hh-text-primary) !important; color: var(--hh-stats-book) !important; }
+/* 世界书过滤行：左侧书签按钮流 + 右侧排序/过滤工具
+   ⚠️ 第三十五轮用户口径③（布局修复）：原来这一行是 `display:flex; justify-content:space-between` +
+   左侧 `.tub-book-filters{flex:1 1 auto}`，而**右侧工具组也被算成一行里的第二个 flex item** ——
+   于是左侧书签区的可用宽度被硬切成"整行宽 − 工具组宽"，明明右侧还剩一大片空白，
+   多出来的书签也只能换行挤到下一行（用户截图：「WuWa World Info MVU 右侧大片空白，Eldoria 却挤到第三行」）。
+   实测（1440 视口 / 主弹窗 368px）：书签区只有 238px，「所有条目」62 + 「WuWa World Info MVU」128 就满了。
+   修法：**上下两行**（书签流独占一行、工具组单独靠右一行）——
+   书签区因此拿到整行宽度，短书签能并排放下；工具组不再参与宽度竞争。 */
+#token-stats-panel .tub-book-filters-row, #hide-helper-wi-msg-popup .tub-book-filters-row {
+    display: flex !important; flex-wrap: wrap !important; justify-content: space-between !important;
+    align-items: center !important; gap: 6px 10px !important; margin-bottom: 15px !important;
+}
+/* 书签区：整行宽（`flex-basis: 100%` 强制独占一行），自己内部换行 */
+#token-stats-panel .tub-book-filters-row .tub-book-filters, #hide-helper-wi-msg-popup .tub-book-filters-row .tub-book-filters {
+    margin-bottom: 0 !important; flex: 1 1 100% !important; min-width: 0 !important;
+}
+/* 工具组：独占下一行、靠右（`margin-left: auto` 在 flex-wrap 布局里把整行内容推到右端） */
+#token-stats-panel .tub-book-filters-row .tub-entries-tools, #hide-helper-wi-msg-popup .tub-book-filters-row .tub-entries-tools {
+    margin-left: auto !important;
+}
+#token-stats-panel .tub-entries-tools, #hide-helper-wi-msg-popup .tub-entries-tools { display: flex !important; align-items: center !important; gap: 6px !important; flex-shrink: 0 !important; }
+#token-stats-panel .tub-sort-btn { display: inline-flex !important; align-items: center !important; gap: 5px !important; background: var(--hh-background-secondary) !important; border: none !important; color: var(--hh-text-secondary) !important; padding: 5px 10px !important; border-radius: 15px !important; font-size: 0.72em !important; font-weight: 500 !important; cursor: pointer !important; transition: all 0.2s !important; }
+#token-stats-panel .tub-sort-btn:hover { color: var(--hh-text-primary) !important; }
+#token-stats-panel .tub-sort-btn.active { background: var(--hh-text-primary) !important; color: var(--hh-stats-book) !important; }
+/* 类型过滤：触发器按钮 + 浮层菜单（替代原生 <select>；菜单项只列当前数据里真实存在的类型） */
+#token-stats-panel .tub-type-filter, #hide-helper-wi-msg-popup .tub-type-filter {
+    display: inline-flex !important; align-items: center !important; gap: 5px !important;
+    background: transparent !important; border: 1px solid var(--hh-border-color) !important; border-radius: 15px !important;
+    color: var(--hh-text-secondary) !important; font-size: 0.72em !important; font-weight: 500 !important;
+    padding: 4px 10px !important; cursor: pointer !important; outline: none !important;
+    font-family: inherit !important; line-height: 1.6 !important; box-sizing: border-box !important;
+}
+#token-stats-panel .tub-type-filter:hover, #hide-helper-wi-msg-popup .tub-type-filter:hover { border-color: var(--hh-accent-color) !important; color: var(--hh-text-primary) !important; }
+#token-stats-panel .tub-type-filter.open, #hide-helper-wi-msg-popup .tub-type-filter.open { border-color: var(--hh-accent-color) !important; color: var(--hh-accent-color) !important; }
+/* 浮层菜单：挂在外层弹窗直下（不随内容区滚动、也不被裁切），默认在触发器左下角展开，越界自动内收 */
+#hide-helper-popup .tub-type-menu, #hide-helper-wi-msg-popup .tub-type-menu {
+    position: absolute !important; z-index: 30 !important; min-width: 96px !important;
+    background: var(--hh-background-popup) !important; border: 1px solid var(--hh-border-color) !important;
+    border-radius: 10px !important; box-shadow: 0 8px 24px var(--hh-color-black-shadow-strong) !important;
+    padding: 4px !important; display: flex !important; flex-direction: column !important; gap: 2px !important;
+    animation: hhFadeIn 0.12s ease-out;
+}
+#hide-helper-popup .tub-type-menu-item, #hide-helper-wi-msg-popup .tub-type-menu-item {
+    all: unset !important; display: block !important; box-sizing: border-box !important; width: 100% !important;
+    padding: 6px 12px !important; border-radius: 7px !important; cursor: pointer !important;
+    color: var(--hh-text-primary) !important; font-size: 12.5px !important; font-weight: 500 !important;
+    white-space: nowrap !important; text-align: left !important;
+}
+#hide-helper-popup .tub-type-menu-item:hover, #hide-helper-wi-msg-popup .tub-type-menu-item:hover { background: var(--hh-tab-hover-bg) !important; color: var(--hh-accent-color) !important; }
+#hide-helper-popup .tub-type-menu-item.active,
+#hide-helper-popup .tub-type-menu-item.active:hover,
+#hide-helper-wi-msg-popup .tub-type-menu-item.active,
+#hide-helper-wi-msg-popup .tub-type-menu-item.active:hover { background: var(--hh-text-primary) !important; color: var(--hh-stats-book) !important; }
+#token-stats-panel .tub-search-wrapper, #hide-helper-wi-msg-popup .tub-search-wrapper { display: flex !important; align-items: center !important; gap: 5px !important; position: relative !important; }
+#token-stats-panel .tub-search-icon, #hide-helper-wi-msg-popup .tub-search-icon { cursor: pointer !important; color: var(--hh-text-secondary) !important; transition: color 0.2s !important; }
+#token-stats-panel .tub-search-icon:hover, #hide-helper-wi-msg-popup .tub-search-icon:hover { color: var(--hh-accent-color) !important; }
+#token-stats-panel .tub-search-input, #hide-helper-wi-msg-popup .tub-search-input { width: 0 !important; opacity: 0 !important; padding: 0 !important; border: none !important; border-bottom: 2px solid var(--hh-accent-color) !important; outline: none !important; background: transparent !important; font-size: 0.8em !important; color: var(--hh-text-primary) !important; transition: width 0.3s ease, opacity 0.3s ease, padding 0.3s ease !important; pointer-events: none !important; }
+#token-stats-panel .tub-search-input.active, #hide-helper-wi-msg-popup .tub-search-input.active { width: 120px !important; opacity: 1 !important; padding: 2px 5px !important; pointer-events: auto !important; }
+#token-stats-panel .tub-new-list-item, #hide-helper-wi-msg-popup .tub-new-list-item { display: flex !important; justify-content: space-between !important; align-items: center !important; padding: 6px 15px !important; border-radius: 8px !important; margin-bottom: 8px !important; color: var(--hh-text-primary) !important; font-weight: 500 !important; font-size: 0.9em !important; cursor: pointer !important; transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.2s cubic-bezier(0.25, 0.8, 0.25, 1) !important; box-shadow: 0 1px 3px var(--hh-color-black-shadow-very-light) !important; user-select: none !important; direction: ltr !important; }
+#token-stats-panel .tub-nli-label, #hide-helper-wi-msg-popup .tub-nli-label { white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; max-width: 80% !important; }
+#token-stats-panel .tub-nli-value, #hide-helper-wi-msg-popup .tub-nli-value { font-weight: bold !important; font-size: 1.05em !important; }
+/* 「条目来源」子窗里"跳到正文"图标：**第三十五轮用户口径⑪已整体删除**（标记 + 绑定 + 样式）。
+   想跳到条目正文仍可从「上下文目录」点条目行（那才是导航入口）—— 这里只保留 `.tub-nli-value`
+   的 flex（值那一列现在只有 tokens 数字，flex 让它在行尾垂直居中，不影响右对齐）。 */
+#token-stats-panel .tub-nli-value, #hide-helper-wi-msg-popup .tub-nli-value { display: inline-flex; align-items: center; gap: 6px; }
+#token-stats-panel .tub-new-list-item:hover, #hide-helper-wi-msg-popup .tub-new-list-item:hover { transform: translateY(-2px) !important; box-shadow: 0 6px 12px var(--hh-color-black-shadow-heavier) !important; }
+#token-stats-panel .tub-new-list-item:active, #hide-helper-wi-msg-popup .tub-new-list-item:active { transform: translateY(1px) !important; box-shadow: 0 2px 4px var(--hh-color-black-shadow-medium) !important; }
+#token-stats-panel .tub-entries-header-sticky, #hide-helper-wi-msg-popup .tub-entries-header-sticky { position: sticky; top: -1px; background-color: var(--hh-background-popup); z-index: 10; padding-top: 10px; padding-bottom: 5px; margin-left: -5px; padding-left: 5px; }
+#token-stats-panel .tub-flex-row-between, #hide-helper-wi-msg-popup .tub-flex-row-between { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px; }
+#token-stats-panel .tub-flex-row-center, #hide-helper-wi-msg-popup .tub-flex-row-center { display: flex; align-items: center; gap: 8px; }
+#token-stats-panel .tub-section-title-no-margin, #hide-helper-wi-msg-popup .tub-section-title-no-margin { margin-bottom: 0 !important; }
+#token-stats-panel .tub-entries-total-display, #hide-helper-wi-msg-popup .tub-entries-total-display { font-size: 0.85em; font-weight: bold; color: var(--hh-text-primary) !important; }
+#token-stats-panel .tub-stat-color-ejs, #hide-helper-wi-msg-popup .tub-stat-color-ejs { color: var(--hh-stats-color-ejs) !important; }
+#token-stats-panel .tub-stat-color-dynamic, #hide-helper-wi-msg-popup .tub-stat-color-dynamic { color: var(--hh-stats-color-dynamic) !important; }
+#token-stats-panel .tub-stat-color-constant, #hide-helper-wi-msg-popup .tub-stat-color-constant { color: var(--hh-stats-color-constant) !important; }
+#token-stats-panel .tub-empty-state, #hide-helper-wi-msg-popup .tub-empty-state { text-align: center; color: var(--hh-text-secondary); padding: 10px 0; direction: ltr !important; }
+
+
+#token-stats-panel .tub-book-tag, #hide-helper-wi-msg-popup .tub-book-tag { color: var(--hh-text-secondary); font-size: 0.85em; font-weight: normal; }
+#token-stats-panel .tub-legend-item, #hide-helper-wi-msg-popup .tub-legend-item { display: flex; align-items: center; }
+
+/* --- 统计面板：锚定栏（第三十五轮重做：明细/对比切换 + 锚点菜单 + 两个图标签入口） --- */
+#token-stats-panel .tub-anchor-bar { background: var(--hh-background-secondary) !important; border-radius: 10px !important; padding: 10px 12px !important; margin-bottom: 15px !important; }
+/* 第一行：「明细 / 对比」切换（第三十六轮用户口径③：**移到右上角**）。
+   做法：head 只有这一个元素，`justify-content: flex-end` 就把它顶到行尾；
+   同时**去掉**原来的下边距（不再是"一行标题行 + 一行锚定行"里的标题行，而是贴在第二行右上角）。 */
+#token-stats-panel .tub-anchor-head { display: flex !important; justify-content: flex-end !important; align-items: center !important; gap: 10px !important; margin-bottom: 2px !important; }
+#token-stats-panel .tub-anchor-label { display: flex !important; align-items: baseline !important; gap: 6px !important; flex-wrap: wrap !important; }
+#token-stats-panel .tub-anchor-title { color: var(--hh-text-secondary) !important; font-size: 0.8em !important; }
+#token-stats-panel .tub-anchor-id { color: var(--hh-text-primary) !important; font-weight: bold !important; font-size: 1.05em !important; }
+#token-stats-panel .tub-anchor-time { color: var(--hh-text-secondary) !important; font-size: 0.85em !important; }
+#token-stats-panel .tub-anchor-pinned { color: var(--hh-accent-color) !important; font-size: 0.7em !important; border: 1px solid var(--hh-accent-color) !important; border-radius: 8px !important; padding: 0 6px !important; }
+#token-stats-panel .tub-view-toggle { display: flex !important; gap: 4px !important; flex-shrink: 0 !important; background: var(--hh-input-bg) !important; border-radius: 15px !important; padding: 3px !important; }
+#token-stats-panel .tub-view-btn { background: transparent !important; border: none !important; color: var(--hh-text-secondary) !important; padding: 4px 14px !important; border-radius: 12px !important; font-size: 0.8em !important; cursor: pointer !important; font-weight: 500 !important; transition: all 0.2s !important; }
+#token-stats-panel .tub-view-btn:hover { color: var(--hh-text-primary) !important; }
+#token-stats-panel .tub-view-btn.active { background: var(--hh-text-primary) !important; color: var(--hh-stats-book) !important; }
+
+/* 两个图标签入口（第三十六轮用户口径③）：**跟在锚点选择框右侧**、**去掉边框与底色**（只剩图标）。
+   原来是一排带边框的小方块（26×26 + 1px border + input-bg），现在透明底、无边框，靠 hover 才显出点击区域。 */
+#token-stats-panel .tub-anchor-icons { display: flex !important; align-items: center !important; gap: 2px !important; flex: 0 0 auto !important; margin-left: 0 !important; }
+#token-stats-panel .tub-anchor-icon-btn {
+    display: inline-flex !important; align-items: center !important; justify-content: center !important;
+    width: 24px !important; height: 24px !important; padding: 0 !important;
+    border: none !important; border-radius: 6px !important;
+    background: transparent !important; color: var(--hh-text-secondary) !important;
+    cursor: pointer !important; transition: color 0.15s ease, background-color 0.15s ease, opacity 0.15s ease;
+}
+#token-stats-panel .tub-anchor-icon-btn:hover { color: var(--hh-accent-color) !important; background: var(--hh-tab-hover-bg) !important; }
+#token-stats-panel .tub-anchor-icon-btn:active { transform: translateY(1px) !important; }
+/* 第三十六轮用户口径②：当前 messageID 没存完整上下文 → 图标**置灰**（且不响应 hover 高亮，避免"看起来能点"）。
+   ⚠️ 用 `.is-disabled` 而不是 `:disabled`：按钮要保持可点击，点了才能弹出"无该历史请求的完整上下文数据存储"。 */
+#token-stats-panel .tub-anchor-icon-btn.is-disabled,
+#token-stats-panel .tub-anchor-icon-btn.is-disabled:hover {
+    color: var(--hh-text-secondary) !important; background: transparent !important;
+    opacity: 0.38 !important; cursor: not-allowed !important;
+}
+
+/* 第二行：`选择楼层 [第 9 楼 ▾] [▤][💬]`（第三十六轮用户口径③：标签由「锚定」改成「选择楼层」） */
+#token-stats-panel .tub-anchor-row { display: flex !important; align-items: center !important; gap: 8px !important; margin-top: 6px !important; min-width: 0 !important; }
+#token-stats-panel .tub-anchor-row-label { color: var(--hh-text-secondary) !important; font-size: 0.8em !important; flex: 0 0 auto !important; }
+/* 锚点选择框（第三十六轮用户口径③）：样式与「对比组合」触发器（`.tub-anchor-baseline-select`）**完全一致**
+   —— 透明底 + 1px 边框 + 15px 药丸圆角 + 0.75em；两者以后要一起改，别再各写一套。 */
+#token-stats-panel .tub-anchor-select,
+#token-stats-panel .tub-anchor-baseline-select {
+    display: inline-flex !important; align-items: center !important; gap: 5px !important;
+    min-width: 0 !important; max-width: 100% !important;
+    background: transparent !important; border: 1px solid var(--hh-border-color) !important; border-radius: 15px !important;
+    color: var(--hh-text-secondary) !important; font-size: 0.75em !important; font-weight: 500 !important;
+    padding: 4px 12px !important; cursor: pointer !important; outline: none !important;
+    font-family: inherit !important; line-height: 1.6 !important; box-sizing: border-box !important;
+    appearance: none !important; -webkit-appearance: none !important;
+    background-image: none !important;
+    transition: border-color 0.15s ease, color 0.15s ease !important;
+}
+#token-stats-panel .tub-anchor-select:hover,
+#token-stats-panel .tub-anchor-baseline-select:hover { border-color: var(--hh-accent-color) !important; color: var(--hh-text-primary) !important; }
+/* 菜单展开中：与「类型过滤 / 对比组合」同一套高亮语言 */
+#token-stats-panel .tub-anchor-select.open,
+#token-stats-panel .tub-anchor-baseline-select.open { border-color: var(--hh-accent-color) !important; color: var(--hh-accent-color) !important; }
+#token-stats-panel .tub-anchor-baseline-select.is-empty { opacity: 0.55 !important; cursor: default !important; }
+#token-stats-panel .tub-anchor-baseline-text { pointer-events: none !important; }
+/* 当前锚点是**模拟锚定**时：虚线描边 + accent 文字（与原 `.tub-anchor-chip-sim` 同一套区分语言） */
+#token-stats-panel .tub-anchor-select.is-sim { border-style: dashed !important; border-color: var(--hh-accent-color) !important; color: var(--hh-accent-color) !important; }
+/* 模拟进行中：整条按钮降透明度（原来靠「模拟中…」文字 + disabled） */
+#token-stats-panel .tub-anchor-select.busy { opacity: 0.6 !important; cursor: default !important; }
+#token-stats-panel .tub-anchor-select-text { pointer-events: none !important; overflow: hidden !important; text-overflow: ellipsis !important; white-space: nowrap !important; }
+
+/* 锚点菜单里的两类特殊项（第三十五轮）：
+   ① `.tub-type-menu-item-sim` = 模拟锚定那一项（虚线左描边 + accent 文字，与触发器上的 is-sim 呼应）；
+   ② `.tub-type-menu-item-action` = 末尾的「模拟发送」动作项（与上面的"选锚点"区分开：顶部一条分割线 + 加粗）。 */
+#hide-helper-popup .tub-type-menu-item-sim { color: var(--hh-accent-color) !important; }
+#hide-helper-popup .tub-type-menu-item-sim::before { content: ''; display: inline-block; width: 0; height: 0; }
+#hide-helper-popup .tub-type-menu-item-action {
+    margin-top: 2px !important; border-top: 1px solid var(--hh-border-color) !important;
+    border-radius: 0 0 7px 7px !important; color: var(--hh-accent-color-text) !important; font-weight: 600 !important;
+    padding-top: 8px !important;
+}
+#hide-helper-popup .tub-type-menu-item-action:hover { color: var(--hh-accent-color) !important; }
+
+#token-stats-panel .tub-anchor-baseline { display: flex !important; align-items: center !important; gap: 8px !important; margin-top: 10px !important; }
+#token-stats-panel .tub-anchor-baseline-label { color: var(--hh-text-secondary) !important; font-size: 0.8em !important; }
+/* 对比组合触发器（第三十三轮）：由原生 <select> 换成与「类型过滤」同款的菜单按钮 —— 无倒三角、点开走浮层菜单。
+   第三十六轮：它的样式已与 `.tub-anchor-select` **合并到上面那组规则**里（用户口径③要求两者一致），
+   这里只留 `.tub-anchor-baseline-text`（那条仍在上面合并块里，见 `pointer-events: none`）。 */
+
+/* --- 统计面板：对比视图 --- */
+#token-stats-panel .tub-compare-section { overflow-x: auto !important; }
+#token-stats-panel .tub-cmp-subheading { margin: 4px 0 8px !important; font-size: 0.85em !important; }
+#token-stats-panel .tub-cmp-subheading:not(:first-child) { margin-top: 18px !important; }
+#token-stats-panel .tub-compare-table { width: 100% !important; border-collapse: collapse !important; font-size: 0.8em !important; table-layout: auto !important; }
+#token-stats-panel .tub-compare-table th, #token-stats-panel .tub-compare-table td { padding: 5px 8px !important; border-bottom: 1px solid var(--hh-border-color) !important; text-align: right !important; white-space: nowrap !important; }
+#token-stats-panel .tub-compare-table th.tub-cmp-label { text-align: left !important; }
+#token-stats-panel .tub-cmp-label { text-align: left !important; color: var(--hh-text-secondary) !important; font-weight: 500 !important; max-width: 180px !important; }
+#token-stats-panel .tub-cmp-col-head { text-align: center !important; color: var(--hh-text-primary) !important; font-weight: bold !important; }
+#token-stats-panel .tub-cmp-col-id { font-weight: bold !important; }
+#token-stats-panel .tub-cmp-col-time { font-size: 0.85em !important; color: var(--hh-text-secondary) !important; font-weight: normal !important; }
+#token-stats-panel .tub-cmp-baseline-tag { color: var(--hh-accent-color) !important; font-size: 0.8em !important; margin-left: 4px !important; }
+#token-stats-panel .tub-cmp-compare-tag { color: var(--hh-text-secondary) !important; font-size: 0.8em !important; margin-left: 4px !important; }
+/* 条目差异行：整行可点击，打开条目详情子窗 */
+#token-stats-panel .tub-cmp-entry-row { cursor: pointer !important; transition: background-color 0.15s ease !important; }
+#token-stats-panel .tub-cmp-entry-row:hover { background-color: var(--hh-tab-hover-bg) !important; }
+#token-stats-panel .tub-cmp-entry-row:hover .tub-cmp-entry-name { color: var(--hh-accent-color) !important; }
+
+/* --- 统计面板：上下文顺序视图的消息楼层行 --- */
+#token-stats-panel .tub-ctx-msg, #hide-helper-wi-msg-popup .tub-ctx-msg {
+    display: flex !important; justify-content: space-between !important; align-items: center !important; gap: 10px !important;
+    margin: 14px 0 6px !important; padding: 6px 12px !important; border-radius: 8px !important;
+    background: var(--hh-background-secondary) !important; border-left: 3px solid var(--hh-accent-color) !important;
+}
+#token-stats-panel .tub-ctx-msg-main, #hide-helper-wi-msg-popup .tub-ctx-msg-main { display: flex !important; align-items: center !important; gap: 8px !important; min-width: 0 !important; }
+#token-stats-panel .tub-ctx-msg-badge, #hide-helper-wi-msg-popup .tub-ctx-msg-badge {
+    flex-shrink: 0 !important; background: var(--hh-accent-color) !important; color: var(--hh-stats-book) !important;
+    font-size: 0.72em !important; font-weight: bold !important; border-radius: 10px !important; padding: 1px 8px !important;
+}
+#token-stats-panel .tub-ctx-msg-title, #hide-helper-wi-msg-popup .tub-ctx-msg-title { color: var(--hh-text-primary) !important; font-size: 0.82em !important; font-weight: 500 !important; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; }
+#token-stats-panel .tub-ctx-msg-tokens, #hide-helper-wi-msg-popup .tub-ctx-msg-tokens { flex-shrink: 0 !important; color: var(--hh-text-secondary) !important; font-size: 0.78em !important; font-weight: bold !important; }
+#token-stats-panel .tub-ctx-msg-role, #hide-helper-wi-msg-popup .tub-ctx-msg-role {
+    flex-shrink: 0 !important; color: var(--hh-text-secondary) !important; font-size: 0.78em !important;
+    font-weight: bold !important; letter-spacing: 0.02em !important; white-space: nowrap !important;
+}
+#token-stats-panel .tub-ctx-msg-nonfloor, #hide-helper-wi-msg-popup .tub-ctx-msg-nonfloor { border-left-color: var(--hh-border-color) !important; }
+#token-stats-panel .tub-ctx-msg-badge-nonfloor, #hide-helper-wi-msg-popup .tub-ctx-msg-badge-nonfloor { background: var(--hh-btn-secondary-hover-bg) !important; color: var(--hh-text-secondary) !important; }
+#token-stats-panel .tub-ctx-unmatched { margin-top: 18px !important; }
+#token-stats-panel .tub-cmp-cell { color: var(--hh-text-primary) !important; font-weight: bold !important; }
+#token-stats-panel .tub-cmp-cell small { display: block !important; color: var(--hh-text-secondary) !important; font-weight: normal !important; font-size: 0.85em !important; }
+#token-stats-panel .tub-cmp-cell.tub-cmp-zero { color: var(--hh-text-secondary) !important; font-weight: normal !important; opacity: 0.7 !important; }
+#token-stats-panel .tub-cmp-sep td, #token-stats-panel .tub-cmp-sep th { border-bottom: none !important; padding: 2px !important; }
+#token-stats-panel .tub-delta { display: block !important; font-size: 0.8em !important; font-weight: normal !important; }
+#token-stats-panel .tub-delta.up { color: var(--hh-stats-color-ejs) !important; }
+#token-stats-panel .tub-delta.down { color: var(--hh-stats-green-dark) !important; }
+#token-stats-panel .tub-cmp-entry-name-head { max-width: none !important; }
+#token-stats-panel .tub-cmp-entry-name { max-width: 190px !important; overflow: hidden !important; text-overflow: ellipsis !important; white-space: nowrap !important; }
+#token-stats-panel .tub-cmp-book-row td, #token-stats-panel .tub-cmp-book-row th { padding-top: 10px !important; }
+#token-stats-panel .tub-compare-table th.tub-cmp-book-name { text-align: left !important; color: var(--hh-text-primary) !important; font-weight: bold !important; font-size: 0.95em !important; border-bottom: 1px solid var(--hh-border-color) !important; }
+#token-stats-panel .tub-cmp-subheading-row { display: flex !important; justify-content: space-between !important; align-items: center !important; gap: 10px !important; }
+#token-stats-panel .tub-cmp-book-bar { display: flex !important; justify-content: space-between !important; align-items: flex-start !important; gap: 10px !important; margin-bottom: 10px !important; }
+#token-stats-panel .tub-cmp-book-bar .tub-book-filters, #hide-helper-wi-msg-popup .tub-cmp-book-bar .tub-book-filters { margin-bottom: 0 !important; flex: 1 1 auto !important; }
+#token-stats-panel .tub-cmp-unmatched { color: var(--hh-text-secondary) !important; font-weight: normal !important; font-style: italic !important; font-size: 0.9em !important; }
+
+/* --- 容器/区块样式隔离 --- */
+#hide-helper-popup .theme-switch-container { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; background: var(--hh-background-secondary); border-radius: 8px; margin-bottom: 20px; border: 1px solid var(--hh-border-color); }
+#hide-helper-popup .hide-settings-tip { font-size: 12px; color: var(--hh-text-secondary); margin-top: 8px; }
+#hide-helper-popup .hide-helper-popup-footer-center { display: flex; justify-content: center; }
+#hide-helper-popup .theme-switch-label { color: var(--hh-text-primary); font-weight: 500; }
+#hide-helper-popup .log-level-switch-container { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; background: var(--hh-background-secondary); border-radius: 8px; margin-bottom: 20px; border: 1px solid var(--hh-border-color); }
+#hide-helper-popup .log-level-label { color: var(--hh-text-primary); font-weight: 500; font-size: 14px; }
+#hide-helper-popup .log-level-select { padding: 6px 12px !important; border-radius: 6px !important; border: 1px solid var(--hh-border-color) !important; background-color: var(--hh-input-bg) !important; color: var(--hh-text-primary) !important; font-size: 13px !important; cursor: pointer; transition: border-color 0.2s ease, box-shadow 0.2s ease; min-width: 180px; }
+#hide-helper-popup .log-level-select:hover { border-color: var(--hh-accent-color) !important; }
+#hide-helper-popup .log-level-select:focus { outline: none; border-color: var(--hh-accent-color) !important; box-shadow: 0 0 0 3px var(--hh-color-blue-focus) !important; }
+#hide-helper-popup .log-level-select option { background-color: var(--hh-background-popup); color: var(--hh-text-primary); padding: 8px; }
+#hide-helper-popup .log-ui-toggle-container { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; background: var(--hh-background-secondary); border-radius: 8px; margin-bottom: 15px; border: 1px solid var(--hh-border-color); }
+#hide-helper-popup .log-ui-toggle-label { color: var(--hh-text-primary); font-weight: 500; font-size: 14px; }
+#hide-helper-popup .log-level-selector-wrapper { overflow: hidden; }
+
+/* --- 侧边栏/设置内页样式 --- */
+#hide-helper-settings .hide-new-badge { background-color: #ff4444; color: white; font-size: 0.7em; padding: 1px 5px; border-radius: 4px; margin-left: 6px; font-weight: bold; vertical-align: middle; line-height: normal; animation: pulse-red 2s infinite; }
+@keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.4); } 70% { box-shadow: 0 0 0 6px rgba(255, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 68, 68, 0); } }
+#hide-helper-settings .hide-version-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 2px; font-size: 0.9em; opacity: 0.9; }
+#hide-helper-settings .hide-update-btn { font-size: 0.9em !important; padding: 4px 12px !important; min-width: auto !important; width: auto !important; }
+#hide-helper-settings .hide-update-btn.has-update { color: #ff4444 !important; border-color: #ff4444 !important; font-weight: bold; }
+#hide-helper-settings .hide-update-btn.has-update:hover { background-color: #ff4444 !important; color: white !important; }
+#hide-helper-settings .hide-update-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+/* --- 主题提示弹窗样式 --- */
+.hide-helper-notification-popup { position: fixed; max-width: 400px; width: 90%; background: var(--hh-background-popup); border: 1px solid var(--hh-border-color); border-radius: 12px; box-shadow: 0 8px 32px var(--hh-color-black-shadow-strong); z-index: 10000; display: none; max-height: 90vh; animation: hhFadeIn 0.3s ease-out; }
+.hide-helper-notification-popup .notification-content { padding: 25px; text-align: center; }
+.hide-helper-notification-popup .notification-icon { font-size: 48px; color: var(--hh-accent-color); margin-bottom: 15px; }
+.hide-helper-notification-popup h3 { font-size: 16px; font-weight: 600; color: var(--hh-text-primary); margin: 0 0 10px 0; }
+.hide-helper-notification-popup p { font-size: 14px; color: var(--hh-text-secondary); line-height: 1.6; margin: 0 0 20px 0; }
+.hide-helper-notification-popup .notification-buttons { display: flex; gap: 10px; justify-content: center; }
+.hide-helper-notification-popup .notification-buttons .hide-helper-btn { display: inline-flex; justify-content: center; align-items: center; gap: 8px; padding: 10px 20px !important; border: none !important; border-radius: 8px !important; font-size: 14px !important; font-weight: 500 !important; cursor: pointer; transition: all 0.2s ease; box-sizing: border-box; white-space: nowrap; height: auto !important; min-width: 0; flex: 1; }
+.hide-helper-notification-popup .notification-primary-btn { background-color: var(--hh-accent-color) !important; color: var(--hh-color-white) !important; }
+.hide-helper-notification-popup .notification-primary-btn:hover { background-color: var(--hh-accent-color-hover) !important; transform: translateY(-2px); box-shadow: 0 4px 12px var(--hh-color-blue-focus); }
+.hide-helper-notification-popup .notification-secondary-btn { background-color: var(--hh-btn-secondary-bg) !important; color: var(--hh-text-primary) !important; }
+.hide-helper-notification-popup .notification-secondary-btn:hover { background-color: var(--hh-btn-secondary-hover-bg) !important; }
+
+/* --- 更新日志弹窗 --- */
+.hide-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--hh-color-black-overlay); z-index: 99999; display: none; align-items: center; justify-content: center; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+.hide-modal-overlay.visible { display: flex; }
+.hide-modal-box { background: var(--hh-background-popup); border: 1px solid var(--hh-border-color); border-radius: 12px; width: 400px; max-width: 90vw; padding: 20px; box-shadow: 0 10px 40px var(--hh-color-black-shadow-strong); display: flex; flex-direction: column; gap: 15px; color: var(--hh-text-primary); }
+.hide-modal-header { font-size: 18px; font-weight: bold; border-bottom: 1px solid var(--hh-border-color); padding-bottom: 10px; color: var(--hh-text-primary); }
+.hide-update-tip { font-size: 0.85em; color: var(--hh-text-secondary); text-align: center; margin: 10px 15px; padding: 8px; background: var(--hh-background-secondary); border-radius: 4px; }
+
+/* --- 「模拟发送」正在生成中的提示弹窗（第三十五轮用户口径⑤）---
+   用户口径：「在『模拟发送』生成阶段，请出现一个提示弹窗提示正在生成。」
+   造型：居中的小卡片（转圈 + 标题 + 一行说明），复用 `.hide-modal-overlay` 骨架（日夜自动切换）。
+   ⚠️ 本遮罩**不可关闭、不可点掉**（没有取消按钮，也没有 `pointer-events` 放行）——
+      它只是"正在干活"的状态提示，管线一结束由 hideSimulateProgress() 移除。
+      因此层级要高于「模拟发送」输入弹窗（100002），避免出现"输入框还开着"的错觉。 */
+.hide-sim-progress-overlay { z-index: 100010 !important; cursor: progress; }
+.hide-sim-progress-box {
+    width: auto !important; min-width: 260px !important; max-width: 88vw !important;
+    align-items: center !important; text-align: center !important;
+    gap: 12px !important; padding: 26px 30px !important;
+}
+.hide-sim-progress-spinner {
+    width: 34px; height: 34px; border-radius: 50%;
+    border: 3px solid var(--hh-border-color);
+    border-top-color: var(--hh-accent-color);
+    animation: hhSimSpin 0.9s linear infinite;
+}
+@keyframes hhSimSpin { to { transform: rotate(360deg); } }
+.hide-sim-progress-title { font-size: 16px; font-weight: 600; color: var(--hh-text-primary); }
+.hide-sim-progress-tip { font-size: 0.82em; line-height: 1.65; color: var(--hh-text-secondary); }
+
+/* --- 「模拟发送」自定义弹窗（第三十一轮：用户口径「不要使用 popup，用与插件一套风格主题的自定义弹窗」）---
+   复用 `.hide-modal-overlay` / `.hide-modal-box` 的骨架（与「更新日志」弹窗同一套）——
+   变量全部走 `--hh-*`，`data-theme="dark"` 由 askSimulateContent 按插件主题打上，日夜自动切换。 */
+.hide-sim-overlay { z-index: 100002 !important; }          /* 高于主弹窗(9999)与子窗(10000/10001) */
+.hide-sim-box { width: 440px; max-width: 92vw; gap: 12px !important; }
+.hide-sim-box .hide-sim-header {
+    display: flex !important; align-items: center !important; justify-content: space-between !important;
+    padding-bottom: 10px; border-bottom: 1px solid var(--hh-border-color);
+    font-size: 17px; font-weight: 600; color: var(--hh-text-primary);
+}
+.hide-sim-box .hide-sim-close {
+    position: static !important; width: 26px; height: 26px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: none; background: transparent; border-radius: 6px;
+    color: var(--hh-text-secondary); font-size: 20px; line-height: 1;
+    cursor: pointer; transition: color 0.15s ease, background-color 0.15s ease;
+}
+.hide-sim-box .hide-sim-close:hover { color: var(--hh-text-primary); background: var(--hh-btn-secondary-hover-bg); }
+.hide-sim-box .hide-sim-tip {
+    font-size: 0.82em; line-height: 1.65; color: var(--hh-text-secondary);
+    background: var(--hh-accent-color-bg-very-light);
+    border-left: 3px solid var(--hh-accent-color);
+    border-radius: 6px; padding: 9px 12px;
+}
+.hide-sim-box .hide-sim-tip b { color: var(--hh-text-primary); font-weight: 600; }
+.hide-sim-box .hide-sim-label { font-size: 0.85em; font-weight: 500; color: var(--hh-text-secondary); }
+.hide-sim-box .hide-sim-input {
+    width: 100% !important; box-sizing: border-box;
+    min-height: 96px; max-height: 40vh; resize: vertical;
+    padding: 10px 12px !important; border-radius: 8px !important;
+    border: 1px solid var(--hh-border-color) !important;
+    background: var(--hh-input-bg) !important; color: var(--hh-text-primary) !important;
+    font-family: inherit !important; font-size: 0.9em !important; line-height: 1.6;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.hide-sim-box .hide-sim-input:focus {
+    outline: none !important; border-color: var(--hh-accent-color) !important;
+    box-shadow: 0 0 0 3px var(--hh-accent-color-bg-light) !important;
+}
+.hide-sim-box .hide-sim-input::placeholder { color: var(--hh-text-secondary); opacity: 0.8; }
+.hide-sim-box .hide-sim-footer { justify-content: flex-end !important; gap: 10px; margin-top: 4px; }
+.hide-modal-footer { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
+.hide-modal-footer .menu_button { width: auto !important; flex: 0 0 auto; min-width: 80px; padding: 10px 16px !important; border-radius: 8px !important; border: none !important; font-size: 14px !important; font-weight: 500 !important; cursor: pointer; background-color: var(--hh-btn-secondary-bg) !important; color: var(--hh-text-primary) !important; transition: all 0.2s ease; }
+.hide-modal-footer .menu_button:hover { background-color: var(--hh-btn-secondary-hover-bg) !important; }
+.hide-modal-footer .menu_button.primary { background-color: var(--hh-accent-color) !important; color: var(--hh-color-white) !important; }
+.hide-modal-footer .menu_button.primary:hover { background-color: var(--hh-accent-color-hover) !important; }
+.hide-changelog-viewer { background: var(--hh-background-secondary); padding: 15px; border-radius: 6px; max-height: 300px; overflow-y: auto; font-family: monospace; font-size: 0.9em; white-space: pre-wrap; color: var(--hh-text-primary); border: 1px solid var(--hh-border-color); }
+
+/* --- 下载图标悬停效果 --- */
+#hide-helper-download-log:hover {
+    color: var(--hh-text-primary) !important;
+    transform: scale(1.1);
+}
+/* --- 条目详情子弹窗（点击「已激活条目」/「世界书条目差异」里的条目打开） --- */
+/* 尺寸与主弹窗一致（width/height/left/top 由 JS 内联写入 —— 此处 width/height 绝不能加 !important，
+   否则会盖掉内联值，导致子窗尺寸不受控）。桌面端贴主弹窗正右方，移动端居中。 */
+#hide-helper-entry-popup {
+    width: auto; max-width: none; max-height: none;
+    z-index: 10000 !important; /* 高于主弹窗：移动端居中显示时不被主弹窗盖住 */
+    gap: 12px !important;
+    overflow: hidden !important;
+}
+#hide-helper-entry-popup .hide-entry-head {
+    display: flex !important; flex-direction: column !important; gap: 4px !important;
+    padding-bottom: 10px !important; border-bottom: 1px solid var(--hh-border-color) !important;
+    flex: 0 0 auto !important;
+}
+#hide-helper-entry-popup .hide-entry-name {
+    color: var(--hh-text-primary) !important; font-size: 16px !important; font-weight: 600 !important;
+    padding-right: 26px !important; word-break: break-word !important;
+}
+/* 条目名按类型着色：红=EJS / 蓝=常驻 / 绿=动态（与列表、差异表的类型配色一致） */
+#hide-helper-entry-popup .hide-entry-name-ejs { color: var(--hh-stats-color-ejs) !important; }
+#hide-helper-entry-popup .hide-entry-name-constant { color: var(--hh-stats-color-constant) !important; }
+#hide-helper-entry-popup .hide-entry-name-dynamic { color: var(--hh-stats-color-dynamic) !important; }
+/* 副标题行：左 = 所属世界书（可换行），右 = 类型徽标（EJS/常驻/动态，右对齐） */
+#hide-helper-entry-popup .hide-entry-sub {
+    display: flex !important; justify-content: space-between !important; align-items: center !important; gap: 10px !important;
+    color: var(--hh-text-secondary) !important; font-size: 0.78em !important;
+}
+#hide-helper-entry-popup .hide-entry-book { min-width: 0 !important; word-break: break-word !important; }
+/* 内容区滚动：子窗必须保持 flex 纵向布局，.hide-entry-body 的 flex:1 1 auto 才会生效、
+   才会被父级固定高度约束并出现滚动条（若为 block，body 会长到内容全高而被父级 overflow:hidden 裁掉，
+   看起来"完全无法滚动"）。display 由 showEntryPopup 设为 flex。 */
+#hide-helper-entry-popup .hide-entry-body {
+    flex: 1 1 auto !important; overflow-y: auto !important; min-height: 0 !important;
+    /* 滚动条默认整条隐藏（轨道+滑块透明）。三档颜色由 JS 打的三个状态类驱动，标准属性
+       （scrollbar-color，Firefox / Chrome121+）与 WebKit 伪元素两套写法同步取值，
+       无论浏览器优先认哪一套，看到的效果都一致：
+         .hh-sb-scrolling → 浅色（正在滚动）
+         .hh-sb-hover     → 深一档（鼠标移到滚动条上）
+         .hh-sb-dragging  → 最深（按着滚动条拖） */
+    scrollbar-width: thin !important;
+    scrollbar-color: transparent transparent !important;
+}
+#hide-helper-entry-popup .hide-entry-body * { scrollbar-width: none !important; }
+/* WebKit 滚动条：轨道透明；去掉平台自带的「首尾倒三角按钮」 */
+#hide-helper-entry-popup .hide-entry-body::-webkit-scrollbar { display: block !important; width: 8px !important; height: 8px !important; }
+#hide-helper-entry-popup .hide-entry-body::-webkit-scrollbar-track { background: transparent !important; }
+#hide-helper-entry-popup .hide-entry-body::-webkit-scrollbar-button {
+    display: none !important; width: 0 !important; height: 0 !important;
+}
+/* 滑块：默认透明（= 隐藏），随后按状态类逐级加重 */
+#hide-helper-entry-popup .hide-entry-body::-webkit-scrollbar-thumb {
+    background: transparent !important; border-radius: 4px !important;
+}
+/* ① 滚动中（浅） */
+#hide-helper-entry-popup .hide-entry-body.hh-sb-scrolling { scrollbar-color: var(--hh-scrollbar-thumb-faint) transparent !important; }
+#hide-helper-entry-popup .hide-entry-body.hh-sb-scrolling::-webkit-scrollbar-thumb {
+    background: var(--hh-scrollbar-thumb-faint) !important;
+}
+/* ② 鼠标在滚动条上（深一档）—— 含 WebKit 的滑块 :hover 兜底 */
+#hide-helper-entry-popup .hide-entry-body.hh-sb-hover { scrollbar-color: var(--hh-scrollbar-thumb) transparent !important; }
+#hide-helper-entry-popup .hide-entry-body.hh-sb-hover::-webkit-scrollbar-thumb,
+#hide-helper-entry-popup .hide-entry-body::-webkit-scrollbar-thumb:hover {
+    background: var(--hh-scrollbar-thumb) !important;
+}
+/* ③ 按住/拖拽（最深）—— 必须排在 ①② 之后 */
+#hide-helper-entry-popup .hide-entry-body.hh-sb-dragging { scrollbar-color: var(--hh-scrollbar-thumb-hover) transparent !important; }
+#hide-helper-entry-popup .hide-entry-body.hh-sb-dragging::-webkit-scrollbar-thumb,
+#hide-helper-entry-popup .hide-entry-body::-webkit-scrollbar-thumb:active {
+    background: var(--hh-scrollbar-thumb-hover) !important;
+}
+
+/* 类型徽标：现在位于子窗头部 .hide-entry-sub 的最右侧（右对齐），字号随副标题行一起收小 */
+#hide-helper-entry-popup .hide-entry-type {
+    display: inline-block !important; flex: 0 0 auto !important;
+    font-size: 11px !important; line-height: 1.5 !important; font-weight: bold !important;
+    border-radius: 10px !important; padding: 1px 9px !important; color: var(--hh-color-white) !important;
+}
+#hide-helper-entry-popup .hide-entry-type-ejs { background: var(--hh-stats-color-ejs) !important; }
+#hide-helper-entry-popup .hide-entry-type-constant { background: var(--hh-stats-color-constant) !important; }
+#hide-helper-entry-popup .hide-entry-type-dynamic { background: var(--hh-stats-color-dynamic) !important; }
+
+#hide-helper-entry-popup .hide-entry-row {
+    display: flex !important; justify-content: space-between !important; align-items: flex-start !important; gap: 12px !important;
+    padding: 6px 0 !important; border-bottom: 1px dashed var(--hh-border-color) !important;
+}
+#hide-helper-entry-popup .hide-entry-label { flex: 0 0 auto !important; color: var(--hh-text-secondary) !important; font-size: 0.8em !important; }
+#hide-helper-entry-popup .hide-entry-value { flex: 1 1 auto !important; text-align: right !important; min-width: 0 !important; }
+#hide-helper-entry-popup .hide-entry-plain { color: var(--hh-text-primary) !important; font-size: 0.8em !important; word-break: break-word !important; }
+#hide-helper-entry-popup .hide-entry-none { color: var(--hh-text-secondary) !important; font-size: 0.8em !important; font-style: italic !important; }
+#hide-helper-entry-popup .hide-entry-key {
+    display: inline-block !important; margin: 1px 0 1px 4px !important; padding: 1px 8px !important;
+    background: var(--hh-background-secondary) !important; border: 1px solid var(--hh-border-color) !important;
+    border-radius: 10px !important; color: var(--hh-text-primary) !important; font-size: 0.75em !important;
+    max-width: 100% !important; overflow: hidden !important; text-overflow: ellipsis !important; vertical-align: middle !important;
+}
+#hide-helper-entry-popup .hide-entry-key-sec { border-style: dashed !important; }
+#hide-helper-entry-popup .hide-entry-logic { color: var(--hh-text-secondary) !important; font-size: 0.72em !important; margin-left: 4px !important; }
+/* 「UID / tokens」行：占据原来「内容（content）」标签行的位置 —— 左 = UID，右 = tokens；内容块紧随其后 */
+#hide-helper-entry-popup .hide-entry-meta-row { justify-content: space-between !important; align-items: baseline !important; }
+#hide-helper-entry-popup .hide-entry-uid {
+    color: var(--hh-text-primary) !important; font-size: 0.8em !important;
+    font-variant-numeric: tabular-nums !important; word-break: break-all !important;
+}
+#hide-helper-entry-popup .hide-entry-tokens {
+    color: var(--hh-text-secondary) !important; font-size: 0.8em !important;
+    white-space: nowrap !important; font-variant-numeric: tabular-nums !important;
+}
+/* 「内容（content）」块（保留展示，紧随 UID/tokens 行） */
+#hide-helper-entry-popup .hide-entry-content {
+    background: var(--hh-background-secondary) !important; border: 1px solid var(--hh-border-color) !important;
+    border-radius: 8px !important; padding: 10px 12px !important; color: var(--hh-text-primary) !important;
+    font-family: ui-monospace, monospace !important; font-size: 0.78em !important; line-height: 1.6 !important;
+    white-space: pre-wrap !important; word-break: break-word !important; margin-top: 6px !important;
+}
+/* 「递归」行的两个只读勾选项：勾选=绿色（该项已生效），未勾选=红色（该项未生效） */
+#hide-helper-entry-popup .hide-entry-checks {
+    display: flex !important; flex-wrap: wrap !important; gap: 4px 14px !important;
+    justify-content: flex-end !important; align-items: center !important;
+}
+#hide-helper-entry-popup .hide-entry-check {
+    display: inline-flex !important; align-items: center !important; gap: 6px !important;
+    font-size: 0.8em !important; font-weight: 500 !important; white-space: nowrap !important;
+}
+/* 两个递归选项：文字统一用正文色（不再绿/红）；勾选框同样中性，勾/未勾只由"有没有 ✓"区分 */
+#hide-helper-entry-popup .hide-entry-check-on,
+#hide-helper-entry-popup .hide-entry-check-off { color: var(--hh-text-primary) !important; }
+#hide-helper-entry-popup .hide-entry-checkbox {
+    position: relative !important; flex: 0 0 auto !important; width: 13px !important; height: 13px !important;
+    border-radius: 3px !important; box-sizing: border-box !important;
+    display: inline-flex !important; align-items: center !important; justify-content: center !important;
+    font-size: 9px !important; line-height: 1 !important;
+    background: transparent !important; border: 1px solid var(--hh-text-secondary) !important;
+    color: var(--hh-text-primary) !important;
+}
+/* 已勾选：边框加深一档（文字仍是正文色） */
+/* 已勾选：黑色填充 + 白色对钩（更直观；用户要求）；未勾选保持透明底 + 灰边框 */
+#hide-helper-entry-popup .hide-entry-checkbox-on {
+    background: var(--hh-text-primary) !important;
+    border-color: var(--hh-text-primary) !important;
+    color: var(--hh-color-white) !important;
+}
+/* 第三十五轮用户口径⑥（暗黑主题下对钩颜色）：勾选态的底色是 `--hh-text-primary`，
+   而它在暗色主题里是**浅灰（#e0e0e0）** —— 白色对钩压在上面几乎看不见（对比度 ≈ 1.3:1）。
+   用户口径「暗黑主题下 `hide-entry-checks` 的勾选框中的对钩请改为黑色」⇒
+   暗色下把对钩改成**纯黑**（与浅灰底对比 ≈ 15:1），亮色下保持不变（深底 + 白钩）。
+   ⚠️ 用 `--hh-stats-book` 反推不行（它在暗色下是黑色、亮色下是白色，语义正好相反），
+      这里直接写黑/白两个确定值，避免再被主题变量绕进去。 */
+#hide-helper-entry-popup[data-theme="dark"] .hide-entry-checkbox-on {
+    color: rgba(0, 0, 0, 1) !important;
+}
+/* 子窗关闭按钮：主弹窗的关闭按钮样式作用域限定在 #hide-helper-popup 内，这里补一份同款 */
+#hide-helper-entry-popup .hide-helper-popup-close-icon {
+    position: absolute; top: 6px; right: 5px; width: 30px; border: none; background: none; color: var(--hh-text-secondary);
+    font-size: 25px; line-height: 1; cursor: pointer; transition: color 0.2s ease, transform 0.2s ease; padding: 0;
+    display: flex; align-items: center; justify-content: center;
+}
+#hide-helper-entry-popup .hide-helper-popup-close-icon:hover { color: var(--hh-text-primary); transform: rotate(90deg); }
+#hide-helper-entry-popup ::-webkit-scrollbar { display: none !important; }
+
+/* ==================== 「聊天」统计子窗 ==================== */
+/* 与条目详情子窗同款：尺寸/位置由 JS（positionChildPopup）内联写入、与主窗一致并贴其右侧，
+   故这里绝不能给 width/height 加 !important（会盖掉内联值）。
+   内部保持 flex 纵向布局：标题固定 + .hcs-body 滚动。 */
+/* ⚠️ width/max-width/max-height 绝不能加 !important（!important 会盖掉 JS 内联写入的尺寸）。
+   这里用非 important 的 auto/none 覆盖 .hide-helper-popup 基础类的 `width:90%; max-width:420px`，
+   内联值（positionChildPopup 写入）优先级更高，于是尺寸与主窗一致。 */
+#hide-helper-chat-stats-popup {
+    width: auto; max-width: none; max-height: none;
+    z-index: 10000 !important; /* 与条目详情子窗同级：高于主弹窗 */
+    gap: 12px !important; overflow: hidden !important;
+}
+#hide-helper-chat-stats-popup .hcs-title {
+    flex: 0 0 auto !important; font-size: 16px !important; font-weight: 600 !important; color: var(--hh-text-primary) !important;
+    padding: 0 26px 10px 0 !important; border-bottom: 1px solid var(--hh-border-color) !important;
+}
+#hide-helper-chat-stats-popup .hide-helper-popup-close-icon {
+    position: absolute; top: 6px; right: 5px; width: 30px; border: none; background: none;
+    color: var(--hh-text-secondary); font-size: 25px; line-height: 1; cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease; padding: 0;
+    display: flex; align-items: center; justify-content: center;
+}
+#hide-helper-chat-stats-popup .hide-helper-popup-close-icon:hover { color: var(--hh-text-primary); transform: rotate(90deg); }
+/* 内容区滚动：内部保持 flex 纵向布局；滚动条与**条目详情子窗同款**——默认整条隐藏（轨道+滑块透明），
+   三档颜色由 JS（initHiddenScrollbar）打的 .hh-sb-scrolling / .hh-sb-hover / .hh-sb-dragging 驱动；
+   标准属性（scrollbar-width / scrollbar-color）与 WebKit 伪元素两套写法同步取值。
+   ⚠️ 只给 scrollbar-width 而不给 scrollbar-color 时，Chrome 会退回**平台原生滚动条**（Windows 上就是带
+   首尾倒三角的经典样式、且始终可见）——2026-10-15 用户截图里那条又粗又丑的滚动条就是这么来的。 */
+#hide-helper-chat-stats-popup .hcs-body {
+    flex: 1 1 auto !important; min-height: 0 !important; display: flex; flex-direction: column; gap: 10px;
+    overflow-y: auto !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: transparent transparent !important;
+}
+#hide-helper-chat-stats-popup .hcs-body * { scrollbar-width: none !important; }
+/* WebKit：轨道透明、去掉平台自带的「首尾倒三角按钮」、滑块默认透明（= 隐藏） */
+#hide-helper-chat-stats-popup .hcs-body::-webkit-scrollbar { display: block !important; width: 8px !important; height: 8px !important; }
+#hide-helper-chat-stats-popup .hcs-body::-webkit-scrollbar-track { background: transparent !important; }
+#hide-helper-chat-stats-popup .hcs-body::-webkit-scrollbar-button {
+    display: none !important; width: 0 !important; height: 0 !important;
+}
+#hide-helper-chat-stats-popup .hcs-body::-webkit-scrollbar-thumb {
+    background: transparent !important; border-radius: 4px !important;
+}
+/* ① 滚动中（浅） */
+#hide-helper-chat-stats-popup .hcs-body.hh-sb-scrolling { scrollbar-color: var(--hh-scrollbar-thumb-faint) transparent !important; }
+#hide-helper-chat-stats-popup .hcs-body.hh-sb-scrolling::-webkit-scrollbar-thumb {
+    background: var(--hh-scrollbar-thumb-faint) !important;
+}
+/* ② 鼠标在滚动条上（深一档）—— 含 WebKit 的滑块 :hover 兜底 */
+#hide-helper-chat-stats-popup .hcs-body.hh-sb-hover { scrollbar-color: var(--hh-scrollbar-thumb) transparent !important; }
+#hide-helper-chat-stats-popup .hcs-body.hh-sb-hover::-webkit-scrollbar-thumb,
+#hide-helper-chat-stats-popup .hcs-body::-webkit-scrollbar-thumb:hover {
+    background: var(--hh-scrollbar-thumb) !important;
+}
+/* ③ 按住/拖拽（最深）—— 必须排在 ①② 之后 */
+#hide-helper-chat-stats-popup .hcs-body.hh-sb-dragging { scrollbar-color: var(--hh-scrollbar-thumb-hover) transparent !important; }
+#hide-helper-chat-stats-popup .hcs-body.hh-sb-dragging::-webkit-scrollbar-thumb,
+#hide-helper-chat-stats-popup .hcs-body::-webkit-scrollbar-thumb:active {
+    background: var(--hh-scrollbar-thumb-hover) !important;
+}
+#hide-helper-chat-stats-popup .hcs-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 10px 12px; background: var(--hh-background-secondary); border-radius: 8px;
+    flex: 0 0 auto;
+}
+#hide-helper-chat-stats-popup .hcs-label { font-size: 13px; color: var(--hh-text-secondary); flex: 0 0 auto; }
+#hide-helper-chat-stats-popup .hcs-value {
+    display: flex; align-items: baseline; justify-content: flex-end; gap: 6px; flex: 1 1 auto;
+    text-align: right; min-width: 0; color: var(--hh-text-primary);
+}
+#hide-helper-chat-stats-popup .hcs-value small { color: var(--hh-text-secondary); font-size: 11px; }
+#hide-helper-chat-stats-popup .hcs-range { font-size: 16px; font-weight: 700; color: var(--hh-accent-color-text); }
+#hide-helper-chat-stats-popup .hcs-plain { color: var(--hh-text-secondary); }
+#hide-helper-chat-stats-popup .hcs-loading,
+#hide-helper-chat-stats-popup .hcs-chart-empty {
+    color: var(--hh-text-secondary); font-size: 12px; text-align: center; padding: 8px;
+}
+#hide-helper-chat-stats-popup .hcs-chart-block {
+    padding: 10px 12px 6px; background: var(--hh-background-secondary); border-radius: 8px;
+    flex: 0 0 auto;
+}
+#hide-helper-chat-stats-popup .hcs-chart-title { font-size: 13px; color: var(--hh-text-secondary); margin-bottom: 6px; }
+#hide-helper-chat-stats-popup .hcs-chart { display: block; width: 100%; height: auto; overflow: visible; }
+/* 折线一（输出 tokens）与折线二（生成速度）：不同配色便于区分 */
+#hide-helper-chat-stats-popup .hcs-spark-line-tokens { stroke: var(--hh-stats-color-dynamic); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+#hide-helper-chat-stats-popup .hcs-spark-line-speed { stroke: var(--hh-stats-color-constant); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+#hide-helper-chat-stats-popup .hcs-spark-dot { cursor: default; }
+#hide-helper-chat-stats-popup .hcs-spark-dot-tokens { fill: var(--hh-stats-color-dynamic); }
+#hide-helper-chat-stats-popup .hcs-spark-dot-speed { fill: var(--hh-stats-color-constant); }
+#hide-helper-chat-stats-popup .hcs-spark-dot:hover { fill: var(--hh-accent-color); }
+/* 坐标轴：浅色网格 + 轴线 + 刻度文字（纵轴数值 / 横轴 messageID） */
+#hide-helper-chat-stats-popup .hcs-axis-grid { stroke: var(--hh-border-color); stroke-width: 1; opacity: 0.55; }
+#hide-helper-chat-stats-popup .hcs-axis-line { stroke: var(--hh-border-color); stroke-width: 1; }
+#hide-helper-chat-stats-popup .hcs-axis-label { fill: var(--hh-text-secondary); font-size: 9px; }
+/* 每个数据点旁的数值标注（峰点在上、谷点在下；位置与翻面规则见 renderSparkline）：
+   用与折线同源的配色，读者不用在图例/颜色间来回对照也能分清是哪条线。 */
+#hide-helper-chat-stats-popup .hcs-pt-label { font-size: 9px; font-weight: 600; }
+#hide-helper-chat-stats-popup .hcs-pt-label-tokens { fill: var(--hh-stats-color-dynamic); }
+#hide-helper-chat-stats-popup .hcs-pt-label-speed { fill: var(--hh-stats-color-constant); }
+
+/* 除内容区滚动条外，该窗内其余滚动条一律隐藏（与条目详情子窗 / 完整上下文查看器一致）。
+   后两条的具体性低于上面 .hcs-body 的规则，不会把内容区滚动条也藏掉。 */
+#hide-helper-chat-stats-popup ::-webkit-scrollbar { display: none !important; }
+#hide-helper-chat-stats-popup * { scrollbar-width: none !important; }
+
+/* 「聊天」统计框：可视化"可点击"（悬停描边 + 轻微上浮），不改变原有尺寸/配色 */
+#token-stats-panel .tub-stat-box-clickable { cursor: pointer !important; transition: transform 0.15s ease, box-shadow 0.15s ease !important; }
+#token-stats-panel .tub-stat-box-clickable:hover { transform: translateY(-1px) !important; box-shadow: 0 3px 10px var(--hh-color-black-shadow-medium) !important; }
+#token-stats-panel .tub-stat-box-clickable:active { transform: translateY(0) !important; }
+/* 预算预警：总量 ≥ 200000 时「总共」框标红（红底 + 红字 + 红色描边；亮暗两套主题都保证对比度） */
+#token-stats-panel .tub-stat-box-over-budget {
+    background: var(--hh-stats-overbudget-bg) !important;
+    box-shadow: 0 0 0 2px var(--hh-stats-color-ejs) inset !important;
+}
+#token-stats-panel .tub-stat-box-over-budget .tub-stat-label,
+#token-stats-panel .tub-stat-box-over-budget .tub-stat-value,
+#token-stats-panel .tub-stat-box-over-budget small { color: var(--hh-stats-color-ejs) !important; }
+
+/* 第二十九轮：原来的「完整上下文」查看器（#hide-helper-context-viewer）整套删除 —— 用户口径"内容太过重复"，
+   点「总共」直接显示「上下文目录 + 完整上下文」。它的工具栏样式（.hc-*）已镜像到 #hide-helper-ctx-outline-popup。 */
+/* ==================== 世界书消息条目来源子窗（网页中间，主弹窗最左，§2.30 / 第二十轮改落点） ==================== */
+/* 尺寸/位置由 JS（positionChildPopup side='center'）内联写入、与主窗一致（滚动条同款：默认隐藏 + 三档显色）。
+   ⚠️ width/max-width/max-height 绝不能加 !important（会盖掉 JS 内联尺寸）。 */
+/* 条目列表/饼图/搜索/位置标记行等样式**复用主面板那一套**（见上文把 #token-stats-panel 规则镜像到本子窗），
+   这里只写"本子窗独有"的布局：窗口自身、head、饼图行、条目区高度与滚动。 */
+#hide-helper-wi-msg-popup {
+    width: auto; max-width: none; max-height: none;
+    z-index: 10000 !important;      /* 与其它子窗同级：高于主弹窗 */
+    gap: 10px !important; overflow: hidden !important;
+}
+#hide-helper-wi-msg-popup .hide-helper-popup-close-icon {
+    position: absolute; top: 6px; right: 5px; width: 30px; border: none; background: none;
+    color: var(--hh-text-secondary); font-size: 25px; line-height: 1; cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease; padding: 0;
+    display: flex; align-items: center; justify-content: center; z-index: 6;
+}
+#hide-helper-wi-msg-popup .hide-helper-popup-close-icon:hover { color: var(--hh-text-primary); transform: rotate(90deg); }
+
+/* ① 顶部：该消息的 hc-msg-head 数据（同一套 class，视觉与查看器里那条消息一致） */
+#hide-helper-wi-msg-popup .hwmp-head {
+    flex: 0 0 auto !important; display: flex !important; align-items: center !important; gap: 8px !important;
+    flex-wrap: wrap !important; font-size: 0.75em !important;
+    padding: 0 26px 8px 0 !important; border-bottom: 1px solid var(--hh-border-color) !important;
+}
+/* 第三十九轮用户口径：本窗头部**只剩来源一段** —— `#N` 序号（`.hc-msg-idx`）已删除（连标记带样式）。
+   历史（第三十五轮口径⑪）：
+   · `.hc-msg-role`（角色 chip）整套删除（标记 + 样式）；
+   · `.hc-msg-tokens`（右侧 tokens）也删除；
+   · `.hc-msg-kind` 的文案与「上下文目录」项头的 `.hco-src` **完全一致**（世界书 → 「世界书」、其余 → `来源 · identifier`），
+     视觉上同样用正文主色（原来这里是次要色，比目录浅一档，两处看起来像两种东西）。 */
+#hide-helper-wi-msg-popup .hc-msg-kind { color: var(--hh-text-primary); flex: 1 1 auto; min-width: 0; word-break: break-all; }
+
+/* ② 该消息的世界书构成饼图：沿用 .tub-row-2 的样式（已随作用域镜像进来），这里只收紧内边距 */
+#hide-helper-wi-msg-popup .hwmp-pie {
+    flex: 0 0 auto !important; padding: 12px !important; gap: 24px !important; margin: 0 !important;
+}
+
+/* ③ 条目区：头部固定 + 列表滚动。列表自己撑满剩余高度（不受主面板 max-height:300px 的约束） */
+#hide-helper-wi-msg-popup .hwmp-entries-section {
+    flex: 1 1 auto !important; display: flex !important; flex-direction: column !important; min-height: 0 !important;
+}
+#hide-helper-wi-msg-popup .hwmp-entries-header {
+    flex: 0 0 auto !important; position: static !important; margin: 0 0 6px !important; padding: 0 !important;
+}
+#hide-helper-wi-msg-popup .hwmp-list {
+    flex: 1 1 auto !important; min-height: 0 !important;
+    max-height: none !important; margin-right: 0 !important; padding-right: 0 !important;
+    scrollbar-width: thin !important; scrollbar-color: transparent transparent !important;
+}
+#hide-helper-wi-msg-popup .hwmp-list * { scrollbar-width: none !important; }
+#hide-helper-wi-msg-popup .hwmp-list::-webkit-scrollbar { display: block !important; width: 8px !important; height: 8px !important; }
+#hide-helper-wi-msg-popup .hwmp-list::-webkit-scrollbar-track { background: transparent !important; }
+#hide-helper-wi-msg-popup .hwmp-list::-webkit-scrollbar-button { display: none !important; width: 0 !important; height: 0 !important; }
+#hide-helper-wi-msg-popup .hwmp-list::-webkit-scrollbar-thumb { background: transparent !important; border-radius: 4px !important; }
+#hide-helper-wi-msg-popup .hwmp-list.hh-sb-scrolling { scrollbar-color: var(--hh-scrollbar-thumb-faint) transparent !important; }
+#hide-helper-wi-msg-popup .hwmp-list.hh-sb-scrolling::-webkit-scrollbar-thumb { background: var(--hh-scrollbar-thumb-faint) !important; }
+#hide-helper-wi-msg-popup .hwmp-list.hh-sb-hover { scrollbar-color: var(--hh-scrollbar-thumb) transparent !important; }
+#hide-helper-wi-msg-popup .hwmp-list.hh-sb-hover::-webkit-scrollbar-thumb,
+#hide-helper-wi-msg-popup .hwmp-list::-webkit-scrollbar-thumb:hover { background: var(--hh-scrollbar-thumb) !important; }
+#hide-helper-wi-msg-popup .hwmp-list.hh-sb-dragging { scrollbar-color: var(--hh-scrollbar-thumb-hover) transparent !important; }
+#hide-helper-wi-msg-popup .hwmp-list.hh-sb-dragging::-webkit-scrollbar-thumb,
+#hide-helper-wi-msg-popup .hwmp-list::-webkit-scrollbar-thumb:active { background: var(--hh-scrollbar-thumb-hover) !important; }
+/* 窗内其余滚动条一律隐藏（上面 .hwmp-list 的放行规则特异度更高，不会被这两条压掉） */
+#hide-helper-wi-msg-popup ::-webkit-scrollbar { display: none !important; }
+#hide-helper-wi-msg-popup * { scrollbar-width: none !important; }
+
+/* ==================== 上下文目录子窗（= 目录页；第二十七轮：与「完整上下文」成对，贴它左侧） ==================== */
+/* 尺寸/位置由 JS（layoutOutlineMergePair）内联写入：目录贴在**完整上下文窗左侧**（左边放不下 → 右侧 → 钳进视口），
+   完整上下文窗用它自己的槽位。
+   ⚠️ width/max-width/max-height 绝不能加 !important（!important 会盖掉 JS 内联写入的尺寸）。 */
+#hide-helper-ctx-outline-popup {
+    width: auto; max-width: none; max-height: none;
+    z-index: 10000 !important;      /* 与其它子窗同级：高于主弹窗 */
+    gap: 12px !important; overflow: hidden !important;
+}
+#hide-helper-ctx-outline-popup .hide-helper-popup-close-icon {
+    position: absolute; top: 6px; right: 5px; width: 30px; border: none; background: none;
+    color: var(--hh-text-secondary); font-size: 25px; line-height: 1; cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease; padding: 0;
+    display: flex; align-items: center; justify-content: center; z-index: 6;
+}
+#hide-helper-ctx-outline-popup .hide-helper-popup-close-icon:hover { color: var(--hh-text-primary); transform: rotate(90deg); }
+/* 头部：标题行 + 工具栏（第二十九轮：查看器的筛选/检索整套搬到这里；不再有副标题行） */
+#hide-helper-ctx-outline-popup .hide-entry-head {
+    display: flex !important; flex-direction: column !important; gap: 6px !important;
+    padding: 0 0 10px !important; border-bottom: 1px solid var(--hh-border-color) !important;
+    flex: 0 0 auto !important;
+}
+#hide-helper-ctx-outline-popup .hide-entry-name {
+    color: var(--hh-text-primary) !important; font-size: 16px !important; font-weight: 600 !important;
+    padding-right: 26px !important;
+}
+/* 工具栏（第二十九轮口径②：整套从「完整上下文」查看器平移过来；`.hc-*` 的结构与查看器**完全一致**，
+   只是作用域从 `#hide-helper-context-viewer` 换成 `#hide-helper-ctx-outline-popup`）。 */
+#hide-helper-ctx-outline-popup .hc-toolbar {
+    flex: 0 0 auto !important; display: flex !important; flex-direction: column !important; gap: 6px !important;
+    padding-bottom: 2px !important;
+}
+#hide-helper-ctx-outline-popup .hc-filters {
+    display: flex !important; align-items: center !important; flex-wrap: wrap !important;
+    gap: 4px 8px !important; font-size: 0.72em !important;
+}
+#hide-helper-ctx-outline-popup .hc-count { margin-left: auto !important; color: var(--hh-text-secondary) !important; }
+#hide-helper-ctx-outline-popup .hc-menu-btn {
+    display: inline-flex !important; align-items: center !important; gap: 4px !important;
+    padding: 2px 8px !important; border-radius: 10px !important;
+    border: 1px solid var(--hh-border-color) !important; background: transparent !important;
+    color: var(--hh-text-secondary) !important; cursor: pointer !important;
+    font-size: 1em !important; line-height: 1.5 !important; font-family: inherit !important;
+}
+#hide-helper-ctx-outline-popup .hc-menu-btn:hover { color: var(--hh-text-primary) !important; border-color: var(--hh-accent-color) !important; }
+#hide-helper-ctx-outline-popup .hc-menu-btn.open,
+#hide-helper-ctx-outline-popup .hc-menu-btn.active { color: var(--hh-accent-color) !important; border-color: var(--hh-accent-color) !important; }
+#hide-helper-ctx-outline-popup .hc-menu-btn-label { color: inherit !important; }
+#hide-helper-ctx-outline-popup .hc-menu-btn-value { font-weight: 600 !important; }
+#hide-helper-ctx-outline-popup .hc-menu-btn::after {
+    content: ''; width: 0; height: 0; margin-left: 1px;
+    border-left: 3px solid transparent; border-right: 3px solid transparent;
+    border-top: 4px solid currentColor; opacity: 0.75;
+}
+/* 检索行（口径①，第二十九轮 R1）：**默认收起**，点放大镜展开、再点收起。
+   第三十八轮（用户口径①）：整套搜索从「上下文目录」搬到「完整上下文」窗（放大镜在 `#hcm-book` 左侧），
+   故下面这套规则同时作用于两个窗（目录窗已不再有检索行，保留选择器是为了兼容历史结构与单测夹具）。
+   ⚠️ 这里不能给 `.hc-search` 写死 `display: flex !important` —— 内联的 `style="display:none"`
+   会被 `!important` 压掉，检索行就永远是展开的（本轮实测复现）。改由 `.hco-search-open` 控制：
+   默认 `display: none`，展开时由 JS 打上该类才 `flex`。 */
+#hide-helper-ctx-outline-popup .hc-search,
+#hide-helper-ctx-merged-popup .hc-search { display: none !important; align-items: center !important; gap: 4px !important; }
+#hide-helper-ctx-outline-popup .hc-search.hco-search-open,
+#hide-helper-ctx-merged-popup .hc-search.hco-search-open { display: flex !important; }
+/* 完整上下文窗的检索行：别贴住头部与正文（本窗是 flex column + gap:12，这里只补一点自身上下留白） */
+#hide-helper-ctx-merged-popup .hc-search { flex: 0 0 auto !important; padding: 2px 0 !important; }
+#hide-helper-ctx-outline-popup .hc-search-input,
+#hide-helper-ctx-merged-popup .hc-search-input {
+    flex: 1 1 auto !important; min-width: 0 !important; padding: 3px 6px !important; height: auto !important;
+    border: none !important; border-bottom: 1px solid var(--hh-border-color) !important;
+    background: transparent !important; color: var(--hh-text-primary) !important;
+    font-size: 0.78em !important; outline: none !important; box-sizing: border-box !important;
+}
+#hide-helper-ctx-outline-popup .hc-search-input:focus,
+#hide-helper-ctx-merged-popup .hc-search-input:focus { border-bottom-color: var(--hh-accent-color) !important; }
+#hide-helper-ctx-outline-popup .hc-search-count,
+#hide-helper-ctx-merged-popup .hc-search-count { flex: 0 0 auto !important; font-size: 0.72em !important; color: var(--hh-text-secondary) !important; }
+
+/* ── 工具栏下拉菜单（来源 / 角色）───────────────────────────────────────────────────────────
+   第三十一轮修复（用户口径「筛选功能根本没用，只有"全部"」）：
+   ⚠️ **根因**：这套菜单此前**只有**上面那条 `.hh-menu[data-theme="dark"]` 的**变量**选择器，
+      **没有任何基础样式规则** —— 于是菜单是 `position: static`，被 append 到 `body` 末尾后
+      直接排到文档流最后（实测 1536×674 下 `rect.y = 674`，正好在视口下边缘之外、高度只有 24px
+      且被拉成满宽）。用户点「来源」时菜单其实"弹出来了"，只是**在视口外面**，所以看起来
+      "筛选只有全部、点了没反应"。
+   修法：补齐 position:fixed + 尺寸/配色/hover 一整套（`openCtxFilterMenu` 写的是内联 left/top，
+   故这里**不能**给 left/top 写 `!important`，否则会把内联坐标压掉）。 */
+.hh-menu {
+    position: fixed !important; z-index: 100000 !important;
+    display: flex !important; flex-direction: column !important;
+    min-width: 88px !important; max-width: 220px !important;
+    padding: 4px !important; gap: 2px !important;
+    background: var(--hh-background-popup) !important;
+    border: 1px solid var(--hh-border-color) !important;
+    border-radius: 10px !important;
+    box-shadow: 0 6px 20px var(--hh-color-black-shadow-strong) !important;
+    box-sizing: border-box !important;
+}
+.hh-menu-item {
+    display: block !important; width: 100% !important; box-sizing: border-box !important;
+    padding: 5px 10px !important; border: none !important; border-radius: 7px !important;
+    background: transparent !important; color: var(--hh-text-secondary) !important;
+    font-family: inherit !important; font-size: 12px !important; line-height: 1.5 !important;
+    text-align: left !important; white-space: nowrap !important; cursor: pointer !important;
+    transition: background-color 0.15s ease, color 0.15s ease !important;
+}
+.hh-menu-item:hover { background: var(--hh-btn-secondary-hover-bg) !important; color: var(--hh-text-primary) !important; }
+.hh-menu-item.active { background: var(--hh-tab-hover-bg) !important; color: var(--hh-accent-color) !important; font-weight: 600 !important; }
+#hide-helper-ctx-outline-popup .hc-icon-btn,
+#hide-helper-ctx-merged-popup .hc-icon-btn {
+    flex: 0 0 auto !important; display: inline-flex !important; align-items: center !important; justify-content: center !important;
+    width: 20px !important; height: 20px !important; padding: 0 !important; border: none !important; background: none !important;
+    color: var(--hh-text-secondary) !important; cursor: pointer !important; border-radius: 5px !important;
+    font-size: 0.8em !important; line-height: 1 !important;
+    transition: color 0.15s ease, background-color 0.15s ease;
+}
+#hide-helper-ctx-outline-popup .hc-icon-btn:hover,
+#hide-helper-ctx-merged-popup .hc-icon-btn:hover { color: var(--hh-accent-color) !important; background: var(--hh-tab-hover-bg) !important; }
+#hide-helper-ctx-outline-popup .hc-icon-btn.active,
+#hide-helper-ctx-merged-popup .hc-icon-btn.active { color: var(--hh-accent-color) !important; background: var(--hh-tab-hover-bg) !important; }
+/* 完整上下文窗的放大镜在 `.hcm-head`（align-items: baseline）里：按中线对齐，别跟着文字基线掉下去 */
+#hide-helper-ctx-merged-popup .hide-entry-head .hc-icon-btn { align-self: center !important; }
+/* 检索命中高亮（第三十八轮：只打在「完整上下文」内容区的正文上；目录行不再高亮） */
+#hide-helper-ctx-outline-popup mark.hc-hit,
+#hide-helper-ctx-merged-popup mark.hc-hit {
+    background: var(--hh-stats-bg-constant); color: var(--hh-text-primary);
+    border-radius: 2px; padding: 0 1px;
+}
+#hide-helper-ctx-outline-popup mark.hc-hit-current,
+#hide-helper-ctx-merged-popup mark.hc-hit-current {
+    background: var(--hh-accent-color) !important; color: var(--hh-color-white) !important;
+    box-shadow: 0 0 0 1px var(--hh-accent-color);
+}
+/* 内容区滚动：与其余子窗同款（默认隐藏 + 三档显色，由 initHiddenScrollbar 打 .hh-sb-* 驱动）。
+   ⚠️ 下面两条 scrollbar-* 必须带 !important：本窗"其余滚动条一律隐藏"那条用的是 * 选择器且带
+      !important，不加就会被压成 scrollbar-width:none、三档显色随之失效（完整上下文查看器实测踩过）。 */
+#hide-helper-ctx-outline-popup .hide-entry-body {
+    flex: 1 1 auto !important; overflow-y: auto !important; min-height: 0 !important;
+    padding: 0 !important;
+    scrollbar-width: thin !important; scrollbar-color: transparent transparent !important;
+}
+#hide-helper-ctx-outline-popup .hide-entry-body * { scrollbar-width: none !important; }
+#hide-helper-ctx-outline-popup .hide-entry-body::-webkit-scrollbar { display: block !important; width: 8px !important; height: 8px !important; }
+#hide-helper-ctx-outline-popup .hide-entry-body::-webkit-scrollbar-track { background: transparent !important; }
+#hide-helper-ctx-outline-popup .hide-entry-body::-webkit-scrollbar-button { display: none !important; width: 0 !important; height: 0 !important; }
+#hide-helper-ctx-outline-popup .hide-entry-body::-webkit-scrollbar-thumb { background: transparent !important; border-radius: 4px !important; }
+#hide-helper-ctx-outline-popup .hide-entry-body.hh-sb-scrolling { scrollbar-color: var(--hh-scrollbar-thumb-faint) transparent !important; }
+#hide-helper-ctx-outline-popup .hide-entry-body.hh-sb-scrolling::-webkit-scrollbar-thumb { background: var(--hh-scrollbar-thumb-faint) !important; }
+#hide-helper-ctx-outline-popup .hide-entry-body.hh-sb-hover { scrollbar-color: var(--hh-scrollbar-thumb) transparent !important; }
+#hide-helper-ctx-outline-popup .hide-entry-body.hh-sb-hover::-webkit-scrollbar-thumb,
+#hide-helper-ctx-outline-popup .hide-entry-body::-webkit-scrollbar-thumb:hover { background: var(--hh-scrollbar-thumb) !important; }
+#hide-helper-ctx-outline-popup .hide-entry-body.hh-sb-dragging { scrollbar-color: var(--hh-scrollbar-thumb-hover) transparent !important; }
+#hide-helper-ctx-outline-popup .hide-entry-body.hh-sb-dragging::-webkit-scrollbar-thumb,
+#hide-helper-ctx-outline-popup .hide-entry-body::-webkit-scrollbar-thumb:active { background: var(--hh-scrollbar-thumb-hover) !important; }
+/* 窗内其余滚动条一律隐藏（上面 .hide-entry-body 的放行规则特异度更高，不会被这两条压掉） */
+#hide-helper-ctx-outline-popup ::-webkit-scrollbar { display: none !important; }
+#hide-helper-ctx-outline-popup * { scrollbar-width: none !important; }
+
+/* 目录列表（第二十七轮 R3 重排 + R4 调行距：用户口径"每个条目行的间隔分开点"）────────────────
+   三层、一眼看出从属关系：
+     ① 项头 `.hco-head`（一条消息，或同一来源的"连续 N 条"分组头）= 铺底色的一整行；
+     ② 子项区 `.hco-kids` = 左侧一条**树线** + 行间留白，说明"这一项下面还有什么"；
+     ③ 子行 `.hco-kid`（分组里的消息明细 / 世界书条目明细）= 统一缩进 + 更小字号。
+   列（messageID · 角色 · 来源 · tokens）在项头与子行里**同一套**，竖着扫就能读；
+   条目行**不再用主面板那套卡片**（渐变底 / 阴影 / hover 上浮）——类型改用行首一个小方块
+   （`::before` + `data-type`），底色/阴影/位移全部抹平，整片目录变成一条整齐的平面列表。
+   ⚠️ R4：不再有 `.hco-idx`（快照序号）；**聊天条目显示 messageID**（`.hco-mesid`），世界书 / 其他来源
+   不显示任何序号；tokens 不带单位。
+   ── 第二十八轮（用户六条口径）────────────────────────────────────────────────────────────
+     ① 项头 / 分组头**可折叠**（行首 `.hco-caret` 箭头；`.hco-collapsed` 藏掉子项区）；它们右侧的
+        tokens **带单位 `t`**（JS 里写死），子行 / 条目行**不带**；~~行尾 `.hco-jump` 跳到那条消息~~
+        （第二十九轮 R1 口径④已删）；
+     ② 条目行 `.tub-nli-label` 不换行 + `.tub-nli-value` 固定最右（label 的 flex-basis 归 0，见下）；
+     ③ 聊天子行没有来源列，中间是 `.hco-preview`（正文前 N 个字符，不换行）；`hco-role-ai` 浅灰底；
+     ④ 项头 / 分组头**没有角色列**；
+     ⑤ 世界书条目行也能跟着滚动激活（`.hco-entry-active`：2px 左描边 + 灰底 + 加粗）；
+     ⑥ 世界书来源列一律"世界书"（JS 侧；全称留 title）。
+   当前那条 `.hco-row-active` = 中性灰底 + 4px accent 左描边 + 加粗（R4 强化，R5 去掉 accent 粉底；"右侧滚到哪、左侧亮哪"）。 */
+#hide-helper-ctx-outline-popup .hco-list { display: flex; flex-direction: column; gap: 14px; }
+#hide-helper-ctx-outline-popup .hco-item { display: flex; flex-direction: column; border-radius: 8px; }
+/* ⚠️ R5 用户口径：**激活项不再铺底色**（accent 粉底"太难看了"）。`.hco-item-active` 类**保留**——
+   它是 JS / 夹具 / 离线单测的钩子（syncOutlineActiveHead 会给当前行所在的项加它）；
+   视觉提示全部落在"当前那一行"上（见下面的 `.hco-row-active`）。 */
+
+/* ① 项头 */
+#hide-helper-ctx-outline-popup .hco-head {
+    display: flex; align-items: center; gap: 8px; min-width: 0;
+    padding: 7px 9px; border-radius: 7px; background: var(--hh-background-secondary);
+    /* ⚠️ 字号一律用 **px**（别用 em）：相对字号在"最小字号 12px"的浏览器里会被抬到 12px，
+       项头 / 子行的层级就没了（真实 Chromium 实测：0.68em / 0.72em 全部渲染成 12px）。 */
+    font-size: 12px; cursor: pointer; transition: background-color 0.15s ease;
+}
+#hide-helper-ctx-outline-popup .hco-head:hover { background: var(--hh-btn-secondary-hover-bg); }
+/* 第二十八轮口径①：项头/分组头**可折叠**（点头 = 折叠/展开下方列表）。
+   行首一个折叠箭头（收起时旋转 -90° 指向右侧）；`.hco-collapsed` 直接藏掉子项区。 */
+#hide-helper-ctx-outline-popup .hco-caret {
+    flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center;
+    width: 12px; height: 12px; color: var(--hh-text-secondary);
+    transition: transform 0.15s ease;
+}
+#hide-helper-ctx-outline-popup .hco-caret svg { width: 10px; height: 10px; display: block; }
+#hide-helper-ctx-outline-popup .hco-collapsed .hco-caret { transform: rotate(-90deg); }
+#hide-helper-ctx-outline-popup .hco-collapsed .hco-kids { display: none; }
+/* 行尾"跳到正文"图标（`.hco-jump`）已按第二十九轮 R1 口径④**删除**（图标 + 绑定 + 样式）；
+   世界书消息行只剩「条目来源」这一个二级入口。 */
+/* 世界书消息行的「条目来源」图标（第二十九轮新增：查看器删除后，这个入口挪到目录里）—— */
+#hide-helper-ctx-outline-popup .hco-wi-src {
+    flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center;
+    width: 18px; height: 18px; border-radius: 5px; cursor: pointer;
+    color: var(--hh-text-secondary); opacity: 0.7;
+    transition: opacity 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+}
+#hide-helper-ctx-outline-popup .hco-wi-src:hover { opacity: 1; color: var(--hh-accent-color); background: var(--hh-tab-hover-bg); }
+/* 分组头：左侧一条短竖条 + 药丸标签，一眼区分"这是一组"而不是单条消息 */
+/* 第三十八轮（用户口径④）：分组头（聊天 / 其他 的「连续 N 条」）的**底色与项头一致** ——
+   原来这里用 `--hh-input-bg`（亮色主题下是白），而「其他 / 世界书」项头用 `--hh-background-secondary`（浅灰），
+   于是「聊天」那一组在目录里白得突兀。层级差异仍由左侧 3px 竖条 + 「连续 N 条」文字表达。 */
+#hide-helper-ctx-outline-popup .hco-group-head { background: var(--hh-background-secondary); }
+#hide-helper-ctx-outline-popup .hco-group-head::before {
+    content: ''; flex: 0 0 auto; width: 3px; align-self: stretch; border-radius: 2px; background: var(--hh-border-color);
+}
+#hide-helper-ctx-outline-popup .hco-pill {
+    flex: 0 0 auto; padding: 0 6px; border-radius: 9px; line-height: 1.7;
+    background: var(--hh-btn-secondary-hover-bg); color: var(--hh-text-secondary); font-size: 11px;
+}
+
+/* ② 子项区：一条树线 + 缩进 + 行间留白（R4：条目行的间隔拉开） */
+#hide-helper-ctx-outline-popup .hco-kids {
+    display: flex; flex-direction: column; gap: 5px;
+    margin: 5px 0 2px 14px; padding: 4px 0 2px 10px; border-left: 1px solid var(--hh-border-color);
+}
+
+/* ③ 子行（分组明细 / 条目明细共用同一套排版） */
+#hide-helper-ctx-outline-popup .hco-kid {
+    display: flex; align-items: center; gap: 8px; min-width: 0;
+    padding: 5px 8px; border-radius: 6px; font-size: 11px;
+    color: var(--hh-text-secondary); cursor: pointer; transition: background-color 0.15s ease;
+}
+#hide-helper-ctx-outline-popup .hco-kid:hover { background: var(--hh-btn-secondary-hover-bg); }
+/* 第二十八轮口径③：聊天子行的**正文预览**（替代被删掉的来源列）—— 不换行 + 省略号，
+   tokens 列因此永远贴在右边缘（flex-basis 归 0：长正文只压缩预览，不会把 tokens 挤到第二行） */
+#hide-helper-ctx-outline-popup .hco-preview {
+    flex: 1 1 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    color: var(--hh-text-secondary);
+}
+
+/* 列：messageID（仅聊天条目）/ 角色 / 来源 / tokens（项头与子行同一套）
+   ⚠️ R4：序号徽标由 `.hco-idx`（快照序号）换成 `.hco-mesid`（ST 的 messageID）——观感沿用同一套
+   ⚠️ 第二十八轮口径④：项头 / 分组头**不再有角色列**，`.hco-role` 只出现在聊天子行上 */
+#hide-helper-ctx-outline-popup .hco-mesid {
+    flex: 0 0 auto; min-width: 34px; padding: 0 5px; border-radius: 5px; text-align: center;
+    background: var(--hh-input-bg); color: var(--hh-text-primary); font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+#hide-helper-ctx-outline-popup .hco-mesid-range { min-width: 0; }
+#hide-helper-ctx-outline-popup .hco-role {
+    flex: 0 0 auto; padding: 0 5px; border-radius: 5px; font-size: 11px; font-weight: 600;
+    background: var(--hh-input-bg); color: var(--hh-text-secondary);
+}
+/* 第二十八轮口径③：ai 的角色 chip 改**浅灰底**（原绿色在一行里太抢眼；文案也由 assistant 改成 ai）
+   第三十一轮（用户口径）：① 文案 `ai` → **`AI`**（大写，JS 侧改）② `user` 的蓝底也改成**同一档浅灰底**——
+   两个 chip 只在文字上区分，颜色不再一蓝一灰（蓝色在目录里太抢眼、且与"来源色"撞色）。 */
+#hide-helper-ctx-outline-popup .hco-role-ai,
+#hide-helper-ctx-outline-popup .hco-role-user { background: var(--hh-btn-secondary-hover-bg); color: var(--hh-text-primary); }
+/* 第三十一轮（用户口径）：来源/标题文本**颜色加深**（原来继承 `--hh-text-secondary`，在浅灰项头上几乎看不清）。
+   `hco-src` 用在项头（世界书 / 其他 · main …）与分组头（连续 N 条）两处，都按正文主色显示。 */
+#hide-helper-ctx-outline-popup .hco-src {
+    flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    color: var(--hh-text-primary);
+}
+/* 第三十一轮（用户口径）：tokens 一律**右对齐**（`margin-left: auto` 兜底 —— 即使前面没有 flex:1 的
+   可伸缩列，tokens 也会被推到行尾） */
+#hide-helper-ctx-outline-popup .hco-tokens {
+    flex: 0 0 auto; margin-left: auto; text-align: right;
+    color: var(--hh-text-secondary); font-weight: 600; font-variant-numeric: tabular-nums;
+}
+/* 当前那一条（R5：**中性灰底** + 4px accent 左描边 + 加粗 —— 用户口径"粉红色背景去掉"；
+   右侧内容区里同时有 .hcm-chunk-target） */
+#hide-helper-ctx-outline-popup .hco-row-active {
+    background: var(--hh-btn-secondary-hover-bg);
+    box-shadow: inset 4px 0 0 0 var(--hh-accent-color);
+    color: var(--hh-text-primary); font-weight: 700;
+}
+
+/* 世界书条目明细：抹掉"卡片"味，改成平面行 + 行首类型小方块（颜色跟 data-type 走） */
+#hide-helper-ctx-outline-popup .hco-entries .tub-entry-clickable {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; min-width: 0;
+    padding: 5px 8px !important; margin: 0 !important; border-radius: 6px !important;
+    color: var(--hh-text-primary) !important; font-weight: 400 !important; font-size: 11px !important;
+    direction: ltr; user-select: none;
+    transition: background-color 0.15s ease;
+}
+#hide-helper-ctx-outline-popup .hco-entries .tub-entry-clickable:hover {
+    background: var(--hh-btn-secondary-hover-bg) !important; transform: none !important; box-shadow: none !important;
+}
+#hide-helper-ctx-outline-popup .hco-entries .tub-entry-clickable:active { transform: none !important; box-shadow: none !important; }
+#hide-helper-ctx-outline-popup .hco-entries .tub-entry-clickable::before {
+    content: ''; flex: 0 0 auto; width: 7px; height: 7px; border-radius: 2px; background: var(--hh-text-secondary);
+}
+#hide-helper-ctx-outline-popup .hco-entries .tub-entry-clickable[data-type="constant"]::before { background: var(--hh-stats-color-constant); }
+#hide-helper-ctx-outline-popup .hco-entries .tub-entry-clickable[data-type="dynamic"]::before { background: var(--hh-stats-color-dynamic); }
+#hide-helper-ctx-outline-popup .hco-entries .tub-entry-clickable[data-type="ejs"]::before { background: var(--hh-stats-color-ejs); }
+#hide-helper-ctx-outline-popup .hco-entries .tub-nli-label {
+    /* ⚠️ 第二十八轮口径②：flex-basis 必须是 **0**，不能是 auto。条目名一长，auto 的基准尺寸
+       （内容宽度）就超过整行 ⇒ 外层 flex-wrap: wrap 把 tokens 挤到第二行**左侧**（真实 Chromium
+       实测复现：value 从行尾 384 跑到行首 67、行高 26→53）。归 0 后标签只在剩余空间里生长，
+       tokens 永远钉在最右侧，长名字走省略号（white-space: nowrap 早已就位）。 */
+    flex: 1 1 0; min-width: 0; max-width: none !important;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+#hide-helper-ctx-outline-popup .hco-entries .tub-nli-value {
+    flex: 0 0 auto; font-size: 1em !important; font-weight: 600 !important;
+    color: var(--hh-text-secondary) !important; font-variant-numeric: tabular-nums;
+}
+/* 第二十八轮口径⑤：世界书**条目行**的滚动联动高亮（内容区停在哪条条目的正文上，就亮哪行）。
+   与消息行 `.hco-row-active` 同一套语言，但左描边细一半（2px）—— 一眼能看出"外层是消息、内层是条目"。
+   ⚠️ 底色必须 `!important`：条目行的进度渐变是 JS 写的**内联** background，普通声明压不过它。 */
+#hide-helper-ctx-outline-popup .hco-entries .tub-entry-clickable.hco-entry-active {
+    background: var(--hh-btn-secondary-hover-bg) !important;
+    box-shadow: inset 2px 0 0 0 var(--hh-accent-color);
+    color: var(--hh-text-primary) !important; font-weight: 700 !important;
+}
+
+/* ── 条目行第二行「插入位置 · 顺序」（第二十七轮 R5 新增，R6 按用户口径重排）──────────────────────
+   用户口径：① 条目要能看出「会插到哪儿、以什么次序」② **不要"插入位置 / 顺序"这两个标题词**、
+   直接显示值本身 ③ **顺序也要看得见** —— 原先把两段拼成一行 + `nowrap` + 省略号，位置文案一长
+   就把顺序截掉了（用户就是看不到顺序）。
+   现方案：这一行是**两列 flex** —— 位置在左（`flex: 1`，长了先截它）、顺序在右（`flex: 0 0 auto`
+   的小 chip，永远完整），右边缘与上一行的 tokens 列对齐；两个值的口径挪进各自的 `title`，悬停可见。
+   字段缺失（旧快照 / 调用方没给 insertMeta）时 JS 根本不渲染这一行。
+   覆盖两处：① 「上下文目录」的条目区（行首有 7px 类型方块，故缩进 15px）② 「条目来源」子窗（卡片行，不缩进）。 */
+#hide-helper-ctx-outline-popup .hco-entries .tub-nli-meta,
+#hide-helper-wi-msg-popup .tub-nli-meta {
+    flex: 1 0 100%; display: flex; align-items: center; gap: 8px;
+    /* ⚠️ 必须显式声明 `border-box`：这一行有 15px 左缩进，而 `flex-basis: 100%` 是按**内容盒**算的，
+       若继承到 `content-box`（夹具那种没铺 ST 全局 `* { box-sizing: border-box }` 的页面）就会宽出 15px、
+       右边缘越过上一行的 tokens 列（真实 Chromium 夹具实测 949 vs 934）。 */
+    box-sizing: border-box;
+    margin: 0; font-size: 11px; line-height: 1.5; color: var(--hh-text-secondary); direction: ltr;
+}
+#hide-helper-ctx-outline-popup .hco-entries .tub-nli-meta { padding-left: 15px; }
+/* 第三十二轮（用户口径）：`#hide-helper-wi-msg-popup` 里**不显示插入位置**（`insertPos:false`）——
+   那一行只剩顺序 chip，此时没有左列可撑 `flex:1`，故用 `justify-content: flex-end` 把 chip 推到最右
+   （右边缘与上一行的 tokens 列对齐）。兜底：万一 DOM 里还残留 `.tub-nli-pos`，也一并隐藏。 */
+#hide-helper-wi-msg-popup .tub-nli-meta-orderonly { justify-content: flex-end; }
+#hide-helper-wi-msg-popup .tub-nli-pos { display: none !important; }
+#hide-helper-ctx-outline-popup .hco-entries .tub-nli-pos,
+#hide-helper-wi-msg-popup .tub-nli-pos {
+    flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+#hide-helper-ctx-outline-popup .hco-entries .tub-nli-order,
+#hide-helper-wi-msg-popup .tub-nli-order {
+    flex: 0 0 auto; padding: 0 5px; border-radius: 4px;
+    background: var(--hh-input-bg); color: var(--hh-text-primary);
+    font-weight: 600; font-variant-numeric: tabular-nums;
+}
+/* 让第二行真的换行：条目行本身是 flex（不换行时第二行会跟名字挤在同一行） */
+#hide-helper-wi-msg-popup .tub-new-list-item { flex-wrap: wrap; }
+#hide-helper-ctx-outline-popup .tub-book-tag { color: var(--hh-text-secondary); font-size: 0.9em; font-weight: normal; }
+#hide-helper-ctx-outline-popup .tub-empty-state { text-align: center; color: var(--hh-text-secondary); padding: 10px 0; direction: ltr !important; }
+
+/* ==================== 完整上下文·合并内容窗（第二十七轮：目录页在左、本窗 = 内容区在右）==================== */
+/* 与「上下文目录」**成对**出现（用户口径："目录 = 目录页，右侧 = 内容区"）。内容是这次真正发送出去的
+   完整上下文字符：逐条槽位的 text **首尾相接**、不再按"条目"分隔 —— 看起来就是一整篇连续文本。
+   位置/尺寸由 JS（layoutOutlineMergePair）内联写入：沿用查看器原来的槽位，目录贴在它左侧。
+   ⚠️ width/max-width/max-height 绝不能加 !important（!important 会盖掉 JS 内联写入的尺寸）。 */
+#hide-helper-ctx-merged-popup {
+    width: auto; max-width: none; max-height: none;
+    z-index: 10000 !important;
+    gap: 12px !important; overflow: hidden !important;
+}
+/* ⚠️ 本窗**没有**右上角关闭按钮（第二十七轮 R2 用户口径）：一对窗口由"目录的 × / Esc / 再点目录图标"收起。 */
+/* 头部（第二十九轮口径③ + R1 口径②）：**一行** —— 标题在左，快照信息与图例在右。
+   第三十一轮（用户口径）：**快照信息右对齐**。做法不是给它 `margin-left:auto`（那会和下面
+   `.hide-entry-sub` 的 auto 边距**平分**剩余空间，book 反而停在中间），而是：
+   整行 `justify-content: flex-end` + **标题** `margin-right: auto` —— 右侧那一串（book + 图例）
+   整体贴右；折行时第二行（book / 图例）同样右对齐。 */
+#hide-helper-ctx-merged-popup .hide-entry-head {
+    display: flex !important; flex-direction: row !important; align-items: baseline !important;
+    flex-wrap: wrap !important; justify-content: flex-end !important; gap: 4px 10px !important;
+    padding: 0 0 10px !important; border-bottom: 1px solid var(--hh-border-color) !important;
+    flex: 0 0 auto !important;
+}
+#hide-helper-ctx-merged-popup .hide-entry-name {
+    color: var(--hh-text-primary) !important; font-size: 16px !important; font-weight: 600 !important;
+    padding-right: 0 !important; flex: 0 0 auto !important; margin-right: auto !important;
+}
+/* 快照信息（口径②）：与标题**同一行**；第三十一轮（用户口径）：**右对齐**。
+   `flex: 0 1 auto` 让它长了先被省略号截断，不会把标题挤走（`min-width: 0` 是省略号生效的前提）。 */
+#hide-helper-ctx-merged-popup .hide-entry-book {
+    flex: 0 1 auto !important; min-width: 0 !important;
+    font-size: 0.78em !important; color: var(--hh-text-secondary) !important;
+    white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important;
+    text-align: right !important;
+}
+/* sub 行（图例）：与 book 一起贴行尾（右对齐）；内部同样右对齐 + 允许折行。
+   第三十一轮：head 已 `justify-content: flex-end` + 标题 `margin-right:auto`，这里不再需要
+   `margin-left:auto`（留着会与标题的 auto 打架，把间距分配成两段）。 */
+#hide-helper-ctx-merged-popup .hide-entry-sub {
+    font-size: 0.78em !important; color: var(--hh-text-secondary) !important;
+    flex: 0 0 auto !important; min-width: 0 !important;
+    display: flex !important; flex-wrap: wrap !important; align-items: center !important;
+    justify-content: flex-end !important; text-align: right !important; gap: 4px 10px !important;
+}
+/* 内容区滚动：与其余子窗同款（默认隐藏 + 三档显色，由 initHiddenScrollbar 打 .hh-sb-* 驱动）。
+   ⚠️ 下面两条 scrollbar-* 必须带 !important：本窗"其余滚动条一律隐藏"那条用的是 * 选择器且带
+      !important，不加就会被压成 scrollbar-width:none、三档显色随之失效。 */
+#hide-helper-ctx-merged-popup .hide-entry-body {
+    flex: 1 1 auto !important; overflow-y: auto !important; min-height: 0 !important;
+    padding: 0 !important;
+    scrollbar-width: thin !important; scrollbar-color: transparent transparent !important;
+    /* 关掉滚动锚定：目录跳转是我们**显式**写 scrollTop 的（"滚到该条消息 / 该条目正文的首行"），
+       浏览器自动锚定会在内容重排时把滚动位置悄悄挪走 —— 实测跳转后目标行会偏离容器顶 13~33px。 */
+    overflow-anchor: none !important;
+}
+#hide-helper-ctx-merged-popup .hide-entry-body * { scrollbar-width: none !important; }
+#hide-helper-ctx-merged-popup .hide-entry-body::-webkit-scrollbar { display: block !important; width: 8px !important; height: 8px !important; }
+#hide-helper-ctx-merged-popup .hide-entry-body::-webkit-scrollbar-track { background: transparent !important; }
+#hide-helper-ctx-merged-popup .hide-entry-body::-webkit-scrollbar-button { display: none !important; width: 0 !important; height: 0 !important; }
+#hide-helper-ctx-merged-popup .hide-entry-body::-webkit-scrollbar-thumb { background: transparent !important; border-radius: 4px !important; }
+#hide-helper-ctx-merged-popup .hide-entry-body.hh-sb-scrolling { scrollbar-color: var(--hh-scrollbar-thumb-faint) transparent !important; }
+#hide-helper-ctx-merged-popup .hide-entry-body.hh-sb-scrolling::-webkit-scrollbar-thumb { background: var(--hh-scrollbar-thumb-faint) !important; }
+#hide-helper-ctx-merged-popup .hide-entry-body.hh-sb-hover { scrollbar-color: var(--hh-scrollbar-thumb) transparent !important; }
+#hide-helper-ctx-merged-popup .hide-entry-body.hh-sb-hover::-webkit-scrollbar-thumb,
+#hide-helper-ctx-merged-popup .hide-entry-body::-webkit-scrollbar-thumb:hover { background: var(--hh-scrollbar-thumb) !important; }
+#hide-helper-ctx-merged-popup .hide-entry-body.hh-sb-dragging { scrollbar-color: var(--hh-scrollbar-thumb-hover) transparent !important; }
+#hide-helper-ctx-merged-popup .hide-entry-body.hh-sb-dragging::-webkit-scrollbar-thumb,
+#hide-helper-ctx-merged-popup .hide-entry-body::-webkit-scrollbar-thumb:active { background: var(--hh-scrollbar-thumb-hover) !important; }
+/* 窗内其余滚动条一律隐藏（上面 .hide-entry-body 的放行规则特异度更高，不会被这两条压掉） */
+#hide-helper-ctx-merged-popup ::-webkit-scrollbar { display: none !important; }
+#hide-helper-ctx-merged-popup * { scrollbar-width: none !important; }
+
+/* 内容本体：实际发送的完整上下文字符，逐条消息**首尾相接**（内容仍连成一篇）。
+   第二十七轮 R1：浅灰底 + 6px 间距 + 圆角，让"上一段到哪、下一段从哪开始"一眼可见。
+   第二十七轮 R2（建议①）：**左边缘一条来源色条**（按 kind 上色）+ 内容区右上角的图例 —— 一眼看出这段是什么来源。
+   颜色在下面按 kind 用 CSS 变量给出（亮/暗主题共用一套 60% 饱和度，两边都看得清）。 */
+#hide-helper-ctx-merged-popup {
+    --hcm-kind-chat: #22c55e;         /* 聊天 */
+    --hcm-kind-wi-before: #3b82f6;    /* 世界书·前置 */
+    --hcm-kind-wi-after: #0ea5e9;     /* 世界书·后置 */
+    --hcm-kind-wi-depth: #8b5cf6;     /* 世界书·深度注入 */
+    --hcm-kind-wi-block: #f59e0b;     /* 世界书·混入（同槽混着第三方文本） */
+    --hcm-kind-wi-merged: #f59e0b;    /* 世界书·合并（squash 合并槽） */
+    --hcm-kind-other: #94a3b8;        /* 其他（main / 出口 / 作者注释…） */
+}
+#hide-helper-ctx-merged-popup .hcm-text { margin: 0 !important; padding: 0 !important; }
+#hide-helper-ctx-merged-popup .hcm-chunk {
+    display: block; margin: 0 0 6px !important; padding: 6px 8px !important;
+    border: 0 !important; border-left: 3px solid var(--hcm-kind-other) !important;
+    border-radius: 6px !important; background: var(--hh-background-secondary) !important;
+    font-family: inherit; font-size: 0.78em; line-height: 1.6; color: var(--hh-text-primary);
+    white-space: pre-wrap; word-break: break-word; overflow: visible; max-height: none;
+    direction: ltr;
+}
+#hide-helper-ctx-merged-popup .hcm-kind-chat { border-left-color: var(--hcm-kind-chat) !important; }
+#hide-helper-ctx-merged-popup .hcm-kind-wi-before { border-left-color: var(--hcm-kind-wi-before) !important; }
+#hide-helper-ctx-merged-popup .hcm-kind-wi-after { border-left-color: var(--hcm-kind-wi-after) !important; }
+#hide-helper-ctx-merged-popup .hcm-kind-wi-depth { border-left-color: var(--hcm-kind-wi-depth) !important; }
+#hide-helper-ctx-merged-popup .hcm-kind-wi-block,
+#hide-helper-ctx-merged-popup .hcm-kind-wi-merged { border-left-color: var(--hcm-kind-wi-block) !important; }
+/* 图例（头部 sub 行内）：R4 起固定「聊天 / 世界书 / 其他」三项，每项 = 色点 + 名称 + 条数 + tokens。
+   第二十九轮口径③：随 sub 行一起**右对齐**（不再是"sub 里往后排一串"）。 */
+#hide-helper-ctx-merged-popup .hcm-legend {
+    display: inline-flex; flex-wrap: wrap; justify-content: flex-end;
+    gap: 4px 12px; margin-left: 0;
+}
+#hide-helper-ctx-merged-popup .hcm-legend-item { display: inline-flex; align-items: center; gap: 5px; color: var(--hh-text-secondary); font-variant-numeric: tabular-nums; }
+#hide-helper-ctx-merged-popup .hcm-legend-dot { width: 8px; height: 8px; border-radius: 2px; background: var(--hcm-kind-other); flex: 0 0 auto; }
+/* 色点跟分块左色条同一套 3 组颜色（R4；此前只有 `.hcm-kind-*` 的 border-left-color 规则 → 三个点全是灰的） */
+#hide-helper-ctx-merged-popup .hcm-legend-dot.hcm-kind-chat { background: var(--hcm-kind-chat); }
+#hide-helper-ctx-merged-popup .hcm-legend-dot.hcm-kind-wi-after { background: var(--hcm-kind-wi-after); }
+#hide-helper-ctx-merged-popup .hcm-legend-dot.hcm-kind-other { background: var(--hcm-kind-other); }
+/* 目录里"最近跳到过"的那条（`.hcm-chunk-target`）——第二十九轮口径⑤重做：
+   用户口径：「左边依然显示对应的蓝色/绿色/灰色竖线，另外三边显示当前紫色的边框颜色，
+   而不是现在左边会有两种不同颜色的竖线叠在一起非常难看。」
+   ⚠️ 不用 `box-shadow: inset 0 0 0 2px`（整圈，会在左边缘把来源色条再叠一层），也不用真 border
+   （2px 边框会改变盒尺寸 → 高亮跳动时整篇文字横向位移）。改为**三条边各画一条内阴影**：
+   上 / 右 / 下 = accent 紫，左边**什么都不画** ⇒ 左边缘留着的就是 `.hcm-chunk` 自己的来源色条。 */
+#hide-helper-ctx-merged-popup .hcm-chunk-target {
+    box-shadow:
+        inset 0 2px 0 0 var(--hh-accent-color),
+        inset 0 -2px 0 0 var(--hh-accent-color),
+        inset -2px 0 0 0 var(--hh-accent-color);
+}
+
+/* ==================== 子窗落点：父窗原位 + 子窗在"另一侧"（第二十四轮） ==================== */
+/* 父窗**一动不动**（主窗 = 最高一级父窗，位置由插件自己管），子窗开在父窗的另一侧：
+   父窗中心在视口左半边（含正中）→ 往右；右半边 → 往左（逐层自动左右交错）。位置全部由 JS 的 `layoutChildPair` 内联写入。
+   ⚠️ 历史：第二十三轮每层只有"父左子右"两个槽位 + 子窗左上角「← 返回」按钮 —— 第二十四轮按用户要求
+   去掉了返回按钮（没用），并改为"父窗原位 + 子窗另一侧"。 */
+
+/* 窄屏兜底：两窗居中叠放时，"当前窗"必须压住父窗 —— 子窗自身的 z-index 是 **id 级** `10000 !important`，
+   类选择器即使写 `!important` 也压不过它（实测两窗计算值都是 10000、只能靠 DOM 顺序），故这两条必须按 id 写。 */
+#hide-helper-popup.hh-pair-under,
+#hide-helper-entry-popup.hh-pair-under,
+#hide-helper-chat-stats-popup.hh-pair-under,
+#hide-helper-wi-msg-popup.hh-pair-under,
+#hide-helper-ctx-outline-popup.hh-pair-under,
+#hide-helper-ctx-merged-popup.hh-pair-under { z-index: 10000 !important; }
+#hide-helper-popup.hh-pair-front,
+#hide-helper-entry-popup.hh-pair-front,
+#hide-helper-chat-stats-popup.hh-pair-front,
+#hide-helper-wi-msg-popup.hh-pair-front,
+#hide-helper-ctx-outline-popup.hh-pair-front,
+#hide-helper-ctx-merged-popup.hh-pair-front { z-index: 10001 !important; }
+
+/* ==================== 成对窗口（目录 + 完整上下文）的「移动端单窗」模式（第三十五轮用户口径⑨）====================
+   用户口径：「在移动端时，『完整上下文』弹窗的左上角显示一个折叠栏图标，点击则可以展开/显示
+   `hide-helper-ctx-outline-close` 弹窗。同时，`hide-helper-ctx-outline-close` 左上角也有个折叠图标用来
+   展开/收起，右上角的关闭按钮默认隐藏起来，而 `hide-helper-ctx-merged-popup` 右上角显示关闭按钮。」
+   （追问后确认：**只在移动端生效**，桌面端维持两窗并排 + 目录带 ×。）
+
+   实现：JS 在 `layoutOutlineMergePair` 里判定"并排放不下"（= 移动端档）时给 `<body>` 打
+   `hh-pair-mobile`，并给两个窗口分别打 `hh-mobile-pane-merged` / `hh-mobile-pane-outline`
+   表示"当前该显示哪一个"（`applyPairMobileChrome`）。这里只负责按这两个类决定显隐与按钮可见性。
+
+   ⚠️ 显隐用 `display` 而不是 `visibility`：两窗同坐标叠放，`visibility` 会让隐藏那一窗仍吃掉点击。
+   ⚠️ 必须写 `!important`：两窗的 `display` 是 JS 内联写的 `flex`（`openContextOutlinePopup` 里），
+      不加 `!important` 压不住内联值 —— 那就会出现"该收的没收回、两窗叠在一起"（历史踩过同类坑）。 */
+body.hh-pair-mobile #hide-helper-ctx-outline-popup.hh-mobile-pane-merged,
+body.hh-pair-mobile #hide-helper-ctx-merged-popup.hh-mobile-pane-outline { display: none !important; }
+
+/* 折叠栏图标：**只在移动端出现**（桌面端两窗并排、都看得见，不需要切换按钮）。 */
+.hh-pair-toggle { display: none !important; }
+body.hh-pair-mobile .hh-pair-toggle {
+    display: inline-flex !important; align-items: center !important; justify-content: center !important;
+    position: absolute !important; top: 6px !important; left: 6px !important;
+    width: 28px !important; height: 28px !important; padding: 0 !important;
+    border: none !important; background: transparent !important; border-radius: 6px !important;
+    color: var(--hh-text-secondary) !important; cursor: pointer !important;
+    transition: color 0.15s ease, background-color 0.15s ease !important;
+    z-index: 7 !important;
+}
+body.hh-pair-mobile .hh-pair-toggle:hover { color: var(--hh-accent-color) !important; background: var(--hh-tab-hover-bg) !important; }
+/* 左上角有了折叠栏图标 → 标题行左侧让位（否则会压住「上下文目录 / 完整上下文」四个字） */
+body.hh-pair-mobile #hide-helper-ctx-outline-popup .hide-entry-name,
+body.hh-pair-mobile #hide-helper-ctx-merged-popup .hide-entry-name { padding-left: 34px !important; }
+
+/* 右上角关闭按钮：
+   · 移动端 → **目录隐藏 ×、完整上下文显示 ×**（用户口径：关闭交给最外层那一窗）；
+   · 桌面端 → 维持原样：目录有 ×、完整上下文没有 ×。
+   ⚠️ 两条规则都要能压掉对方，故都带 `!important` 且选择器特异度相同（各自带 body 前缀 / 窗口 id）。 */
+body.hh-pair-mobile #hide-helper-ctx-outline-popup .hide-helper-popup-close-icon { display: none !important; }
+body.hh-pair-mobile #hide-helper-ctx-merged-popup .hide-helper-popup-close-icon {
+    display: flex !important;
+    position: absolute !important; top: 6px !important; right: 5px !important; width: 30px !important;
+    border: none !important; background: none !important; color: var(--hh-text-secondary) !important;
+    font-size: 25px !important; line-height: 1 !important; cursor: pointer !important; padding: 0 !important;
+    align-items: center !important; justify-content: center !important;
+    transition: color 0.2s ease, transform 0.2s ease !important; z-index: 7 !important;
+}
+body.hh-pair-mobile #hide-helper-ctx-merged-popup .hide-helper-popup-close-icon:hover { color: var(--hh-text-primary) !important; transform: rotate(90deg) !important; }
+/* 桌面端：完整上下文窗的 × 一律不显示（第二十七轮 R2 的既有口径，这里显式写出来，
+   避免上面的 `body.hh-pair-mobile` 规则被后人误当成"所有档位都显示"）。 */
+#hide-helper-ctx-merged-popup .hide-helper-popup-close-icon { display: none; }
+
+/* 移动端成对窗口：头部去掉为右侧 × 预留的空档（目录那窗的 × 已隐藏，右边不再需要留白）。
+   （完整上下文窗的 × 反而要留白，见下一条。） */
+body.hh-pair-mobile #hide-helper-ctx-outline-popup .hide-entry-name { padding-right: 8px !important; }
+
+/* ==================== 窄屏（移动端）：标签页按钮 ==================== */
+/* 第三十五轮用户口径④：移动端 `tab-button` 的标题不能换行（详见 .tab-button 主规则里的注释）。
+   这里只把内边距与字号收一档，让「隐藏楼层 / 限制楼层 / 聊天统计 / 使用说明」四格在 320~420px
+   的视口里都能单行放下（配 `white-space: nowrap`）。 */
+@media (max-width: 480px) {
+    /* 第三十七轮：下间距（padding-bottom: 10px）在主规则里，这里是整条 padding 的重写 → 必须一起带上，
+       否则窄屏下又变回 0、内容区重新贴上标签。 */
+    #hide-helper-popup .popup-tabs-nav { padding: 0 40px 10px 8px !important; }
+    #hide-helper-popup .tab-button { padding: 10px 4px !important; font-size: 13px !important; }
+}
+@media (max-width: 360px) {
+    #hide-helper-popup .popup-tabs-nav { padding: 0 36px 10px 4px !important; }
+    #hide-helper-popup .tab-button { padding: 10px 2px !important; font-size: 12px !important; }
+}
